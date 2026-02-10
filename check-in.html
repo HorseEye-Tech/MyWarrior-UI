@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symptoms & Notes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        ::-webkit-scrollbar { display: none; }
+        body { animation: pageEnter 0.3s ease-out; }
+        @keyframes pageEnter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563EB',
+                        success: '#10B981',
+                        warning: '#F59E0B',
+                        danger: '#DC2626',
+                        neutral: {
+                            50: '#FFFFFF',
+                            100: '#F9FAFB',
+                            200: '#E5E7EB',
+                            700: '#6B7280',
+                            900: '#111827'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-neutral-100 font-sans antialiased">
+    <div id="symptoms-screen" class="w-full min-h-[840px] flex flex-col pb-20">
+        
+        <header id="header" class="px-5 pt-5 pb-4 bg-white border-b border-neutral-200">
+            <div class="flex items-center justify-between">
+                <button id="back-btn" class="w-11 h-11 bg-neutral-100 rounded-xl flex items-center justify-center active:scale-95 transition-transform duration-200">
+                    <i class="fa-solid fa-arrow-left text-neutral-900 text-lg"></i>
+                </button>
+                <h1 class="text-base font-bold text-neutral-900">Check-In</h1>
+                <div class="w-11"></div>
+            </div>
+        </header>
+
+        <main id="main-content" class="flex-1 overflow-y-auto px-5 py-6">
+            
+            <div id="symptoms-header" class="mb-6">
+                <h2 class="text-2xl font-bold text-neutral-900 mb-2">Any symptoms today?</h2>
+                <p class="text-sm text-neutral-700">Tap to select all that apply</p>
+            </div>
+
+            <div id="symptoms-tags-section" class="mb-8">
+                <div class="flex flex-wrap gap-3">
+                    <button class="symptom-tag px-5 h-[48px] bg-white border-2 border-neutral-200 rounded-full text-sm font-semibold text-neutral-700 active:scale-95 transition-all duration-200" data-symptom="fatigue">
+                        <i class="fa-solid fa-battery-quarter text-base mr-2"></i>
+                        Fatigue
+                    </button>
+
+                    <button class="symptom-tag px-5 h-[48px] bg-white border-2 border-neutral-200 rounded-full text-sm font-semibold text-neutral-700 active:scale-95 transition-all duration-200" data-symptom="fever">
+                        <i class="fa-solid fa-temperature-high text-base mr-2"></i>
+                        Fever
+                    </button>
+
+                    <button class="symptom-tag px-5 h-[48px] bg-white border-2 border-neutral-200 rounded-full text-sm font-semibold text-neutral-700 active:scale-95 transition-all duration-200" data-symptom="swelling">
+                        <i class="fa-solid fa-hand-fist text-base mr-2"></i>
+                        Swelling
+                    </button>
+
+                    <button class="symptom-tag px-5 h-[48px] bg-white border-2 border-neutral-200 rounded-full text-sm font-semibold text-neutral-700 active:scale-95 transition-all duration-200" data-symptom="shortness-breath">
+                        <i class="fa-solid fa-lungs text-base mr-2"></i>
+                        Shortness of breath
+                    </button>
+
+                    <button class="symptom-tag px-5 h-[48px] bg-white border-2 border-neutral-200 rounded-full text-sm font-semibold text-neutral-700 active:scale-95 transition-all duration-200" data-symptom="dizziness">
+                        <i class="fa-solid fa-circle-notch text-base mr-2"></i>
+                        Dizziness
+                    </button>
+
+                    <button class="symptom-tag px-5 h-[48px] bg-white border-2 border-neutral-200 rounded-full text-sm font-semibold text-neutral-700 active:scale-95 transition-all duration-200" data-symptom="headache">
+                        <i class="fa-solid fa-head-side-virus text-base mr-2"></i>
+                        Headache
+                    </button>
+
+                    <button class="symptom-tag px-5 h-[48px] bg-white border-2 border-neutral-200 rounded-full text-sm font-semibold text-neutral-700 active:scale-95 transition-all duration-200" data-symptom="nausea">
+                        <i class="fa-solid fa-face-dizzy text-base mr-2"></i>
+                        Nausea
+                    </button>
+
+                    <button class="symptom-tag px-5 h-[48px] bg-white border-2 border-neutral-200 rounded-full text-sm font-semibold text-neutral-700 active:scale-95 transition-all duration-200" data-symptom="chest-pain">
+                        <i class="fa-solid fa-heart-pulse text-base mr-2"></i>
+                        Chest pain
+                    </button>
+
+                    <button class="symptom-tag px-5 h-[48px] bg-white border-2 border-neutral-200 rounded-full text-sm font-semibold text-neutral-700 active:scale-95 transition-all duration-200" data-symptom="jaundice">
+                        <i class="fa-solid fa-eye text-base mr-2"></i>
+                        Jaundice
+                    </button>
+
+                    <button class="symptom-tag px-5 h-[48px] bg-white border-2 border-neutral-200 rounded-full text-sm font-semibold text-neutral-700 active:scale-95 transition-all duration-200" data-symptom="weakness">
+                        <i class="fa-solid fa-person-cane text-base mr-2"></i>
+                        Weakness
+                    </button>
+                </div>
+            </div>
+
+            <div id="notes-section" class="mb-6">
+                <label for="notes-textarea" class="block text-sm font-semibold text-neutral-900 mb-3">Additional notes (optional)</label>
+                <div class="relative">
+                    <textarea 
+                        id="notes-textarea" 
+                        maxlength="200" 
+                        rows="5" 
+                        placeholder="Any other details you'd like to share..."
+                        class="w-full px-4 py-3 bg-white border-2 border-neutral-200 rounded-xl text-sm text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-primary transition-colors duration-200 resize-none"
+                    ></textarea>
+                    <div class="flex items-center justify-between mt-2 px-1">
+                        <span class="text-xs text-neutral-500">
+                            <i class="fa-solid fa-circle-info text-primary mr-1"></i>
+                            Help your care team understand your day
+                        </span>
+                        <span id="char-counter" class="text-xs font-semibold text-neutral-700">0/200</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="selected-symptoms-display" class="bg-white rounded-2xl p-5 border border-neutral-200 mb-6 hidden">
+                <div class="flex items-start gap-3">
+                    <div class="w-10 h-10 bg-success/10 rounded-full flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-check text-success text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-semibold text-neutral-900 mb-2">Selected Symptoms</p>
+                        <div id="selected-list" class="flex flex-wrap gap-2"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="info-card" class="bg-primary/5 rounded-2xl p-5 border border-primary/20">
+                <div class="flex items-start gap-3">
+                    <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-shield-heart text-primary text-lg"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold text-neutral-900 mb-2">Your data is private</p>
+                        <p class="text-xs text-neutral-700 leading-relaxed">This information is stored securely on your device and only shared with your healthcare provider if you choose to.</p>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <div id="bottom-action-bar" class="fixed bottom-0 left-0 right-0 bg-white border-t border-neutral-200 px-5 py-4 z-50">
+            <div class="space-y-3">
+                <button id="save-btn" class="w-full h-[52px] bg-primary text-white text-base font-semibold rounded-xl flex items-center justify-center gap-2 active:scale-[0.98] transition-all duration-200 shadow-lg">
+                    <i class="fa-solid fa-check text-lg"></i>
+                    Save Check-In
+                </button>
+                <button id="skip-btn" class="w-full h-[48px] bg-transparent text-neutral-700 text-sm font-semibold rounded-xl flex items-center justify-center gap-2 active:scale-[0.98] transition-all duration-200">
+                    Skip for now
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const symptomTags = document.querySelectorAll('.symptom-tag');
+        const notesTextarea = document.getElementById('notes-textarea');
+        const charCounter = document.getElementById('char-counter');
+        const saveBtn = document.getElementById('save-btn');
+        const skipBtn = document.getElementById('skip-btn');
+        const backBtn = document.getElementById('back-btn');
+        const selectedDisplay = document.getElementById('selected-symptoms-display');
+        const selectedList = document.getElementById('selected-list');
+
+        let selectedSymptoms = [];
+
+        symptomTags.forEach(tag => {
+            tag.addEventListener('click', function() {
+                const symptom = this.dataset.symptom;
+                const symptomText = this.textContent.trim();
+                const isSelected = this.classList.contains('border-primary');
+
+                if (isSelected) {
+                    this.classList.remove('border-primary', 'bg-primary/5', 'text-primary');
+                    this.classList.add('border-neutral-200', 'text-neutral-700');
+                    selectedSymptoms = selectedSymptoms.filter(s => s.id !== symptom);
+                } else {
+                    this.classList.remove('border-neutral-200', 'text-neutral-700');
+                    this.classList.add('border-primary', 'bg-primary/5', 'text-primary');
+                    selectedSymptoms.push({ id: symptom, text: symptomText });
+                }
+
+                updateSelectedDisplay();
+            });
+        });
+
+        function updateSelectedDisplay() {
+            if (selectedSymptoms.length > 0) {
+                selectedDisplay.classList.remove('hidden');
+                selectedList.innerHTML = selectedSymptoms.map(s => 
+                    `<span class="px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full">${s.text}</span>`
+                ).join('');
+            } else {
+                selectedDisplay.classList.add('hidden');
+            }
+        }
+
+        notesTextarea.addEventListener('input', function() {
+            const length = this.value.length;
+            charCounter.textContent = length + '/200';
+            
+            if (length >= 180) {
+                charCounter.classList.add('text-warning');
+            } else if (length >= 200) {
+                charCounter.classList.remove('text-warning');
+                charCounter.classList.add('text-danger');
+            } else {
+                charCounter.classList.remove('text-warning', 'text-danger');
+            }
+        });
+
+        saveBtn.addEventListener('click', function() {
+            this.style.transform = 'scale(0.98)';
+
+            const originalContent = this.innerHTML;
+            this.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-lg"></i> Saving...';
+            this.disabled = true;
+
+            setTimeout(() => {
+                this.innerHTML = '<i class="fa-solid fa-check text-lg"></i> Check-In Saved!';
+                this.classList.remove('bg-primary');
+                this.classList.add('bg-success');
+
+                setTimeout(() => {
+                    window.location.href = 'check-in-complete.html';
+                }, 800);
+            }, 800);
+        });
+
+        skipBtn.addEventListener('click', function() {
+            this.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+                window.location.href = 'check-in-complete.html';
+            }, 100);
+        });
+
+        backBtn.addEventListener('click', function() {
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+                window.location.href = 'hydration.html';
+            }, 100);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Provider Inquiry</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        ::-webkit-scrollbar { display: none; }
+        body { animation: pageEnter 0.3s ease-out; }
+        @keyframes pageEnter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563EB',
+                        success: '#10B981',
+                        warning: '#F59E0B',
+                        danger: '#DC2626',
+                        neutral: {
+                            50: '#FFFFFF',
+                            100: '#F9FAFB',
+                            200: '#E5E7EB',
+                            700: '#6B7280',
+                            900: '#111827'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-neutral-100 font-sans antialiased">
+    <div id="provider-inquiry-screen" class="w-full min-h-screen flex flex-col bg-white">
+
+        <header id="header" class="px-5 pt-6 pb-4 bg-white">
+            <button id="back-btn" onclick="window.location.href='role-select.html'" class="w-11 h-11 flex items-center justify-center rounded-xl hover:bg-neutral-100 active:scale-95 transition-all duration-200">
+                <i class="fa-solid fa-arrow-left text-neutral-900 text-lg"></i>
+            </button>
+        </header>
+
+        <main id="main-content" class="flex-1 px-5 py-4 pb-10 overflow-y-auto">
+
+            <!-- Header Section -->
+            <div id="header-section" class="mb-6">
+                <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-700 rounded-2xl flex items-center justify-center shadow-lg shadow-purple-500/20 mb-4">
+                    <i class="fa-solid fa-hospital-user text-white text-2xl"></i>
+                </div>
+                <h1 class="text-[28px] leading-[36px] font-bold text-neutral-900 mb-2">
+                    Provider Access
+                </h1>
+                <p class="text-base text-neutral-700 leading-relaxed">
+                    Provider accounts require onboarding by our team. Submit your information and we'll get in touch.
+                </p>
+            </div>
+
+            <!-- Provider Type Selection -->
+            <div class="mb-6">
+                <label class="block text-sm font-semibold text-neutral-900 mb-3">
+                    Type of Organization <span class="text-danger">*</span>
+                </label>
+                <div id="provider-types" class="grid grid-cols-2 gap-3">
+                    <button class="provider-type-btn flex flex-col items-center gap-2 p-4 bg-white border-2 border-neutral-200 rounded-xl active:scale-[0.98] transition-all duration-200" data-type="healthcare">
+                        <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center">
+                            <i class="fa-solid fa-stethoscope text-primary text-xl"></i>
+                        </div>
+                        <span class="text-xs font-semibold text-neutral-900 text-center">Healthcare Provider</span>
+                    </button>
+                    <button class="provider-type-btn flex flex-col items-center gap-2 p-4 bg-white border-2 border-neutral-200 rounded-xl active:scale-[0.98] transition-all duration-200" data-type="ngo">
+                        <div class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center">
+                            <i class="fa-solid fa-hand-holding-heart text-success text-xl"></i>
+                        </div>
+                        <span class="text-xs font-semibold text-neutral-900 text-center">NGO / Non-Profit</span>
+                    </button>
+                    <button class="provider-type-btn flex flex-col items-center gap-2 p-4 bg-white border-2 border-neutral-200 rounded-xl active:scale-[0.98] transition-all duration-200" data-type="pharmacy">
+                        <div class="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center">
+                            <i class="fa-solid fa-prescription-bottle-medical text-warning text-xl"></i>
+                        </div>
+                        <span class="text-xs font-semibold text-neutral-900 text-center">Pharmacy</span>
+                    </button>
+                    <button class="provider-type-btn flex flex-col items-center gap-2 p-4 bg-white border-2 border-neutral-200 rounded-xl active:scale-[0.98] transition-all duration-200" data-type="other">
+                        <div class="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center">
+                            <i class="fa-solid fa-building text-purple-500 text-xl"></i>
+                        </div>
+                        <span class="text-xs font-semibold text-neutral-900 text-center">Other</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <form id="provider-form" class="flex flex-col gap-5">
+
+                <div class="form-group">
+                    <label for="full-name" class="block text-sm font-semibold text-neutral-900 mb-2">
+                        Full Name <span class="text-danger">*</span>
+                    </label>
+                    <div class="relative">
+                        <input
+                            type="text"
+                            id="full-name"
+                            name="full-name"
+                            placeholder="Enter your full name"
+                            class="w-full h-[52px] px-4 pr-12 bg-white border-2 border-neutral-200 rounded-xl text-base text-neutral-900 placeholder:text-neutral-700/50 focus:outline-none focus:border-primary transition-all duration-200"
+                        >
+                        <div class="absolute right-4 top-1/2 -translate-y-1/2">
+                            <i class="fa-solid fa-user text-neutral-700 text-lg"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="org-name" class="block text-sm font-semibold text-neutral-900 mb-2">
+                        Organization Name <span class="text-danger">*</span>
+                    </label>
+                    <div class="relative">
+                        <input
+                            type="text"
+                            id="org-name"
+                            name="org-name"
+                            placeholder="Enter organization name"
+                            class="w-full h-[52px] px-4 pr-12 bg-white border-2 border-neutral-200 rounded-xl text-base text-neutral-900 placeholder:text-neutral-700/50 focus:outline-none focus:border-primary transition-all duration-200"
+                        >
+                        <div class="absolute right-4 top-1/2 -translate-y-1/2">
+                            <i class="fa-solid fa-building text-neutral-700 text-lg"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="block text-sm font-semibold text-neutral-900 mb-2">
+                        Work Email <span class="text-danger">*</span>
+                    </label>
+                    <div class="relative">
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="you@organization.com"
+                            class="w-full h-[52px] px-4 pr-12 bg-white border-2 border-neutral-200 rounded-xl text-base text-neutral-900 placeholder:text-neutral-700/50 focus:outline-none focus:border-primary transition-all duration-200"
+                        >
+                        <div class="absolute right-4 top-1/2 -translate-y-1/2">
+                            <i class="fa-solid fa-envelope text-neutral-700 text-lg"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone" class="block text-sm font-semibold text-neutral-900 mb-2">
+                        Phone Number <span class="text-danger">*</span>
+                    </label>
+                    <div class="relative">
+                        <input
+                            type="tel"
+                            id="phone"
+                            name="phone"
+                            placeholder="Enter phone number"
+                            class="w-full h-[52px] px-4 pr-12 bg-white border-2 border-neutral-200 rounded-xl text-base text-neutral-900 placeholder:text-neutral-700/50 focus:outline-none focus:border-primary transition-all duration-200"
+                        >
+                        <div class="absolute right-4 top-1/2 -translate-y-1/2">
+                            <i class="fa-solid fa-phone text-neutral-700 text-lg"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="country" class="block text-sm font-semibold text-neutral-900 mb-2">
+                        Country / Region <span class="text-danger">*</span>
+                    </label>
+                    <div class="relative">
+                        <select
+                            id="country"
+                            name="country"
+                            class="w-full h-[52px] px-4 pr-12 bg-white border-2 border-neutral-200 rounded-xl text-base text-neutral-900 focus:outline-none focus:border-primary transition-all duration-200 appearance-none"
+                        >
+                            <option value="" disabled selected>Select your country</option>
+                            <option value="NG">Nigeria</option>
+                            <option value="GH">Ghana</option>
+                            <option value="KE">Kenya</option>
+                            <option value="ZA">South Africa</option>
+                            <option value="US">United States</option>
+                            <option value="GB">United Kingdom</option>
+                            <option value="IN">India</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+                            <i class="fa-solid fa-chevron-down text-neutral-700 text-sm"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="message" class="block text-sm font-semibold text-neutral-900 mb-2">
+                        Tell us about your work <span class="text-xs text-neutral-700 font-normal">(Optional)</span>
+                    </label>
+                    <textarea
+                        id="message"
+                        name="message"
+                        rows="4"
+                        maxlength="500"
+                        placeholder="Briefly describe how you'd like to use MyWarrior with your patients or community..."
+                        class="w-full px-4 py-3 bg-white border-2 border-neutral-200 rounded-xl text-base text-neutral-900 placeholder:text-neutral-700/50 focus:outline-none focus:border-primary transition-all duration-200 resize-none"
+                    ></textarea>
+                    <div class="flex justify-end mt-1">
+                        <span id="char-count" class="text-xs text-neutral-700">0/500</span>
+                    </div>
+                </div>
+
+                <!-- Info Banner -->
+                <div class="bg-purple-50 rounded-xl p-4 border border-purple-100">
+                    <div class="flex items-start gap-3">
+                        <i class="fa-solid fa-clock text-purple-500 text-lg mt-0.5"></i>
+                        <div>
+                            <p class="text-sm font-semibold text-neutral-900 mb-1">What happens next?</p>
+                            <p class="text-xs text-neutral-700 leading-relaxed">Our team will review your information and reach out within 2-3 business days to guide you through the onboarding process.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button
+                    type="button"
+                    id="submit-btn"
+                    class="w-full h-[52px] bg-neutral-200 text-neutral-700 text-base font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 opacity-50 cursor-not-allowed mt-2"
+                    disabled
+                >
+                    Submit Inquiry
+                    <i class="fa-solid fa-paper-plane text-sm"></i>
+                </button>
+
+            </form>
+
+            <!-- Already have account -->
+            <div class="flex items-center justify-center mt-6 mb-4">
+                <p class="text-sm text-neutral-700">
+                    Already onboarded?
+                    <button onclick="window.location.href='login.html'" class="text-primary font-semibold">Log In</button>
+                </p>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="fixed inset-0 bg-neutral-900/50 z-50 hidden flex items-center justify-center px-5">
+        <div class="bg-white w-full max-w-sm rounded-2xl p-6 text-center">
+            <div class="w-20 h-20 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fa-solid fa-check-circle text-success text-4xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-neutral-900 mb-2">Inquiry Submitted!</h3>
+            <p class="text-sm text-neutral-700 leading-relaxed mb-6">
+                Thank you for your interest in MyWarrior. Our team will review your information and get in touch within 2-3 business days.
+            </p>
+            <button id="success-ok-btn" onclick="window.location.href='index.html'" class="w-full h-[52px] bg-primary text-white text-base font-semibold rounded-xl active:scale-[0.98] transition-all duration-200">
+                Back to Home
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Provider type selection
+        let selectedType = null;
+        const providerTypeBtns = document.querySelectorAll('.provider-type-btn');
+
+        providerTypeBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                selectedType = this.getAttribute('data-type');
+
+                providerTypeBtns.forEach(b => {
+                    b.classList.remove('border-primary', 'bg-primary/5', 'shadow-md');
+                    b.classList.add('border-neutral-200');
+                });
+
+                this.classList.remove('border-neutral-200');
+                this.classList.add('border-primary', 'bg-primary/5', 'shadow-md');
+
+                checkFormValidity();
+            });
+        });
+
+        // Character counter for textarea
+        const messageField = document.getElementById('message');
+        const charCount = document.getElementById('char-count');
+        messageField.addEventListener('input', function() {
+            charCount.textContent = this.value.length + '/500';
+        });
+
+        // Form validation
+        const submitBtn = document.getElementById('submit-btn');
+        const requiredFields = ['full-name', 'org-name', 'email', 'phone', 'country'];
+
+        requiredFields.forEach(fieldId => {
+            const field = document.getElementById(fieldId);
+            field.addEventListener('input', checkFormValidity);
+            field.addEventListener('change', checkFormValidity);
+        });
+
+        function checkFormValidity() {
+            const allFilled = requiredFields.every(fieldId => {
+                const field = document.getElementById(fieldId);
+                return field.value.trim() !== '';
+            });
+
+            if (allFilled && selectedType) {
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('bg-neutral-200', 'text-neutral-700', 'opacity-50', 'cursor-not-allowed');
+                submitBtn.classList.add('bg-primary', 'text-white', 'shadow-lg', 'shadow-primary/20', 'active:scale-[0.98]');
+            } else {
+                submitBtn.disabled = true;
+                submitBtn.classList.add('bg-neutral-200', 'text-neutral-700', 'opacity-50', 'cursor-not-allowed');
+                submitBtn.classList.remove('bg-primary', 'text-white', 'shadow-lg', 'shadow-primary/20', 'active:scale-[0.98]');
+            }
+        }
+
+        // Submit handler
+        submitBtn.addEventListener('click', function() {
+            if (!this.disabled) {
+                this.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-sm"></i> Submitting...';
+                this.disabled = true;
+
+                setTimeout(() => {
+                    document.getElementById('success-modal').classList.remove('hidden');
+                }, 1500);
+            }
+        });
+    </script>
+</body>
+</html>

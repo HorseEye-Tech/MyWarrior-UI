@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crisis Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        ::-webkit-scrollbar { display: none;}
+        body { animation: pageEnter 0.3s ease-out; }
+        @keyframes pageEnter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563EB',
+                        success: '#10B981',
+                        warning: '#F59E0B',
+                        danger: '#DC2626',
+                        neutral: {
+                            50: '#FFFFFF',
+                            100: '#F9FAFB',
+                            200: '#E5E7EB',
+                            700: '#6B7280',
+                            900: '#111827'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-neutral-100 font-sans antialiased">
+    <div id="crisis-dashboard-screen" class="w-full min-h-[840px] flex flex-col">
+        
+        <header id="header" class="bg-white border-b border-neutral-200 px-5 py-4 sticky top-0 z-50">
+            <div class="flex items-center justify-between">
+                <button id="back-btn" onclick="window.location.href='dashboard.html'" class="w-10 h-10 flex items-center justify-center rounded-lg active:bg-neutral-100 transition-colors duration-200">
+                    <i class="fa-solid fa-arrow-left text-neutral-900 text-lg"></i>
+                </button>
+                <h1 class="text-lg font-bold text-neutral-900">Crisis Action Plan</h1>
+                <button id="help-btn" class="w-10 h-10 flex items-center justify-center rounded-lg active:bg-neutral-100 transition-colors duration-200">
+                    <i class="fa-solid fa-circle-info text-neutral-700 text-lg"></i>
+                </button>
+            </div>
+        </header>
+
+        <main id="main-content" class="flex-1 overflow-y-auto pb-24">
+            
+            <div id="urgent-alert-banner" class="bg-danger/10 border-l-4 border-danger px-5 py-4 mx-5 mt-5 rounded-lg">
+                <div class="flex items-start gap-3">
+                    <div class="w-10 h-10 bg-danger rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                        <i class="fa-solid fa-triangle-exclamation text-white text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h2 class="text-base font-bold text-danger mb-1">Pain Crisis Support</h2>
+                        <p class="text-sm text-neutral-900 leading-relaxed">Select your pain level below to get personalized action steps</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="severity-selector-section" class="px-5 mt-6">
+                <h3 class="text-sm font-bold text-neutral-900 mb-4">How severe is your pain?</h3>
+                
+                <div id="severity-cards-container" class="space-y-3">
+                    
+                    <button id="mild-severity-btn" class="severity-option w-full bg-white rounded-xl p-4 border-2 border-neutral-200 active:scale-[0.98] transition-all duration-200 text-left">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-success/10 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-face-smile text-success text-2xl"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="text-base font-bold text-neutral-900 mb-1">Mild Discomfort</h4>
+                                <p class="text-xs text-neutral-700">Pain level 1-3</p>
+                            </div>
+                            <div class="w-6 h-6 rounded-full border-2 border-neutral-300 flex items-center justify-center">
+                                <div class="w-3 h-3 bg-success rounded-full hidden"></div>
+                            </div>
+                        </div>
+                    </button>
+
+                    <button id="moderate-severity-btn" class="severity-option w-full bg-white rounded-xl p-4 border-2 border-neutral-200 active:scale-[0.98] transition-all duration-200 text-left">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-warning/10 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-face-meh text-warning text-2xl"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="text-base font-bold text-neutral-900 mb-1">Moderate Pain</h4>
+                                <p class="text-xs text-neutral-700">Pain level 4-6</p>
+                            </div>
+                            <div class="w-6 h-6 rounded-full border-2 border-neutral-300 flex items-center justify-center">
+                                <div class="w-3 h-3 bg-warning rounded-full hidden"></div>
+                            </div>
+                        </div>
+                    </button>
+
+                    <button id="severe-severity-btn" class="severity-option w-full bg-white rounded-xl p-4 border-2 border-danger active:scale-[0.98] transition-all duration-200 text-left shadow-lg">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-danger/10 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-face-frown text-danger text-2xl"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="text-base font-bold text-neutral-900 mb-1">Severe Crisis</h4>
+                                <p class="text-xs text-neutral-700">Pain level 7-10</p>
+                            </div>
+                            <div class="w-6 h-6 rounded-full border-2 border-danger flex items-center justify-center">
+                                <div class="w-3 h-3 bg-danger rounded-full"></div>
+                            </div>
+                        </div>
+                    </button>
+
+                </div>
+            </div>
+
+            <div id="action-plan-section" class="px-5 mt-6">
+                <div class="bg-white rounded-2xl p-5 border border-neutral-200">
+                    
+                    <div class="flex items-center justify-between mb-5 pb-4 border-b border-neutral-200">
+                        <h3 class="text-lg font-bold text-neutral-900">Action Steps</h3>
+                        <span class="text-xs font-semibold text-danger bg-danger/10 px-3 py-1 rounded-full">
+                            Severe Crisis
+                        </span>
+                    </div>
+
+                    <div id="action-steps-list" class="space-y-4 mb-5">
+                        
+                        <div class="flex gap-3">
+                            <div class="w-8 h-8 bg-danger rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="text-white text-sm font-bold">1</span>
+                            </div>
+                            <div class="flex-1 pt-1">
+                                <p class="text-sm font-semibold text-neutral-900 mb-1">Find a safe, comfortable place to rest</p>
+                                <p class="text-xs text-neutral-700 leading-relaxed">Lie down in a quiet area. Remove tight clothing.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3">
+                            <div class="w-8 h-8 bg-danger rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="text-white text-sm font-bold">2</span>
+                            </div>
+                            <div class="flex-1 pt-1">
+                                <p class="text-sm font-semibold text-neutral-900 mb-1">Take your prescribed pain medication</p>
+                                <p class="text-xs text-neutral-700 leading-relaxed">Follow your doctor's dosage instructions.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3">
+                            <div class="w-8 h-8 bg-danger rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="text-white text-sm font-bold">3</span>
+                            </div>
+                            <div class="flex-1 pt-1">
+                                <p class="text-sm font-semibold text-neutral-900 mb-1">Apply heat to painful areas</p>
+                                <p class="text-xs text-neutral-700 leading-relaxed">Use a warm compress or heating pad (not too hot).</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3">
+                            <div class="w-8 h-8 bg-danger rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="text-white text-sm font-bold">4</span>
+                            </div>
+                            <div class="flex-1 pt-1">
+                                <p class="text-sm font-semibold text-neutral-900 mb-1">Practice deep breathing exercises</p>
+                                <p class="text-xs text-neutral-700 leading-relaxed">Breathe slowly: 4 counts in, hold 4, exhale 6.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3">
+                            <div class="w-8 h-8 bg-danger rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="text-white text-sm font-bold">5</span>
+                            </div>
+                            <div class="flex-1 pt-1">
+                                <p class="text-sm font-semibold text-neutral-900 mb-1">Monitor your symptoms closely</p>
+                                <p class="text-xs text-neutral-700 leading-relaxed">If pain worsens or doesn't improve in 1 hour, seek medical help.</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div id="hydration-reminder-card" class="bg-primary/5 rounded-xl p-4 border border-primary/20">
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-glass-water text-white text-lg"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="text-sm font-bold text-neutral-900 mb-1">Hydration Reminder</h4>
+                                <p class="text-xs text-neutral-700 leading-relaxed mb-3">Drink water slowly. Aim for 1 glass every 30 minutes.</p>
+                                <button id="log-water-btn" class="text-xs font-semibold text-primary flex items-center gap-1 active:scale-95 transition-transform duration-200">
+                                    <i class="fa-solid fa-plus text-xs"></i>
+                                    Log Water Intake
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="emergency-actions-section" class="px-5 mt-5">
+                
+                <button id="emergency-contact-btn" class="w-full h-[56px] bg-danger text-white text-base font-bold rounded-xl flex items-center justify-center gap-3 active:scale-[0.98] transition-all duration-200 shadow-lg mb-3">
+                    <i class="fa-solid fa-phone text-xl"></i>
+                    Call Emergency Contact
+                </button>
+
+                <button id="hospital-info-btn" class="w-full h-[52px] bg-white border-2 border-neutral-200 text-neutral-900 text-base font-semibold rounded-xl flex items-center justify-center gap-2 active:scale-[0.98] transition-all duration-200">
+                    <i class="fa-solid fa-hospital text-lg"></i>
+                    Go to Hospital Info
+                </button>
+
+            </div>
+
+            <div id="feeling-better-section" class="px-5 mt-6 mb-6">
+                <div class="bg-success/5 rounded-2xl p-5 border border-success/20">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fa-solid fa-heart text-success text-2xl"></i>
+                        </div>
+                        <h3 class="text-base font-bold text-neutral-900 mb-2">Feeling Better?</h3>
+                        <p class="text-sm text-neutral-700 mb-4 leading-relaxed">Let us know when your pain has improved so we can track your recovery.</p>
+                        <button id="feeling-better-btn" class="w-full h-[48px] bg-success text-white text-base font-semibold rounded-xl flex items-center justify-center gap-2 active:scale-[0.98] transition-all duration-200">
+                            <i class="fa-solid fa-check text-lg"></i>
+                            I'm Feeling Better
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tips-section" class="px-5 mb-6">
+                <h3 class="text-sm font-bold text-neutral-900 mb-4">Crisis Management Tips</h3>
+                
+                <div class="space-y-3">
+                    
+                    <div class="bg-white rounded-xl p-4 border border-neutral-200">
+                        <div class="flex gap-3">
+                            <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-thermometer-half text-primary text-lg"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="text-sm font-semibold text-neutral-900 mb-1">Avoid Temperature Extremes</h4>
+                                <p class="text-xs text-neutral-700 leading-relaxed">Stay away from very cold or very hot environments during a crisis.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl p-4 border border-neutral-200">
+                        <div class="flex gap-3">
+                            <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-bed text-primary text-lg"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="text-sm font-semibold text-neutral-900 mb-1">Rest is Essential</h4>
+                                <p class="text-xs text-neutral-700 leading-relaxed">Avoid physical activity. Let your body focus on healing.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl p-4 border border-neutral-200">
+                        <div class="flex gap-3">
+                            <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-user-group text-primary text-lg"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="text-sm font-semibold text-neutral-900 mb-1">Inform Someone You Trust</h4>
+                                <p class="text-xs text-neutral-700 leading-relaxed">Let a family member or friend know you're experiencing a crisis.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </main>
+
+        <nav id="bottom-navigation" class="fixed bottom-0 left-0 right-0 bg-white border-t border-neutral-200 px-5 py-3 z-50">
+            <div class="flex items-center justify-around">
+                <button onclick="window.location.href='dashboard.html'" class="nav-item flex flex-col items-center gap-1 active:scale-95 transition-transform duration-200">
+                    <i class="fa-solid fa-house text-neutral-700 text-xl"></i>
+                    <span class="text-xs font-medium text-neutral-700">Home</span>
+                </button>
+                <button onclick="window.location.href='health-log.html'" class="nav-item flex flex-col items-center gap-1 active:scale-95 transition-transform duration-200">
+                    <i class="fa-solid fa-chart-line text-neutral-700 text-xl"></i>
+                    <span class="text-xs font-medium text-neutral-700">Health Log</span>
+                </button>
+                <button onclick="window.location.href='community.html'" class="nav-item flex flex-col items-center gap-1 active:scale-95 transition-transform duration-200">
+                    <i class="fa-solid fa-users text-neutral-700 text-xl"></i>
+                    <span class="text-xs font-medium text-neutral-700">Community</span>
+                </button>
+                <button onclick="window.location.href='profile.html'" class="nav-item flex flex-col items-center gap-1 active:scale-95 transition-transform duration-200">
+                    <i class="fa-solid fa-user text-neutral-700 text-xl"></i>
+                    <span class="text-xs font-medium text-neutral-700">Profile</span>
+                </button>
+            </div>
+        </nav>
+
+    </div>
+
+    <script>
+        window.addEventListener('load', function() {
+            const severityButtons = document.querySelectorAll('.severity-option');
+            const actionPlanSection = document.getElementById('action-plan-section');
+            const actionStepsList = document.getElementById('action-steps-list');
+            const severityLabel = actionPlanSection.querySelector('.text-danger');
+
+            const actionPlans = {
+                mild: {
+                    label: 'Mild Discomfort',
+                    color: 'success',
+                    steps: [
+                        { title: 'Rest and relax', desc: 'Take a break from activities. Sit or lie down comfortably.' },
+                        { title: 'Drink plenty of water', desc: 'Aim for at least 2 glasses in the next hour.' },
+                        { title: 'Apply gentle heat', desc: 'Use a warm compress on the affected area.' },
+                        { title: 'Take over-the-counter pain relief', desc: 'Follow package instructions (if approved by your doctor).' }
+                    ]
+                },
+                moderate: {
+                    label: 'Moderate Pain',
+                    color: 'warning',
+                    steps: [
+                        { title: 'Find a comfortable resting position', desc: 'Lie down in a quiet area. Elevate legs if needed.' },
+                        { title: 'Take prescribed pain medication', desc: 'Follow your doctor\'s dosage instructions carefully.' },
+                        { title: 'Apply heat therapy', desc: 'Use a heating pad or warm towel on painful areas.' },
+                        { title: 'Practice relaxation techniques', desc: 'Deep breathing or meditation can help manage pain.' },
+                        { title: 'Stay hydrated', desc: 'Drink water regularly, 1 glass every 30-45 minutes.' }
+                    ]
+                },
+                severe: {
+                    label: 'Severe Crisis',
+                    color: 'danger',
+                    steps: [
+                        { title: 'Find a safe, comfortable place to rest', desc: 'Lie down in a quiet area. Remove tight clothing.' },
+                        { title: 'Take your prescribed pain medication', desc: 'Follow your doctor\'s dosage instructions.' },
+                        { title: 'Apply heat to painful areas', desc: 'Use a warm compress or heating pad (not too hot).' },
+                        { title: 'Practice deep breathing exercises', desc: 'Breathe slowly: 4 counts in, hold 4, exhale 6.' },
+                        { title: 'Monitor your symptoms closely', desc: 'If pain worsens or doesn\'t improve in 1 hour, seek medical help.' }
+                    ]
+                }
+            };
+
+            function updateActionPlan(severity) {
+                const plan = actionPlans[severity];
+                
+                severityLabel.textContent = plan.label;
+                severityLabel.className = `text-xs font-semibold text-${plan.color} bg-${plan.color}/10 px-3 py-1 rounded-full`;
+                
+                actionStepsList.innerHTML = '';
+                
+                plan.steps.forEach((step, index) => {
+                    const stepElement = document.createElement('div');
+                    stepElement.className = 'flex gap-3';
+                    stepElement.innerHTML = `
+                        <div class="w-8 h-8 bg-${plan.color} rounded-full flex items-center justify-center flex-shrink-0">
+                            <span class="text-white text-sm font-bold">${index + 1}</span>
+                        </div>
+                        <div class="flex-1 pt-1">
+                            <p class="text-sm font-semibold text-neutral-900 mb-1">${step.title}</p>
+                            <p class="text-xs text-neutral-700 leading-relaxed">${step.desc}</p>
+                        </div>
+                    `;
+                    actionStepsList.appendChild(stepElement);
+                });
+            }
+
+            severityButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    severityButtons.forEach(btn => {
+                        btn.classList.remove('border-success', 'border-warning', 'border-danger', 'shadow-lg');
+                        btn.classList.add('border-neutral-200');
+                        const radio = btn.querySelector('.w-3');
+                        if (radio) radio.classList.add('hidden');
+                    });
+
+                    this.classList.remove('border-neutral-200');
+                    const radio = this.querySelector('.w-3');
+                    if (radio) radio.classList.remove('hidden');
+
+                    if (this.id === 'mild-severity-btn') {
+                        this.classList.add('border-success', 'shadow-lg');
+                        updateActionPlan('mild');
+                    } else if (this.id === 'moderate-severity-btn') {
+                        this.classList.add('border-warning', 'shadow-lg');
+                        updateActionPlan('moderate');
+                    } else if (this.id === 'severe-severity-btn') {
+                        this.classList.add('border-danger', 'shadow-lg');
+                        updateActionPlan('severe');
+                    }
+                });
+            });
+
+            const emergencyContactBtn = document.getElementById('emergency-contact-btn');
+            const hospitalInfoBtn = document.getElementById('hospital-info-btn');
+            const feelingBetterBtn = document.getElementById('feeling-better-btn');
+            const logWaterBtn = document.getElementById('log-water-btn');
+
+            emergencyContactBtn.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 100);
+            });
+
+            hospitalInfoBtn.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 100);
+            });
+
+            feelingBetterBtn.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                    alert('Great to hear! Your recovery has been logged.');
+                }, 100);
+            });
+
+            logWaterBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 100);
+            });
+        });
+    </script>
+</body>
+</html>

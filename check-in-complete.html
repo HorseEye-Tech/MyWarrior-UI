@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check-In Complete</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        ::-webkit-scrollbar { display: none; }
+        body { animation: pageEnter 0.3s ease-out; }
+        @keyframes pageEnter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563EB',
+                        success: '#10B981',
+                        warning: '#F59E0B',
+                        danger: '#DC2626',
+                        neutral: {
+                            50: '#FFFFFF',
+                            100: '#F9FAFB',
+                            200: '#E5E7EB',
+                            700: '#6B7280',
+                            900: '#111827'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-neutral-100 font-sans antialiased">
+    <div id="success-screen" class="w-full min-h-[840px] flex flex-col">
+        
+        <main id="main-content" class="flex-1 flex flex-col items-center justify-center px-5 py-8">
+            
+            <div id="success-animation-container" class="mb-8">
+                <div class="relative w-32 h-32 flex items-center justify-center">
+                    <div id="success-circle" class="absolute inset-0 bg-success/10 rounded-full"></div>
+                    <div id="success-icon" class="relative z-10 w-24 h-24 bg-success rounded-full flex items-center justify-center opacity-0">
+                        <i class="fa-solid fa-check text-white text-5xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div id="success-message" class="text-center mb-8 opacity-0">
+                <h1 class="text-3xl font-bold text-neutral-900 mb-3">Great job, Sarah!</h1>
+                <p class="text-base text-neutral-700">Your check-in has been saved successfully</p>
+            </div>
+
+            <div id="summary-card" class="w-full bg-white rounded-2xl p-5 border border-neutral-200 mb-8 opacity-0">
+                <div class="flex items-center justify-between mb-5 pb-4 border-b border-neutral-200">
+                    <h2 class="text-lg font-bold text-neutral-900">Today's Entry</h2>
+                    <span class="text-xs font-semibold text-neutral-700 bg-neutral-100 px-3 py-1 rounded-full">
+                        <i class="fa-solid fa-clock mr-1"></i>
+                        Just now
+                    </span>
+                </div>
+
+                <div id="pain-level-summary" class="mb-5 pb-5 border-b border-neutral-200">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-sm font-semibold text-neutral-700">Pain Level</span>
+                        <span class="text-2xl font-bold text-warning">5/10</span>
+                    </div>
+                    <div class="w-full h-2 bg-neutral-200 rounded-full overflow-hidden">
+                        <div class="h-full bg-warning rounded-full" style="width: 50%"></div>
+                    </div>
+                </div>
+
+                <div id="mood-summary" class="mb-5 pb-5 border-b border-neutral-200">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-semibold text-neutral-700">Mood</span>
+                        <div class="flex items-center gap-2">
+                            <span class="text-2xl">😊</span>
+                            <span class="text-sm font-semibold text-neutral-900">Good</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="hydration-summary" class="mb-5 pb-5 border-b border-neutral-200">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-semibold text-neutral-700">Water Intake</span>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-glass-water text-primary text-lg"></i>
+                            <span class="text-sm font-bold text-neutral-900">6 glasses</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="symptoms-summary" class="mb-5 pb-5 border-b border-neutral-200">
+                    <span class="text-sm font-semibold text-neutral-700 block mb-3">Symptoms</span>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full">
+                            <i class="fa-solid fa-battery-quarter mr-1"></i>
+                            Fatigue
+                        </span>
+                        <span class="px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full">
+                            <i class="fa-solid fa-head-side-virus mr-1"></i>
+                            Headache
+                        </span>
+                    </div>
+                </div>
+
+                <div id="medications-summary">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-semibold text-neutral-700">Medications</span>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-pills text-success text-lg"></i>
+                            <span class="text-sm font-bold text-success">All taken</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="streak-card" class="w-full bg-gradient-to-r from-primary/10 to-success/10 rounded-2xl p-5 border border-primary/20 mb-8 opacity-0">
+                <div class="flex items-center gap-4">
+                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-fire text-white text-3xl"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-semibold text-neutral-700 mb-1">7-Day Streak!</p>
+                        <p class="text-xs text-neutral-700 leading-relaxed">You're building a strong health tracking habit. Keep it up!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="action-buttons" class="w-full space-y-3 opacity-0">
+                <button id="view-insights-btn" class="w-full h-[52px] bg-primary text-white text-base font-semibold rounded-xl flex items-center justify-center gap-2 active:scale-[0.98] transition-all duration-200 shadow-lg">
+                    <i class="fa-solid fa-chart-line text-lg"></i>
+                    View Insights
+                </button>
+                <button id="back-home-btn" class="w-full h-[48px] bg-white border-2 border-neutral-200 text-neutral-900 text-base font-semibold rounded-xl flex items-center justify-center gap-2 active:scale-[0.98] transition-all duration-200">
+                    <i class="fa-solid fa-house text-base"></i>
+                    Back to Home
+                </button>
+            </div>
+
+        </main>
+
+    </div>
+
+    <script>
+        window.addEventListener('load', function() {
+            const successCircle = document.getElementById('success-circle');
+            const successIcon = document.getElementById('success-icon');
+            const successMessage = document.getElementById('success-message');
+            const summaryCard = document.getElementById('summary-card');
+            const streakCard = document.getElementById('streak-card');
+            const actionButtons = document.getElementById('action-buttons');
+
+            setTimeout(() => {
+                successCircle.style.transition = 'transform 0.4s ease-out';
+                successCircle.style.transform = 'scale(1.1)';
+                
+                setTimeout(() => {
+                    successCircle.style.transform = 'scale(1)';
+                }, 400);
+            }, 100);
+
+            setTimeout(() => {
+                successIcon.style.transition = 'opacity 0.3s ease-out, transform 0.3s ease-out';
+                successIcon.style.opacity = '1';
+                successIcon.style.transform = 'scale(1.1)';
+                
+                setTimeout(() => {
+                    successIcon.style.transform = 'scale(1)';
+                }, 300);
+            }, 300);
+
+            setTimeout(() => {
+                successMessage.style.transition = 'opacity 0.4s ease-out, transform 0.4s ease-out';
+                successMessage.style.opacity = '1';
+                successMessage.style.transform = 'translateY(0)';
+            }, 600);
+
+            setTimeout(() => {
+                summaryCard.style.transition = 'opacity 0.4s ease-out, transform 0.4s ease-out';
+                summaryCard.style.opacity = '1';
+                summaryCard.style.transform = 'translateY(0)';
+            }, 800);
+
+            setTimeout(() => {
+                streakCard.style.transition = 'opacity 0.4s ease-out, transform 0.4s ease-out';
+                streakCard.style.opacity = '1';
+                streakCard.style.transform = 'translateY(0)';
+            }, 1000);
+
+            setTimeout(() => {
+                actionButtons.style.transition = 'opacity 0.4s ease-out, transform 0.4s ease-out';
+                actionButtons.style.opacity = '1';
+                actionButtons.style.transform = 'translateY(0)';
+            }, 1200);
+
+            successMessage.style.transform = 'translateY(10px)';
+            summaryCard.style.transform = 'translateY(10px)';
+            streakCard.style.transform = 'translateY(10px)';
+            actionButtons.style.transform = 'translateY(10px)';
+
+            const viewInsightsBtn = document.getElementById('view-insights-btn');
+            const backHomeBtn = document.getElementById('back-home-btn');
+
+            viewInsightsBtn.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                    window.location.href = 'insights.html';
+                }, 100);
+            });
+
+            backHomeBtn.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                    window.location.href = 'dashboard.html';
+                }, 100);
+            });
+        });
+    </script>
+</body>
+</html>

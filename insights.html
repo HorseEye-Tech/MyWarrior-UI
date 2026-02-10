@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insights Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.plot.ly/plotly-3.1.1.min.js"></script>
+    <style>
+        ::-webkit-scrollbar { display: none;}
+        body { animation: pageEnter 0.3s ease-out; }
+        @keyframes pageEnter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#6366f1',
+                        secondary: '#8b5cf6',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+
+<header id="header" class="bg-white border-b border-gray-200 sticky top-0 z-50">
+    <div class="flex items-center justify-between px-4 py-3">
+        <button id="menuBtn" onclick="window.location.href='health-log.html'" class="p-2 -ml-2 text-gray-600 hover:text-gray-900">
+            <i class="fa-solid fa-arrow-left text-xl"></i>
+        </button>
+        <h1 class="text-lg font-semibold text-gray-900">Insights</h1>
+        <button class="p-2 -mr-2 text-gray-600 hover:text-gray-900">
+            <i class="fa-solid fa-bell text-xl"></i>
+        </button>
+    </div>
+</header>
+
+<div id="sidebar" class="fixed inset-0 bg-gray-900 bg-opacity-50 z-50 hidden">
+    <div id="sidebarContent" class="absolute left-0 top-0 bottom-0 w-72 bg-white transform -translate-x-full transition-transform duration-300">
+        <div class="p-4 border-b border-gray-200 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" alt="Profile" class="w-10 h-10 rounded-full">
+                <div>
+                    <div class="font-semibold text-gray-900 text-sm">Sarah Mitchell</div>
+                    <div class="text-xs text-gray-500">View Profile</div>
+                </div>
+            </div>
+            <button id="closeBtn" class="p-2 text-gray-500 hover:text-gray-700">
+                <i class="fa-solid fa-times text-xl"></i>
+            </button>
+        </div>
+        <nav class="p-4 space-y-2">
+            <a href="#" class="flex items-center space-x-3 px-3 py-2.5 text-gray-700 hover:bg-gray-100 rounded-lg">
+                <i class="fa-solid fa-home w-5"></i>
+                <span class="font-medium">Dashboard</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 px-3 py-2.5 text-primary bg-indigo-50 rounded-lg">
+                <i class="fa-solid fa-chart-line w-5"></i>
+                <span class="font-medium">Insights</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 px-3 py-2.5 text-gray-700 hover:bg-gray-100 rounded-lg">
+                <i class="fa-solid fa-pills w-5"></i>
+                <span class="font-medium">Medications</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 px-3 py-2.5 text-gray-700 hover:bg-gray-100 rounded-lg">
+                <i class="fa-solid fa-heart-pulse w-5"></i>
+                <span class="font-medium">Symptoms</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 px-3 py-2.5 text-gray-700 hover:bg-gray-100 rounded-lg">
+                <i class="fa-solid fa-calendar-check w-5"></i>
+                <span class="font-medium">Appointments</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 px-3 py-2.5 text-gray-700 hover:bg-gray-100 rounded-lg">
+                <i class="fa-solid fa-file-medical w-5"></i>
+                <span class="font-medium">Reports</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 px-3 py-2.5 text-gray-700 hover:bg-gray-100 rounded-lg">
+                <i class="fa-solid fa-gear w-5"></i>
+                <span class="font-medium">Settings</span>
+            </a>
+        </nav>
+    </div>
+</div>
+
+<main id="mainContent" class="pb-20">
+
+    <section id="dateSelector" class="bg-white px-4 py-3 border-b border-gray-200">
+        <div class="flex items-center justify-between">
+            <button class="p-2 text-gray-600 hover:text-gray-900">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <div class="text-center">
+                <div class="text-sm font-semibold text-gray-900">Last 30 Days</div>
+                <div class="text-xs text-gray-500">Jan 12 - Feb 11, 2024</div>
+            </div>
+            <button class="p-2 text-gray-600 hover:text-gray-900">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
+    </section>
+
+    <section id="keyStats" class="px-4 py-5 space-y-3">
+        <div id="crisisCard" class="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl p-5 shadow-lg">
+            <div class="flex items-start justify-between mb-3">
+                <div class="bg-white bg-opacity-20 rounded-full p-3">
+                    <i class="fa-solid fa-calendar-check text-white text-xl"></i>
+                </div>
+                <div class="bg-emerald-700 bg-opacity-40 rounded-full px-3 py-1 text-xs font-semibold text-white">
+                    Excellent
+                </div>
+            </div>
+            <div class="text-4xl font-bold text-white mb-1">127</div>
+            <div class="text-emerald-100 font-medium mb-3">Days since last crisis</div>
+            <div class="flex items-center space-x-2 text-emerald-50 text-sm">
+                <i class="fa-solid fa-arrow-up"></i>
+                <span>15 days more than last period</span>
+            </div>
+        </div>
+
+        <div id="adherenceCard" class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+            <div class="flex items-start justify-between mb-4">
+                <div class="bg-indigo-100 rounded-full p-3">
+                    <i class="fa-solid fa-pills text-primary text-xl"></i>
+                </div>
+                <div class="bg-indigo-100 text-primary rounded-full px-3 py-1 text-xs font-semibold">
+                    Good
+                </div>
+            </div>
+            <div class="flex items-end justify-between mb-2">
+                <div>
+                    <div class="text-3xl font-bold text-gray-900">85%</div>
+                    <div class="text-gray-600 font-medium">Medication Adherence</div>
+                </div>
+                <div class="text-right">
+                    <div class="text-sm font-semibold text-emerald-600">+3%</div>
+                    <div class="text-xs text-gray-500">vs last month</div>
+                </div>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2.5 mt-4">
+                <div class="bg-gradient-to-r from-primary to-secondary h-2.5 rounded-full" style="width: 85%"></div>
+            </div>
+            <div class="mt-3 text-xs text-gray-500">
+                <i class="fa-solid fa-check-circle text-emerald-500"></i> 26 of 30 days on track
+            </div>
+        </div>
+
+        <div id="painCard" class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+            <div class="flex items-start justify-between mb-4">
+                <div class="bg-amber-100 rounded-full p-3">
+                    <i class="fa-solid fa-heart-pulse text-amber-600 text-xl"></i>
+                </div>
+                <div class="bg-amber-100 text-amber-700 rounded-full px-3 py-1 text-xs font-semibold">
+                    Moderate
+                </div>
+            </div>
+            <div class="flex items-end justify-between mb-3">
+                <div>
+                    <div class="text-3xl font-bold text-gray-900">3<span class="text-xl text-gray-500">/10</span></div>
+                    <div class="text-gray-600 font-medium">Average Pain Level</div>
+                </div>
+                <div class="text-right">
+                    <div class="text-sm font-semibold text-emerald-600">-0.5</div>
+                    <div class="text-xs text-gray-500">vs last month</div>
+                </div>
+            </div>
+            <div class="flex items-center space-x-1 mt-4">
+                <div class="flex-1 bg-emerald-500 h-2 rounded-full"></div>
+                <div class="flex-1 bg-emerald-500 h-2 rounded-full"></div>
+                <div class="flex-1 bg-emerald-400 h-2 rounded-full"></div>
+                <div class="flex-1 bg-amber-400 h-2 rounded-full"></div>
+                <div class="flex-1 bg-gray-200 h-2 rounded-full"></div>
+                <div class="flex-1 bg-gray-200 h-2 rounded-full"></div>
+                <div class="flex-1 bg-gray-200 h-2 rounded-full"></div>
+                <div class="flex-1 bg-gray-200 h-2 rounded-full"></div>
+                <div class="flex-1 bg-gray-200 h-2 rounded-full"></div>
+                <div class="flex-1 bg-gray-200 h-2 rounded-full"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="patternRecognition" class="px-4 py-5">
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-bold text-gray-900">Pattern Recognition</h2>
+            <button class="text-sm text-primary font-semibold">View All</button>
+        </div>
+
+        <div id="patternCard1" class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 mb-3">
+            <div class="flex items-start space-x-3">
+                <div class="bg-rose-100 rounded-full p-3 mt-1">
+                    <i class="fa-solid fa-chart-line text-rose-600 text-lg"></i>
+                </div>
+                <div class="flex-1">
+                    <div class="flex items-center space-x-2 mb-1">
+                        <h3 class="font-semibold text-gray-900">Weekend Pain Spike</h3>
+                        <span class="bg-rose-100 text-rose-700 text-xs font-semibold px-2 py-0.5 rounded-full">Alert</span>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">Pain levels seem higher on weekends, averaging 4.5/10 compared to 2.8/10 on weekdays.</p>
+                    <div class="flex items-center space-x-4 text-xs text-gray-500">
+                        <span><i class="fa-solid fa-calendar"></i> Last 4 weeks</span>
+                        <span><i class="fa-solid fa-percent"></i> 85% confidence</span>
+                    </div>
+                    <button id="learnMore1Btn" class="mt-3 text-sm font-semibold text-primary flex items-center space-x-1">
+                        <span>Learn More</span>
+                        <i class="fa-solid fa-chevron-down text-xs"></i>
+                    </button>
+                    <div id="learnMore1Content" class="hidden mt-3 pt-3 border-t border-gray-100">
+                        <div class="text-sm text-gray-700 mb-3">
+                            <strong>Possible causes:</strong>
+                            <ul class="mt-2 space-y-1 ml-4">
+                                <li class="flex items-start space-x-2">
+                                    <span class="text-primary">•</span>
+                                    <span>Changes in sleep schedule on weekends</span>
+                                </li>
+                                <li class="flex items-start space-x-2">
+                                    <span class="text-primary">•</span>
+                                    <span>Different activity levels or stress patterns</span>
+                                </li>
+                                <li class="flex items-start space-x-2">
+                                    <span class="text-primary">•</span>
+                                    <span>Medication timing variations</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="bg-indigo-50 rounded-lg p-3">
+                            <div class="text-xs font-semibold text-primary mb-1">Recommendation</div>
+                            <div class="text-sm text-gray-700">Try maintaining consistent sleep and medication schedules on weekends. Consider logging weekend activities to identify specific triggers.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="patternCard2" class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+            <div class="flex items-start space-x-3">
+                <div class="bg-blue-100 rounded-full p-3 mt-1">
+                    <i class="fa-solid fa-droplet text-blue-600 text-lg"></i>
+                </div>
+                <div class="flex-1">
+                    <div class="flex items-center space-x-2 mb-1">
+                        <h3 class="font-semibold text-gray-900">Monday Hydration Drop</h3>
+                        <span class="bg-blue-100 text-blue-700 text-xs font-semibold px-2 py-0.5 rounded-full">Info</span>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">Hydration drops below your goal on Mondays, averaging 1.2L vs. 2.5L goal.</p>
+                    <div class="flex items-center space-x-4 text-xs text-gray-500">
+                        <span><i class="fa-solid fa-calendar"></i> Last 8 weeks</span>
+                        <span><i class="fa-solid fa-percent"></i> 92% confidence</span>
+                    </div>
+                    <button id="learnMore2Btn" class="mt-3 text-sm font-semibold text-primary flex items-center space-x-1">
+                        <span>Learn More</span>
+                        <i class="fa-solid fa-chevron-down text-xs"></i>
+                    </button>
+                    <div id="learnMore2Content" class="hidden mt-3 pt-3 border-t border-gray-100">
+                        <div class="text-sm text-gray-700 mb-3">
+                            <strong>Impact on health:</strong>
+                            <ul class="mt-2 space-y-1 ml-4">
+                                <li class="flex items-start space-x-2">
+                                    <span class="text-primary">•</span>
+                                    <span>Dehydration can trigger pain episodes</span>
+                                </li>
+                                <li class="flex items-start space-x-2">
+                                    <span class="text-primary">•</span>
+                                    <span>May reduce medication effectiveness</span>
+                                </li>
+                                <li class="flex items-start space-x-2">
+                                    <span class="text-primary">•</span>
+                                    <span>Linked to fatigue and concentration issues</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="bg-indigo-50 rounded-lg p-3">
+                            <div class="text-xs font-semibold text-primary mb-1">Recommendation</div>
+                            <div class="text-sm text-gray-700">Set Monday morning reminders to drink water. Keep a water bottle at your desk. Aim for 500ml before noon on Mondays.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="recommendations" class="px-4 py-5 bg-gray-50">
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-bold text-gray-900">Recommendations</h2>
+            <span class="bg-primary text-white text-xs font-semibold px-2.5 py-1 rounded-full">3 New</span>
+        </div>
+
+        <div id="recommendationCard1" class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 mb-3">
+            <div class="flex items-start space-x-3">
+                <div class="bg-emerald-100 rounded-full p-3">
+                    <i class="fa-solid fa-moon text-emerald-600 text-xl"></i>
+                </div>
+                <div class="flex-1">
+                    <h3 class="font-semibold text-gray-900 mb-1">Improve Sleep Consistency</h3>
+                    <p class="text-sm text-gray-600 mb-3">Your sleep schedule varies by 2+ hours on weekends. Consistent sleep may reduce weekend pain spikes.</p>
+                    <div class="flex items-center space-x-2">
+                        <div class="flex-1 bg-gray-200 rounded-full h-1.5">
+                            <div class="bg-emerald-500 h-1.5 rounded-full" style="width: 45%"></div>
+                        </div>
+                        <span class="text-xs font-semibold text-gray-500">45% Impact</span>
+                    </div>
+                    <button class="mt-3 bg-emerald-50 text-emerald-700 text-sm font-semibold px-4 py-2 rounded-lg w-full">
+                        Start Sleep Challenge
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="recommendationCard2" class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 mb-3">
+            <div class="flex items-start space-x-3">
+                <div class="bg-blue-100 rounded-full p-3">
+                    <i class="fa-solid fa-glass-water text-blue-600 text-xl"></i>
+                </div>
+                <div class="flex-1">
+                    <h3 class="font-semibold text-gray-900 mb-1">Hydration Reminders</h3>
+                    <p class="text-sm text-gray-600 mb-3">Set up automatic reminders for Mondays to help reach your 2.5L daily hydration goal.</p>
+                    <div class="flex items-center space-x-2">
+                        <div class="flex-1 bg-gray-200 rounded-full h-1.5">
+                            <div class="bg-blue-500 h-1.5 rounded-full" style="width: 70%"></div>
+                        </div>
+                        <span class="text-xs font-semibold text-gray-500">70% Impact</span>
+                    </div>
+                    <button class="mt-3 bg-blue-50 text-blue-700 text-sm font-semibold px-4 py-2 rounded-lg w-full">
+                        Enable Reminders
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="recommendationCard3" class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+            <div class="flex items-start space-x-3">
+                <div class="bg-purple-100 rounded-full p-3">
+                    <i class="fa-solid fa-dumbbell text-purple-600 text-xl"></i>
+                </div>
+                <div class="flex-1">
+                    <h3 class="font-semibold text-gray-900 mb-1">Gentle Exercise Routine</h3>
+                    <p class="text-sm text-gray-600 mb-3">Light activity on low-pain days may help reduce overall pain levels. Start with 10-minute walks.</p>
+                    <div class="flex items-center space-x-2">
+                        <div class="flex-1 bg-gray-200 rounded-full h-1.5">
+                            <div class="bg-purple-500 h-1.5 rounded-full" style="width: 55%"></div>
+                        </div>
+                        <span class="text-xs font-semibold text-gray-500">55% Impact</span>
+                    </div>
+                    <button class="mt-3 bg-purple-50 text-purple-700 text-sm font-semibold px-4 py-2 rounded-lg w-full">
+                        View Exercise Plan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="weeklyTrends" class="px-4 py-5">
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-bold text-gray-900">Weekly Trends</h2>
+            <button class="text-sm text-primary font-semibold">Details</button>
+        </div>
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+            <div id="trendChart" style="height: 240px;"></div>
+        </div>
+    </section>
+
+    <section id="quickActions" class="px-4 py-5 bg-white">
+        <h2 class="text-lg font-bold text-gray-900 mb-4">Quick Actions</h2>
+        <div class="grid grid-cols-2 gap-3">
+            <button class="bg-gradient-to-br from-indigo-50 to-purple-50 border border-indigo-100 rounded-xl p-4 text-left">
+                <div class="bg-white rounded-full w-10 h-10 flex items-center justify-center mb-2">
+                    <i class="fa-solid fa-download text-primary text-lg"></i>
+                </div>
+                <div class="font-semibold text-gray-900 text-sm">Export Report</div>
+                <div class="text-xs text-gray-500 mt-1">PDF or CSV</div>
+            </button>
+            <button class="bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-100 rounded-xl p-4 text-left">
+                <div class="bg-white rounded-full w-10 h-10 flex items-center justify-center mb-2">
+                    <i class="fa-solid fa-share-nodes text-emerald-600 text-lg"></i>
+                </div>
+                <div class="font-semibold text-gray-900 text-sm">Share with Doctor</div>
+                <div class="text-xs text-gray-500 mt-1">Send insights</div>
+            </button>
+            <button class="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-100 rounded-xl p-4 text-left">
+                <div class="bg-white rounded-full w-10 h-10 flex items-center justify-center mb-2">
+                    <i class="fa-solid fa-bell text-amber-600 text-lg"></i>
+                </div>
+                <div class="font-semibold text-gray-900 text-sm">Alert Settings</div>
+                <div class="text-xs text-gray-500 mt-1">Customize</div>
+            </button>
+            <button class="bg-gradient-to-br from-rose-50 to-pink-50 border border-rose-100 rounded-xl p-4 text-left">
+                <div class="bg-white rounded-full w-10 h-10 flex items-center justify-center mb-2">
+                    <i class="fa-solid fa-lightbulb text-rose-600 text-lg"></i>
+                </div>
+                <div class="font-semibold text-gray-900 text-sm">Get Tips</div>
+                <div class="text-xs text-gray-500 mt-1">Health advice</div>
+            </button>
+        </div>
+    </section>
+
+</main>
+
+<nav id="bottomNav" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-40">
+    <div class="flex items-center justify-around px-2 py-2">
+        <a href="dashboard.html" class="flex flex-col items-center justify-center p-2 text-gray-400 w-16">
+            <i class="fa-solid fa-home text-xl mb-1"></i>
+            <span class="text-xs">Home</span>
+        </a>
+        <a href="health-log.html" class="flex flex-col items-center justify-center p-2 text-gray-400 w-16">
+            <i class="fa-solid fa-chart-line text-xl mb-1"></i>
+            <span class="text-xs">Health Log</span>
+        </a>
+        <a href="community.html" class="flex flex-col items-center justify-center p-2 text-gray-400 w-16">
+            <i class="fa-solid fa-users text-xl mb-1"></i>
+            <span class="text-xs">Community</span>
+        </a>
+        <a href="profile.html" class="flex flex-col items-center justify-center p-2 text-gray-400 w-16">
+            <i class="fa-solid fa-user text-xl mb-1"></i>
+            <span class="text-xs">Profile</span>
+        </a>
+    </div>
+</nav>
+
+<script>
+    const menuBtn = document.getElementById('menuBtn');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarContent = document.getElementById('sidebarContent');
+    const closeBtn = document.getElementById('closeBtn');
+
+    menuBtn.addEventListener('click', function() {
+        sidebar.classList.remove('hidden');
+        setTimeout(() => {
+            sidebarContent.classList.remove('-translate-x-full');
+        }, 10);
+    });
+
+    closeBtn.addEventListener('click', function() {
+        sidebarContent.classList.add('-translate-x-full');
+        setTimeout(() => {
+            sidebar.classList.add('hidden');
+        }, 300);
+    });
+
+    sidebar.addEventListener('click', function(e) {
+        if (e.target === sidebar) {
+            sidebarContent.classList.add('-translate-x-full');
+            setTimeout(() => {
+                sidebar.classList.add('hidden');
+            }, 300);
+        }
+    });
+
+    const learnMore1Btn = document.getElementById('learnMore1Btn');
+    const learnMore1Content = document.getElementById('learnMore1Content');
+    const learnMore2Btn = document.getElementById('learnMore2Btn');
+    const learnMore2Content = document.getElementById('learnMore2Content');
+
+    learnMore1Btn.addEventListener('click', function() {
+        learnMore1Content.classList.toggle('hidden');
+        const icon = learnMore1Btn.querySelector('i');
+        if (learnMore1Content.classList.contains('hidden')) {
+            icon.classList.remove('fa-chevron-up');
+            icon.classList.add('fa-chevron-down');
+        } else {
+            icon.classList.remove('fa-chevron-down');
+            icon.classList.add('fa-chevron-up');
+        }
+    });
+
+    learnMore2Btn.addEventListener('click', function() {
+        learnMore2Content.classList.toggle('hidden');
+        const icon = learnMore2Btn.querySelector('i');
+        if (learnMore2Content.classList.contains('hidden')) {
+            icon.classList.remove('fa-chevron-up');
+            icon.classList.add('fa-chevron-down');
+        } else {
+            icon.classList.remove('fa-chevron-down');
+            icon.classList.add('fa-chevron-up');
+        }
+    });
+
+    window.addEventListener('load', function() {
+        try {
+            var trace1 = {
+                type: 'scatter',
+                mode: 'lines',
+                name: 'Pain Level',
+                x: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                y: [2.5, 3.0, 2.8, 2.5, 3.2, 4.8, 4.2],
+                line: {
+                    color: '#f59e0b',
+                    width: 3
+                }
+            };
+
+            var trace2 = {
+                type: 'scatter',
+                mode: 'lines',
+                name: 'Hydration (L)',
+                x: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                y: [1.2, 2.3, 2.5, 2.4, 2.6, 2.2, 2.0],
+                line: {
+                    color: '#3b82f6',
+                    width: 3
+                },
+                yaxis: 'y2'
+            };
+
+            var data = [trace1, trace2];
+
+            var layout = {
+                showlegend: true,
+                legend: {
+                    orientation: 'h',
+                    x: 0,
+                    y: 1.15,
+                    font: { size: 11 }
+                },
+                margin: { t: 20, r: 50, b: 40, l: 40 },
+                plot_bgcolor: '#ffffff',
+                paper_bgcolor: '#ffffff',
+                xaxis: {
+                    showgrid: false
+                },
+                yaxis: {
+                    title: 'Pain (0-10)',
+                    titlefont: { size: 11 },
+                    range: [0, 6],
+                    showgrid: true,
+                    gridcolor: '#f3f4f6'
+                },
+                yaxis2: {
+                    title: 'Hydration (L)',
+                    titlefont: { size: 11 },
+                    overlaying: 'y',
+                    side: 'right',
+                    range: [0, 3],
+                    showgrid: false
+                }
+            };
+
+            var config = {
+                responsive: true,
+                displayModeBar: false,
+                displaylogo: false
+            };
+
+            Plotly.newPlot('trendChart', data, layout, config);
+        } catch(e) {
+            document.getElementById('trendChart').innerHTML = '<div class="flex items-center justify-center h-full text-gray-400 text-sm">Chart unavailable</div>';
+        }
+    });
+</script>
+
+</body>
+</html>

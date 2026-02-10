@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hydration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        ::-webkit-scrollbar { display: none; }
+        body { animation: pageEnter 0.3s ease-out; }
+        @keyframes pageEnter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563EB',
+                        success: '#10B981',
+                        warning: '#F59E0B',
+                        danger: '#DC2626',
+                        neutral: {
+                            50: '#FFFFFF',
+                            100: '#F9FAFB',
+                            200: '#E5E7EB',
+                            700: '#6B7280',
+                            900: '#111827'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-neutral-100 font-sans antialiased">
+    <div id="hydration-screen" class="w-full min-h-[840px] flex flex-col pb-20">
+        
+        <header id="header" class="px-5 pt-5 pb-4 bg-white border-b border-neutral-200">
+            <div class="flex items-center justify-between">
+                <button id="back-btn" class="w-11 h-11 bg-neutral-100 rounded-xl flex items-center justify-center active:scale-95 transition-transform duration-200">
+                    <i class="fa-solid fa-arrow-left text-neutral-900 text-lg"></i>
+                </button>
+                <h1 class="text-base font-bold text-neutral-900">Hydration Today</h1>
+                <div class="w-11"></div>
+            </div>
+        </header>
+
+        <main id="main-content" class="flex-1 overflow-y-auto px-5 py-6">
+            
+            <div id="hydration-header" class="mb-8">
+                <h2 class="text-2xl font-bold text-neutral-900 mb-2 text-center">Track Your Water</h2>
+                <p class="text-sm text-neutral-700 text-center">Staying hydrated helps prevent pain crises</p>
+            </div>
+
+            <div id="goal-indicator" class="bg-gradient-to-br from-primary to-blue-600 rounded-2xl p-6 mb-8 shadow-lg">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <p class="text-white/80 text-xs font-medium mb-1">Today's Progress</p>
+                        <p class="text-white text-3xl font-bold">6 <span class="text-xl font-semibold">of 8</span></p>
+                        <p class="text-white/90 text-sm font-medium mt-1">glasses</p>
+                    </div>
+                    <div class="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                        <i class="fa-solid fa-droplet text-white text-3xl"></i>
+                    </div>
+                </div>
+                <div class="w-full bg-white/20 rounded-full h-3 overflow-hidden">
+                    <div id="progress-bar" class="bg-white h-full rounded-full transition-all duration-500" style="width: 75%"></div>
+                </div>
+                <p class="text-white/90 text-xs text-center mt-3 font-medium">75% Complete - Keep going!</p>
+            </div>
+
+            <div id="water-glasses-section" class="mb-6">
+                <h3 class="text-lg font-bold text-neutral-900 mb-4">Tap glasses to fill</h3>
+                
+                <div id="glasses-grid" class="grid grid-cols-4 gap-4">
+                    <button class="glass-btn w-full aspect-square bg-white rounded-2xl border-2 border-primary flex flex-col items-center justify-center active:scale-95 transition-all duration-200 shadow-sm" data-glass="1" data-filled="true">
+                        <i class="fa-solid fa-wine-glass text-4xl text-primary mb-1"></i>
+                        <span class="text-[10px] font-semibold text-primary">Glass 1</span>
+                    </button>
+
+                    <button class="glass-btn w-full aspect-square bg-white rounded-2xl border-2 border-primary flex flex-col items-center justify-center active:scale-95 transition-all duration-200 shadow-sm" data-glass="2" data-filled="true">
+                        <i class="fa-solid fa-wine-glass text-4xl text-primary mb-1"></i>
+                        <span class="text-[10px] font-semibold text-primary">Glass 2</span>
+                    </button>
+
+                    <button class="glass-btn w-full aspect-square bg-white rounded-2xl border-2 border-primary flex flex-col items-center justify-center active:scale-95 transition-all duration-200 shadow-sm" data-glass="3" data-filled="true">
+                        <i class="fa-solid fa-wine-glass text-4xl text-primary mb-1"></i>
+                        <span class="text-[10px] font-semibold text-primary">Glass 3</span>
+                    </button>
+
+                    <button class="glass-btn w-full aspect-square bg-white rounded-2xl border-2 border-primary flex flex-col items-center justify-center active:scale-95 transition-all duration-200 shadow-sm" data-glass="4" data-filled="true">
+                        <i class="fa-solid fa-wine-glass text-4xl text-primary mb-1"></i>
+                        <span class="text-[10px] font-semibold text-primary">Glass 4</span>
+                    </button>
+
+                    <button class="glass-btn w-full aspect-square bg-white rounded-2xl border-2 border-primary flex flex-col items-center justify-center active:scale-95 transition-all duration-200 shadow-sm" data-glass="5" data-filled="true">
+                        <i class="fa-solid fa-wine-glass text-4xl text-primary mb-1"></i>
+                        <span class="text-[10px] font-semibold text-primary">Glass 5</span>
+                    </button>
+
+                    <button class="glass-btn w-full aspect-square bg-white rounded-2xl border-2 border-primary flex flex-col items-center justify-center active:scale-95 transition-all duration-200 shadow-sm" data-glass="6" data-filled="true">
+                        <i class="fa-solid fa-wine-glass text-4xl text-primary mb-1"></i>
+                        <span class="text-[10px] font-semibold text-primary">Glass 6</span>
+                    </button>
+
+                    <button class="glass-btn w-full aspect-square bg-white rounded-2xl border-2 border-neutral-200 flex flex-col items-center justify-center active:scale-95 transition-all duration-200" data-glass="7" data-filled="false">
+                        <i class="fa-regular fa-wine-glass text-4xl text-neutral-300 mb-1"></i>
+                        <span class="text-[10px] font-semibold text-neutral-400">Glass 7</span>
+                    </button>
+
+                    <button class="glass-btn w-full aspect-square bg-white rounded-2xl border-2 border-neutral-200 flex flex-col items-center justify-center active:scale-95 transition-all duration-200" data-glass="8" data-filled="false">
+                        <i class="fa-regular fa-wine-glass text-4xl text-neutral-300 mb-1"></i>
+                        <span class="text-[10px] font-semibold text-neutral-400">Glass 8</span>
+                    </button>
+                </div>
+            </div>
+
+            <div id="quick-add-section" class="mb-6">
+                <button id="add-glass-btn" class="w-full h-[60px] bg-success text-white text-lg font-bold rounded-2xl flex items-center justify-center gap-3 active:scale-[0.98] transition-all duration-200 shadow-lg">
+                    <i class="fa-solid fa-plus text-xl"></i>
+                    Add 1 Glass
+                </button>
+            </div>
+
+            <div id="hydration-tips" class="bg-white rounded-2xl p-5 border border-neutral-200">
+                <div class="flex items-start gap-3">
+                    <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-lightbulb text-primary text-lg"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold text-neutral-900 mb-2">Hydration Tips</p>
+                        <ul class="space-y-2">
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-check text-success text-xs mt-0.5"></i>
+                                <span class="text-xs text-neutral-700 leading-relaxed">Drink water before you feel thirsty</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-check text-success text-xs mt-0.5"></i>
+                                <span class="text-xs text-neutral-700 leading-relaxed">Carry a water bottle with you</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-check text-success text-xs mt-0.5"></i>
+                                <span class="text-xs text-neutral-700 leading-relaxed">Increase intake during hot weather</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <div id="bottom-action-bar" class="fixed bottom-0 left-0 right-0 bg-white border-t border-neutral-200 px-5 py-4 z-50">
+            <button id="next-btn" class="w-full h-[52px] bg-primary text-white text-base font-semibold rounded-xl flex items-center justify-center gap-2 active:scale-[0.98] transition-all duration-200 shadow-lg">
+                Next
+                <i class="fa-solid fa-arrow-right text-sm"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const glassButtons = document.querySelectorAll('.glass-btn');
+        const addGlassBtn = document.getElementById('add-glass-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const backBtn = document.getElementById('back-btn');
+        const progressBar = document.getElementById('progress-bar');
+        const goalIndicator = document.getElementById('goal-indicator');
+
+        let filledCount = 6;
+        const totalGlasses = 8;
+
+        function updateProgress() {
+            const percentage = (filledCount / totalGlasses) * 100;
+            progressBar.style.width = percentage + '%';
+            
+            const progressText = goalIndicator.querySelector('.text-3xl');
+            progressText.innerHTML = `${filledCount} <span class="text-xl font-semibold">of ${totalGlasses}</span>`;
+            
+            const percentageText = goalIndicator.querySelector('.text-xs.text-center');
+            percentageText.textContent = `${Math.round(percentage)}% Complete${filledCount >= totalGlasses ? ' - Goal reached! 🎉' : ' - Keep going!'}`;
+        }
+
+        glassButtons.forEach((btn, index) => {
+            btn.addEventListener('click', function() {
+                const isFilled = this.dataset.filled === 'true';
+                const icon = this.querySelector('i');
+                const label = this.querySelector('span');
+
+                if (isFilled) {
+                    this.dataset.filled = 'false';
+                    icon.classList.remove('fa-solid', 'text-primary');
+                    icon.classList.add('fa-regular', 'text-neutral-300');
+                    label.classList.remove('text-primary');
+                    label.classList.add('text-neutral-400');
+                    this.classList.remove('border-primary', 'shadow-sm');
+                    this.classList.add('border-neutral-200');
+                    filledCount--;
+                } else {
+                    this.dataset.filled = 'true';
+                    icon.classList.remove('fa-regular', 'text-neutral-300');
+                    icon.classList.add('fa-solid', 'text-primary');
+                    label.classList.remove('text-neutral-400');
+                    label.classList.add('text-primary');
+                    this.classList.remove('border-neutral-200');
+                    this.classList.add('border-primary', 'shadow-sm');
+                    filledCount++;
+                }
+
+                updateProgress();
+            });
+        });
+
+        addGlassBtn.addEventListener('click', function() {
+            const unfilledGlass = Array.from(glassButtons).find(btn => btn.dataset.filled === 'false');
+            
+            if (unfilledGlass) {
+                unfilledGlass.click();
+                
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 100);
+            } else {
+                this.textContent = 'Goal Reached! 🎉';
+                this.classList.remove('bg-success');
+                this.classList.add('bg-neutral-300');
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fa-solid fa-plus text-xl"></i> Add 1 Glass';
+                    this.classList.remove('bg-neutral-300');
+                    this.classList.add('bg-success');
+                }, 2000);
+            }
+        });
+
+        nextBtn.addEventListener('click', function() {
+            this.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+                window.location.href = 'check-in.html';
+            }, 100);
+        });
+
+        backBtn.addEventListener('click', function() {
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+                window.location.href = 'mood-energy.html';
+            }, 100);
+        });
+    </script>
+</body>
+</html>

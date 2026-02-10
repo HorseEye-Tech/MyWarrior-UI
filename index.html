@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'warrior-dark': '#0a0e27',
+                        'warrior-blue': '#1e3a8a',
+                        'warrior-teal': '#06b6d4',
+                        'warrior-accent': '#3b82f6',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
+        ::-webkit-scrollbar { display: none; }
+        body { overflow-x: hidden; animation: pageEnter 0.3s ease-out; }
+        @keyframes pageEnter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        @keyframes glitchText {
+            0%, 100% { transform: translate(0); opacity: 1; }
+            20% { transform: translate(-2px, 2px); opacity: 0.8; }
+            40% { transform: translate(2px, -2px); opacity: 0.9; }
+            60% { transform: translate(-1px, -1px); opacity: 0.85; }
+            80% { transform: translate(1px, 1px); opacity: 0.95; }
+        }
+        
+        @keyframes scaleIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.4), 0 0 40px rgba(59, 130, 246, 0.2); }
+            50% { box-shadow: 0 0 30px rgba(59, 130, 246, 0.6), 0 0 60px rgba(59, 130, 246, 0.3); }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .glitch-text {
+            animation: glitchText 0.8s ease-in-out;
+        }
+        
+        .scale-in {
+            animation: scaleIn 1s ease-out;
+        }
+        
+        .pulse-glow {
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+        
+        .slide-up {
+            animation: slideUp 0.6s ease-out forwards;
+        }
+        
+        .fade-in {
+            animation: fadeIn 1s ease-in forwards;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #0a0e27 0%, #1e3a8a 50%, #06b6d4 100%);
+        }
+        
+        .neumorphic {
+            background: linear-gradient(145deg, #1e3a8a, #172e6e);
+            box-shadow: 8px 8px 16px #0a1744, -8px -8px 16px #2a5dd0;
+        }
+        
+        .btn-interactive {
+            transition: all 0.3s ease;
+        }
+        
+        .btn-interactive:hover {
+            transform: scale(1.05);
+        }
+        
+        .btn-interactive:active {
+            transform: scale(0.98);
+        }
+        
+        .btn-interactive:focus {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body class="bg-warrior-dark text-white font-sans">
+
+<div id="splash-screen" class="fixed inset-0 z-50 gradient-bg flex flex-col items-center justify-center">
+    <div class="relative">
+        <div class="neumorphic w-32 h-32 rounded-3xl flex items-center justify-center scale-in pulse-glow">
+            <i class="fa-solid fa-shield-heart text-6xl text-warrior-teal"></i>
+        </div>
+    </div>
+    
+    <h1 class="text-5xl font-black mt-8 glitch-text tracking-tight">MyWarrior</h1>
+    <p class="text-warrior-teal text-sm mt-3 font-light tracking-wider fade-in" style="animation-delay: 0.5s; opacity: 0;">Your Health, Your Strength</p>
+    
+    <div class="mt-12 flex space-x-2">
+        <div class="w-2 h-2 bg-warrior-teal rounded-full" style="animation: pulseGlow 1s ease-in-out infinite;"></div>
+        <div class="w-2 h-2 bg-warrior-teal rounded-full" style="animation: pulseGlow 1s ease-in-out infinite 0.2s;"></div>
+        <div class="w-2 h-2 bg-warrior-teal rounded-full" style="animation: pulseGlow 1s ease-in-out infinite 0.4s;"></div>
+    </div>
+</div>
+
+<div id="welcome-screen" class="min-h-[840px] opacity-0 transition-opacity duration-1000">
+    <div id="header" class="px-6 pt-8 pb-4">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-warrior-blue to-warrior-teal rounded-xl flex items-center justify-center">
+                    <i class="fa-solid fa-shield-heart text-white text-lg"></i>
+                </div>
+                <span class="text-xl font-bold">MyWarrior</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="hero-section" class="px-6 pt-6 pb-8">
+        <h1 class="text-4xl font-black leading-tight mb-4">
+            Take Control of<br/>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-warrior-teal to-warrior-accent">Your Health Journey</span>
+        </h1>
+        <p class="text-gray-400 text-base leading-relaxed">
+            Empower yourself with cutting-edge health tracking, personalized insights, and 24/7 crisis support at your fingertips.
+        </p>
+    </div>
+
+    <div id="benefits-section" class="px-6 pb-8">
+        <h2 class="text-lg font-bold mb-6 text-gray-300">Why Choose MyWarrior?</h2>
+        
+        <div class="space-y-4">
+            <div class="benefit-card bg-gradient-to-r from-green-500/10 to-transparent border border-green-500/20 rounded-2xl p-4 flex items-start space-x-4">
+                <div class="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <i class="fa-solid fa-heart-pulse text-green-400 text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white mb-1">Real-Time Health Tracking</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">Monitor vitals, symptoms, and wellness metrics with intelligent AI-powered analysis</p>
+                </div>
+            </div>
+
+            <div class="benefit-card bg-gradient-to-r from-blue-500/10 to-transparent border border-blue-500/20 rounded-2xl p-4 flex items-start space-x-4">
+                <div class="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <i class="fa-solid fa-brain text-blue-400 text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white mb-1">Personalized Insights</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">Get tailored recommendations based on your unique health profile and goals</p>
+                </div>
+            </div>
+
+            <div class="benefit-card bg-gradient-to-r from-amber-500/10 to-transparent border border-amber-500/20 rounded-2xl p-4 flex items-start space-x-4">
+                <div class="w-12 h-12 bg-amber-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <i class="fa-solid fa-clock text-amber-400 text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white mb-1">24/7 Crisis Support</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">Instant access to emergency resources and professional health support anytime</p>
+                </div>
+            </div>
+
+            <div class="benefit-card bg-gradient-to-r from-red-500/10 to-transparent border border-red-500/20 rounded-2xl p-4 flex items-start space-x-4">
+                <div class="w-12 h-12 bg-red-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <i class="fa-solid fa-shield-halved text-red-400 text-xl"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white mb-1">Secure & Private</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">Military-grade encryption ensures your health data stays completely confidential</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="trust-badge-section" class="px-6 pb-8">
+        <div class="bg-warrior-blue/30 border border-warrior-accent/30 rounded-2xl p-4 backdrop-blur-sm">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-warrior-accent/20 rounded-lg flex items-center justify-center">
+                    <i class="fa-solid fa-lock text-warrior-teal text-lg"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-sm text-white">Your Privacy is Protected</h4>
+                    <p class="text-xs text-gray-400 mt-0.5">HIPAA compliant • End-to-end encrypted</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="cta-section" class="px-6 pb-8">
+        <button onclick="window.location.href='role-select.html'" class="btn-interactive w-full h-14 bg-gradient-to-r from-warrior-accent to-warrior-teal rounded-xl font-bold text-white text-lg shadow-lg mb-4">
+            Get Started
+        </button>
+
+        <button onclick="window.location.href='login.html'" class="btn-interactive w-full h-14 bg-transparent border-2 border-warrior-accent/50 rounded-xl font-semibold text-warrior-accent">
+            I already have an account
+        </button>
+    </div>
+
+    <div id="footer" class="px-6 pb-8">
+        <div class="flex items-center justify-center space-x-6 text-xs text-gray-500">
+            <a href="#" class="hover:text-warrior-teal transition-colors">Privacy Policy</a>
+            <span>•</span>
+            <a href="#" class="hover:text-warrior-teal transition-colors">Terms of Service</a>
+            <span>•</span>
+            <a href="#" class="hover:text-warrior-teal transition-colors">Support</a>
+        </div>
+        <p class="text-center text-xs text-gray-600 mt-4">© 2024 MyWarrior. All rights reserved.</p>
+    </div>
+</div>
+
+<script>
+    window.addEventListener('load', function() {
+        const splashScreen = document.getElementById('splash-screen');
+        const welcomeScreen = document.getElementById('welcome-screen');
+        
+        setTimeout(() => {
+            splashScreen.style.opacity = '0';
+            splashScreen.style.transition = 'opacity 0.8s ease-out';
+            
+            setTimeout(() => {
+                splashScreen.style.display = 'none';
+                welcomeScreen.style.opacity = '1';
+                
+                const benefitCards = document.querySelectorAll('.benefit-card');
+                benefitCards.forEach((card, index) => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        card.style.transition = 'all 0.5s ease-out';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, index * 100);
+                });
+            }, 800);
+        }, 3000);
+        
+        const buttons = document.querySelectorAll('.btn-interactive');
+        buttons.forEach(button => {
+            button.addEventListener('mousedown', function() {
+                this.style.transform = 'scale(0.98)';
+            });
+            
+            button.addEventListener('mouseup', function() {
+                this.style.transform = 'scale(1.05)';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

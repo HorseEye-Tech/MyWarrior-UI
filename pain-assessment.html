@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pain Assessment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        ::-webkit-scrollbar { display: none; }
+        body { animation: pageEnter 0.3s ease-out; }
+        @keyframes pageEnter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563EB',
+                        success: '#10B981',
+                        warning: '#F59E0B',
+                        danger: '#DC2626',
+                        neutral: {
+                            50: '#FFFFFF',
+                            100: '#F9FAFB',
+                            200: '#E5E7EB',
+                            700: '#6B7280',
+                            900: '#111827'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-neutral-100 font-sans antialiased">
+    <div id="pain-assessment-screen" class="w-full min-h-[840px] flex flex-col pb-20">
+        
+        <header id="header" class="px-5 pt-5 pb-4 bg-white border-b border-neutral-200">
+            <div class="flex items-center justify-between">
+                <button id="back-btn" class="w-11 h-11 bg-neutral-100 rounded-xl flex items-center justify-center active:scale-95 transition-transform duration-200">
+                    <i class="fa-solid fa-arrow-left text-neutral-900 text-lg"></i>
+                </button>
+                <h1 class="text-base font-bold text-neutral-900">Pain Assessment</h1>
+                <div class="w-11"></div>
+            </div>
+        </header>
+
+        <main id="main-content" class="flex-1 overflow-y-auto px-5 py-6">
+            
+            <div id="pain-level-section" class="mb-8">
+                <h2 class="text-2xl font-bold text-neutral-900 mb-2 text-center">Pain Level Today</h2>
+                <p class="text-sm text-neutral-700 text-center mb-8">Move the slider to indicate your current pain level</p>
+
+                <div id="pain-slider-container" class="bg-white rounded-2xl p-6 border-2 border-neutral-200 mb-6">
+                    <div class="flex items-center justify-center mb-6">
+                        <div id="pain-display" class="w-24 h-24 rounded-full flex flex-col items-center justify-center border-4 transition-all duration-300" style="border-color: #10B981; background: linear-gradient(135deg, #10B981 0%, #059669 100%);">
+                            <span id="pain-value-display" class="text-4xl font-bold text-white">0</span>
+                            <span class="text-xs font-medium text-white/90 mt-1">No Pain</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <input 
+                            type="range" 
+                            id="pain-slider" 
+                            min="0" 
+                            max="10" 
+                            value="0" 
+                            step="1"
+                            class="w-full h-4 appearance-none cursor-pointer rounded-full"
+                            style="background: linear-gradient(to right, #10B981 0%, #10B981 0%, #E5E7EB 0%, #E5E7EB 100%);"
+                        >
+                    </div>
+
+                    <div class="flex items-center justify-between px-2">
+                        <div class="flex flex-col items-start">
+                            <span class="text-xs font-bold text-success mb-0.5">0</span>
+                            <span class="text-[10px] text-neutral-700">None</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <span class="text-xs font-bold text-warning mb-0.5">5</span>
+                            <span class="text-[10px] text-neutral-700">Moderate</span>
+                        </div>
+                        <div class="flex flex-col items-end">
+                            <span class="text-xs font-bold text-danger mb-0.5">10</span>
+                            <span class="text-[10px] text-neutral-700">Unbearable</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="pain-description-indicators" class="grid grid-cols-4 gap-2 mb-2">
+                    <div class="text-center">
+                        <div class="w-full h-2 bg-success rounded-full mb-1"></div>
+                        <p class="text-[10px] font-medium text-neutral-700">0-2</p>
+                        <p class="text-[9px] text-neutral-700">Minimal</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-full h-2 bg-yellow-400 rounded-full mb-1"></div>
+                        <p class="text-[10px] font-medium text-neutral-700">3-5</p>
+                        <p class="text-[9px] text-neutral-700">Moderate</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-full h-2 bg-orange-500 rounded-full mb-1"></div>
+                        <p class="text-[10px] font-medium text-neutral-700">6-8</p>
+                        <p class="text-[9px] text-neutral-700">Severe</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-full h-2 bg-danger rounded-full mb-1"></div>
+                        <p class="text-[10px] font-medium text-neutral-700">9-10</p>
+                        <p class="text-[9px] text-neutral-700">Extreme</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="body-diagram-section" class="mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h3 class="text-base font-bold text-neutral-900">Where Does It Hurt?</h3>
+                        <p class="text-xs text-neutral-700 mt-0.5">Tap on the body to mark pain locations (optional)</p>
+                    </div>
+                    <button id="skip-body-btn" class="text-xs font-semibold text-primary">Skip</button>
+                </div>
+
+                <div id="body-diagram-container" class="bg-white rounded-2xl p-6 border-2 border-neutral-200">
+                    <div class="flex items-center justify-center gap-4">
+                        <div id="body-front" class="relative">
+                            <svg width="120" height="280" viewBox="0 0 120 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <ellipse cx="60" cy="30" rx="22" ry="28" fill="#E5E7EB" stroke="#6B7280" stroke-width="2" class="body-part" data-part="head"/>
+                                <rect x="40" y="58" width="40" height="50" rx="8" fill="#E5E7EB" stroke="#6B7280" stroke-width="2" class="body-part" data-part="chest"/>
+                                <rect x="38" y="108" width="44" height="45" rx="8" fill="#E5E7EB" stroke="#6B7280" stroke-width="2" class="body-part" data-part="abdomen"/>
+                                <rect x="15" y="58" width="25" height="60" rx="8" fill="#E5E7EB" stroke="#6B7280" stroke-width="2" class="body-part" data-part="left-arm"/>
+                                <rect x="80" y="58" width="25" height="60" rx="8" fill="#E5E7EB" stroke="#6B7280" stroke-width="2" class="body-part" data-part="right-arm"/>
+                                <rect x="42" y="153" width="16" height="80" rx="6" fill="#E5E7EB" stroke="#6B7280" stroke-width="2" class="body-part" data-part="left-leg"/>
+                                <rect x="62" y="153" width="16" height="80" rx="6" fill="#E5E7EB" stroke="#6B7280" stroke-width="2" class="body-part" data-part="right-leg"/>
+                                <ellipse cx="50" cy="245" rx="10" ry="12" fill="#E5E7EB" stroke="#6B7280" stroke-width="2" class="body-part" data-part="left-foot"/>
+                                <ellipse cx="70" cy="245" rx="10" ry="12" fill="#E5E7EB" stroke="#6B7280" stroke-width="2" class="body-part" data-part="right-foot"/>
+                            </svg>
+                            <p class="text-xs font-semibold text-neutral-700 text-center mt-2">Front</p>
+                        </div>
+
+                        <div id="body-back" class="relative">
+                            <svg width="120" height="280" viewBox="0 0 120 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <ellipse cx="60" cy="30" rx="22" ry="28" fill="#E5E7EB" stroke="#6B7280" stroke-width="2" class="body-part" data-part="head-back"/>
+                                <rect x="40" y="58" width="40" height="50" rx="8" fill="#E5E7EB" stroke="#6B7280" stroke-width="2" class="body-part" data-part="back-upper"/>
+                                <rect x="38" y="108" width="44" height="45" rx="8" fill="#E5E7EB" stroke="#6B7280" stroke-width="2" class="body-part" data-part="back-lower"/>
+                                <rect x="15" y="58" width="25" height="60" rx="8" fill="#E5E7EB" stroke="#6B7280" stroke-width="2" class="body-part" data-part="left-arm-back"/>
+                                <rect x="80" y="58" width="25" height="60" rx="8" fill="#E5E7EB" stroke="#6B7280" stroke-width="2" class="body-part" data-part="right-arm-back"/>
+                                <rect x="42" y="153" width="16" height="80" rx="6" fill="#E5E7EB" stroke="#6B7280" stroke-width="2" class="body-part" data-part="left-leg-back"/>
+                                <rect x="62" y="153" width="16" height="80" rx="6" fill="#E5E7EB" stroke="#6B7280" stroke-width="2" class="body-part" data-part="right-leg-back"/>
+                                <ellipse cx="50" cy="245" rx="10" ry="12" fill="#E5E7EB" stroke="#6B7280" stroke-width="2" class="body-part" data-part="left-foot-back"/>
+                                <ellipse cx="70" cy="245" rx="10" ry="12" fill="#E5E7EB" stroke="#6B7280" stroke-width="2" class="body-part" data-part="right-foot-back"/>
+                            </svg>
+                            <p class="text-xs font-semibold text-neutral-700 text-center mt-2">Back</p>
+                        </div>
+                    </div>
+
+                    <div id="selected-parts-display" class="mt-4 pt-4 border-t border-neutral-200 hidden">
+                        <p class="text-xs font-semibold text-neutral-900 mb-2">Pain Locations:</p>
+                        <div id="parts-list" class="flex flex-wrap gap-2"></div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <div id="bottom-action-bar" class="fixed bottom-0 left-0 right-0 bg-white border-t border-neutral-200 px-5 py-4 z-50">
+            <button id="next-btn" class="w-full h-[52px] bg-primary text-white text-base font-semibold rounded-xl flex items-center justify-center gap-2 active:scale-[0.98] transition-all duration-200 shadow-lg">
+                Next
+                <i class="fa-solid fa-arrow-right text-sm"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const painSlider = document.getElementById('pain-slider');
+        const painValueDisplay = document.getElementById('pain-value-display');
+        const painDisplay = document.getElementById('pain-display');
+        const bodyParts = document.querySelectorAll('.body-part');
+        const selectedPartsDisplay = document.getElementById('selected-parts-display');
+        const partsList = document.getElementById('parts-list');
+        const nextBtn = document.getElementById('next-btn');
+        const backBtn = document.getElementById('back-btn');
+        const skipBodyBtn = document.getElementById('skip-body-btn');
+        
+        let selectedParts = [];
+
+        const painLevels = {
+            0: { label: 'No Pain', color: '#10B981', gradient: 'linear-gradient(135deg, #10B981 0%, #059669 100%)' },
+            1: { label: 'Minimal', color: '#10B981', gradient: 'linear-gradient(135deg, #10B981 0%, #059669 100%)' },
+            2: { label: 'Mild', color: '#10B981', gradient: 'linear-gradient(135deg, #10B981 0%, #059669 100%)' },
+            3: { label: 'Moderate', color: '#F59E0B', gradient: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' },
+            4: { label: 'Moderate', color: '#F59E0B', gradient: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' },
+            5: { label: 'Moderate', color: '#F59E0B', gradient: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)' },
+            6: { label: 'Severe', color: '#F97316', gradient: 'linear-gradient(135deg, #F97316 0%, #EA580C 100%)' },
+            7: { label: 'Severe', color: '#F97316', gradient: 'linear-gradient(135deg, #F97316 0%, #EA580C 100%)' },
+            8: { label: 'Very Severe', color: '#F97316', gradient: 'linear-gradient(135deg, #F97316 0%, #EA580C 100%)' },
+            9: { label: 'Extreme', color: '#DC2626', gradient: 'linear-gradient(135deg, #DC2626 0%, #B91C1C 100%)' },
+            10: { label: 'Unbearable', color: '#DC2626', gradient: 'linear-gradient(135deg, #DC2626 0%, #B91C1C 100%)' }
+        };
+
+        painSlider.addEventListener('input', function() {
+            const value = parseInt(this.value);
+            painValueDisplay.textContent = value;
+            
+            const painInfo = painLevels[value];
+            painDisplay.querySelector('span:last-child').textContent = painInfo.label;
+            painDisplay.style.borderColor = painInfo.color;
+            painDisplay.style.background = painInfo.gradient;
+            
+            const percent = (value / 10) * 100;
+            this.style.background = `linear-gradient(to right, ${painInfo.color} 0%, ${painInfo.color} ${percent}%, #E5E7EB ${percent}%, #E5E7EB 100%)`;
+        });
+
+        painSlider.dispatchEvent(new Event('input'));
+
+        bodyParts.forEach(part => {
+            part.addEventListener('click', function() {
+                const partName = this.dataset.part;
+                
+                if (selectedParts.includes(partName)) {
+                    selectedParts = selectedParts.filter(p => p !== partName);
+                    this.style.fill = '#E5E7EB';
+                } else {
+                    selectedParts.push(partName);
+                    this.style.fill = '#DC2626';
+                }
+                
+                updateSelectedPartsDisplay();
+            });
+        });
+
+        function updateSelectedPartsDisplay() {
+            if (selectedParts.length > 0) {
+                selectedPartsDisplay.classList.remove('hidden');
+                partsList.innerHTML = '';
+                
+                selectedParts.forEach(part => {
+                    const partLabel = part.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                    const badge = document.createElement('div');
+                    badge.className = 'flex items-center gap-1.5 bg-danger/10 px-3 py-1.5 rounded-lg';
+                    badge.innerHTML = `
+                        <span class="text-xs font-medium text-danger">${partLabel}</span>
+                        <button class="remove-part-btn w-4 h-4 bg-danger/20 rounded-full flex items-center justify-center" data-part="${part}">
+                            <i class="fa-solid fa-xmark text-danger text-[10px]"></i>
+                        </button>
+                    `;
+                    partsList.appendChild(badge);
+                });
+
+                document.querySelectorAll('.remove-part-btn').forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const partName = this.dataset.part;
+                        selectedParts = selectedParts.filter(p => p !== partName);
+                        document.querySelector(`.body-part[data-part="${partName}"]`).style.fill = '#E5E7EB';
+                        updateSelectedPartsDisplay();
+                    });
+                });
+            } else {
+                selectedPartsDisplay.classList.add('hidden');
+            }
+        }
+
+        skipBodyBtn.addEventListener('click', function() {
+            selectedParts = [];
+            bodyParts.forEach(part => {
+                part.style.fill = '#E5E7EB';
+            });
+            updateSelectedPartsDisplay();
+        });
+
+        nextBtn.addEventListener('click', function() {
+            this.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+                window.location.href = 'mood-energy.html';
+            }, 100);
+        });
+
+        backBtn.addEventListener('click', function() {
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+                window.location.href = 'dashboard.html';
+            }, 100);
+        });
+    </script>
+</body>
+</html>

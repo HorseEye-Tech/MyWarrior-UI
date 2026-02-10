@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hydration Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.plot.ly/plotly-3.1.1.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        ::-webkit-scrollbar { display: none;}
+        body { animation: pageEnter 0.3s ease-out; }
+        @keyframes pageEnter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563EB',
+                        success: '#10B981',
+                        warning: '#F59E0B',
+                        danger: '#DC2626',
+                        neutral: {
+                            50: '#FFFFFF',
+                            100: '#F9FAFB',
+                            200: '#E5E7EB',
+                            700: '#6B7280',
+                            900: '#111827'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-neutral-100 font-sans antialiased">
+    <div id="hydration-tracker-screen" class="w-full min-h-[840px] flex flex-col">
+        
+        <header id="header" class="bg-white border-b border-neutral-200 px-5 py-4 sticky top-0 z-50">
+            <div class="flex items-center justify-between">
+                <button id="back-btn" onclick="window.location.href='dashboard.html'" class="w-10 h-10 flex items-center justify-center rounded-lg active:bg-neutral-100 transition-colors duration-200">
+                    <i class="fa-solid fa-arrow-left text-neutral-900 text-lg"></i>
+                </button>
+                <h1 class="text-lg font-bold text-neutral-900">Hydration Tracker</h1>
+                <button id="settings-btn" class="w-10 h-10 flex items-center justify-center rounded-lg active:bg-neutral-100 transition-colors duration-200">
+                    <i class="fa-solid fa-gear text-neutral-700 text-lg"></i>
+                </button>
+            </div>
+        </header>
+
+        <main id="main-content" class="flex-1 overflow-y-auto pb-32">
+            
+            <div id="today-progress-section" class="px-5 pt-6 pb-5">
+                <div class="bg-white rounded-2xl p-6 border border-neutral-200">
+                    <h2 class="text-base font-bold text-neutral-900 mb-5 text-center">Today's Progress</h2>
+                    
+                    <div class="flex flex-col items-center mb-6">
+                        <div class="relative w-48 h-48">
+                            <svg class="transform -rotate-90 w-48 h-48">
+                                <circle cx="96" cy="96" r="88" stroke="#E5E7EB" stroke-width="12" fill="none"/>
+                                <circle id="progress-circle" cx="96" cy="96" r="88" stroke="#2563EB" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="552.92" stroke-dashoffset="138.23"/>
+                            </svg>
+                            <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                <i class="fa-solid fa-glass-water text-primary text-4xl mb-2"></i>
+                                <div class="text-3xl font-bold text-neutral-900">6<span class="text-xl text-neutral-700">/8</span></div>
+                                <div class="text-xs text-neutral-700 mt-1">glasses</div>
+                            </div>
+                        </div>
+                        <div class="text-sm text-neutral-700 mt-4">75% of daily goal</div>
+                    </div>
+
+                    <button id="edit-goal-btn" class="w-full h-[44px] bg-neutral-100 text-neutral-900 text-sm font-semibold rounded-xl flex items-center justify-center gap-2 active:scale-[0.98] transition-all duration-200">
+                        <i class="fa-solid fa-pen-to-square text-base"></i>
+                        Edit Goal
+                    </button>
+                </div>
+            </div>
+
+            <div id="timeline-section" class="px-5 mb-5">
+                <div class="bg-white rounded-2xl p-5 border border-neutral-200">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-base font-bold text-neutral-900">Today's Timeline</h2>
+                        <span class="text-xs text-neutral-700">Dec 18, 2024</span>
+                    </div>
+
+                    <div class="space-y-3">
+                        
+                        <div id="timeline-item-1" class="flex items-center gap-3">
+                            <div class="flex-shrink-0 w-12 text-xs text-neutral-700 font-medium">7:00 AM</div>
+                            <div class="flex-shrink-0 w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                                <i class="fa-solid fa-glass-water text-white text-sm"></i>
+                            </div>
+                            <div class="flex-1 h-[1px] bg-primary"></div>
+                        </div>
+
+                        <div id="timeline-item-2" class="flex items-center gap-3">
+                            <div class="flex-shrink-0 w-12 text-xs text-neutral-700 font-medium">9:30 AM</div>
+                            <div class="flex-shrink-0 w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                                <i class="fa-solid fa-glass-water text-white text-sm"></i>
+                            </div>
+                            <div class="flex-1 h-[1px] bg-primary"></div>
+                        </div>
+
+                        <div id="timeline-item-3" class="flex items-center gap-3">
+                            <div class="flex-shrink-0 w-12 text-xs text-neutral-700 font-medium">11:15 AM</div>
+                            <div class="flex-shrink-0 w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                                <i class="fa-solid fa-glass-water text-white text-sm"></i>
+                            </div>
+                            <div class="flex-1 h-[1px] bg-primary"></div>
+                        </div>
+
+                        <div id="timeline-item-4" class="flex items-center gap-3">
+                            <div class="flex-shrink-0 w-12 text-xs text-neutral-700 font-medium">1:00 PM</div>
+                            <div class="flex-shrink-0 w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                                <i class="fa-solid fa-glass-water text-white text-sm"></i>
+                            </div>
+                            <div class="flex-1 h-[1px] bg-primary"></div>
+                        </div>
+
+                        <div id="timeline-item-5" class="flex items-center gap-3">
+                            <div class="flex-shrink-0 w-12 text-xs text-neutral-700 font-medium">3:45 PM</div>
+                            <div class="flex-shrink-0 w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                                <i class="fa-solid fa-glass-water text-white text-sm"></i>
+                            </div>
+                            <div class="flex-1 h-[1px] bg-primary"></div>
+                        </div>
+
+                        <div id="timeline-item-6" class="flex items-center gap-3">
+                            <div class="flex-shrink-0 w-12 text-xs text-neutral-700 font-medium">5:20 PM</div>
+                            <div class="flex-shrink-0 w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                                <i class="fa-solid fa-glass-water text-white text-sm"></i>
+                            </div>
+                            <div class="flex-1 h-[1px] bg-primary"></div>
+                        </div>
+
+                        <div id="timeline-item-7" class="flex items-center gap-3">
+                            <div class="flex-shrink-0 w-12 text-xs text-neutral-700 font-medium">7:00 PM</div>
+                            <div class="flex-shrink-0 w-8 h-8 bg-neutral-200 rounded-full flex items-center justify-center">
+                                <i class="fa-solid fa-glass-water text-neutral-700 text-sm"></i>
+                            </div>
+                            <div class="flex-1 h-[1px] bg-neutral-200"></div>
+                        </div>
+
+                        <div id="timeline-item-8" class="flex items-center gap-3">
+                            <div class="flex-shrink-0 w-12 text-xs text-neutral-700 font-medium">9:00 PM</div>
+                            <div class="flex-shrink-0 w-8 h-8 bg-neutral-200 rounded-full flex items-center justify-center">
+                                <i class="fa-solid fa-glass-water text-neutral-700 text-sm"></i>
+                            </div>
+                            <div class="flex-1 h-[1px] bg-neutral-200"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div id="weekly-comparison-section" class="px-5 mb-5">
+                <div class="bg-white rounded-2xl p-5 border border-neutral-200">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-base font-bold text-neutral-900">Weekly Comparison</h2>
+                        <button class="text-xs text-primary font-semibold active:scale-95 transition-transform duration-200">View Details</button>
+                    </div>
+
+                    <div id="weekly-chart" style="height: 200px;"></div>
+
+                    <div class="grid grid-cols-3 gap-4 mt-4 pt-4 border-t border-neutral-200">
+                        <div class="text-center">
+                            <div class="text-lg font-bold text-neutral-900 mb-1">7.2</div>
+                            <div class="text-xs text-neutral-700">Daily Avg</div>
+                        </div>
+                        <div class="text-center border-l border-r border-neutral-200">
+                            <div class="text-lg font-bold text-success mb-1">6</div>
+                            <div class="text-xs text-neutral-700">Goal Days</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-lg font-bold text-primary mb-1">50.4L</div>
+                            <div class="text-xs text-neutral-700">Total Week</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tips-section" class="px-5 mb-6">
+                <div class="bg-primary/5 border border-primary/20 rounded-2xl p-5">
+                    <div class="flex items-start gap-3">
+                        <div class="flex-shrink-0 w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-lightbulb text-white text-lg"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-sm font-bold text-neutral-900 mb-2">Hydration Tip</h3>
+                            <p class="text-xs text-neutral-700 leading-relaxed">Staying hydrated helps prevent sickle cell crises. Aim to drink water throughout the day, especially in hot weather or during physical activity.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <button id="add-glass-fab" class="fixed bottom-24 right-5 w-16 h-16 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center z-40 active:scale-95 transition-all duration-200">
+            <i class="fa-solid fa-plus text-2xl"></i>
+        </button>
+
+        <nav id="bottom-navigation" class="fixed bottom-0 left-0 right-0 bg-white border-t border-neutral-200 px-5 py-3 z-50">
+            <div class="flex items-center justify-around">
+                <button onclick="window.location.href='dashboard.html'" class="nav-item flex flex-col items-center gap-1 active:scale-95 transition-transform duration-200">
+                    <i class="fa-solid fa-house text-neutral-700 text-xl"></i>
+                    <span class="text-xs font-medium text-neutral-700">Home</span>
+                </button>
+                <button onclick="window.location.href='health-log.html'" class="nav-item flex flex-col items-center gap-1 active:scale-95 transition-transform duration-200">
+                    <i class="fa-solid fa-chart-line text-neutral-700 text-xl"></i>
+                    <span class="text-xs font-medium text-neutral-700">Health Log</span>
+                </button>
+                <button onclick="window.location.href='community.html'" class="nav-item flex flex-col items-center gap-1 active:scale-95 transition-transform duration-200">
+                    <i class="fa-solid fa-users text-neutral-700 text-xl"></i>
+                    <span class="text-xs font-medium text-neutral-700">Community</span>
+                </button>
+                <button onclick="window.location.href='profile.html'" class="nav-item flex flex-col items-center gap-1 active:scale-95 transition-transform duration-200">
+                    <i class="fa-solid fa-user text-neutral-700 text-xl"></i>
+                    <span class="text-xs font-medium text-neutral-700">Profile</span>
+                </button>
+            </div>
+        </nav>
+
+    </div>
+
+    <script>
+        window.addEventListener('load', function() {
+            try {
+                const chartData = [{
+                    type: 'bar',
+                    x: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    y: [7, 8, 6, 7, 8, 9, 6],
+                    marker: {
+                        color: ['#10B981', '#2563EB', '#F59E0B', '#10B981', '#2563EB', '#2563EB', '#2563EB'],
+                        line: {
+                            width: 0
+                        }
+                    },
+                    hovertemplate: '%{y} glasses<extra></extra>'
+                }];
+
+                const chartLayout = {
+                    margin: { t: 10, r: 10, b: 30, l: 30 },
+                    xaxis: {
+                        showgrid: false,
+                        showline: false,
+                        zeroline: false
+                    },
+                    yaxis: {
+                        showgrid: true,
+                        gridcolor: '#E5E7EB',
+                        showline: false,
+                        zeroline: false,
+                        range: [0, 10],
+                        dtick: 2
+                    },
+                    plot_bgcolor: '#FFFFFF',
+                    paper_bgcolor: '#FFFFFF',
+                    showlegend: false,
+                    bargap: 0.4
+                };
+
+                const chartConfig = {
+                    responsive: true,
+                    displayModeBar: false,
+                    displaylogo: false
+                };
+
+                Plotly.newPlot('weekly-chart', chartData, chartLayout, chartConfig);
+            } catch(e) {
+                document.getElementById('weekly-chart').innerHTML = '<div class="text-xs text-neutral-700 text-center py-8">Chart unavailable</div>';
+            }
+
+            const addGlassFab = document.getElementById('add-glass-fab');
+            const progressCircle = document.getElementById('progress-circle');
+            let currentGlasses = 6;
+            const goalGlasses = 8;
+
+            addGlassFab.addEventListener('click', function() {
+                if (currentGlasses < goalGlasses) {
+                    currentGlasses++;
+                    updateProgress();
+                    
+                    this.style.transform = 'scale(1.2)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 200);
+                }
+            });
+
+            function updateProgress() {
+                const percentage = (currentGlasses / goalGlasses) * 100;
+                const circumference = 552.92;
+                const offset = circumference - (circumference * percentage / 100);
+                progressCircle.style.strokeDashoffset = offset;
+                
+                const progressText = document.querySelector('.text-3xl.font-bold');
+                if (progressText) {
+                    progressText.innerHTML = currentGlasses + '<span class="text-xl text-neutral-700">/' + goalGlasses + '</span>';
+                }
+                
+                const percentageText = document.querySelector('.text-sm.text-neutral-700.mt-4');
+                if (percentageText) {
+                    percentageText.textContent = Math.round(percentage) + '% of daily goal';
+                }
+            }
+
+            const editGoalBtn = document.getElementById('edit-goal-btn');
+            editGoalBtn.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 150);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Setup</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        ::-webkit-scrollbar { display: none; }
+        body { animation: pageEnter 0.3s ease-out; }
+        @keyframes pageEnter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563EB',
+                        success: '#10B981',
+                        warning: '#F59E0B',
+                        danger: '#DC2626',
+                        neutral: {
+                            50: '#FFFFFF',
+                            100: '#F9FAFB',
+                            200: '#E5E7EB',
+                            700: '#6B7280',
+                            900: '#111827'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-neutral-50 font-sans antialiased">
+    <div id="profile-setup-screen" class="w-full min-h-[840px] flex flex-col">
+        
+        <header id="header" class="px-5 pt-4 pb-3 bg-white border-b border-neutral-200">
+            <div class="flex items-center justify-between">
+                <button id="back-btn" class="w-11 h-11 flex items-center justify-center rounded-full hover:bg-neutral-100 active:scale-95 transition-all duration-200">
+                    <i class="fa-solid fa-arrow-left text-neutral-900 text-lg"></i>
+                </button>
+                <div class="flex-1 text-center">
+                    <h1 class="text-base font-semibold text-neutral-900">Profile Setup</h1>
+                </div>
+                <div class="w-11"></div>
+            </div>
+        </header>
+
+        <div id="progress-indicator" class="px-5 py-4 bg-white border-b border-neutral-200">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-medium text-neutral-700">Step 1 of 2</span>
+                <span class="text-xs font-medium text-primary">50%</span>
+            </div>
+            <div class="w-full h-2 bg-neutral-200 rounded-full overflow-hidden">
+                <div class="h-full bg-primary rounded-full transition-all duration-300" style="width: 50%"></div>
+            </div>
+        </div>
+
+        <main id="main-content" class="flex-1 overflow-y-auto px-5 py-6">
+            
+            <div id="hero-section" class="text-center mb-6">
+                <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                    <i class="fa-solid fa-user-circle text-primary text-3xl"></i>
+                </div>
+                <h2 class="text-xl font-bold text-neutral-900 mb-2">Tell Us About You</h2>
+                <p class="text-sm text-neutral-700 leading-relaxed px-2">This helps us personalize your health journey and keep you safe</p>
+            </div>
+
+            <div id="profile-photo-section" class="mb-6">
+                <div class="flex flex-col items-center">
+                    <div id="photo-placeholder" class="w-24 h-24 bg-neutral-200 rounded-full flex items-center justify-center mb-3 relative overflow-hidden border-2 border-dashed border-neutral-300">
+                        <i class="fa-solid fa-camera text-neutral-700 text-2xl"></i>
+                        <input type="file" id="photo-input" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer">
+                    </div>
+                    <button id="add-photo-btn" class="text-sm text-primary font-medium">Add Photo (Optional)</button>
+                    <p class="text-xs text-neutral-700 mt-1">Helps caregivers identify you</p>
+                </div>
+            </div>
+
+            <form id="profile-form" class="space-y-4">
+                
+                <div id="full-name-field" class="form-group">
+                    <label for="full-name" class="block text-sm font-semibold text-neutral-900 mb-2">
+                        Full Name <span class="text-danger">*</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="full-name" 
+                        name="full-name"
+                        placeholder="Enter your full name"
+                        class="w-full h-[52px] px-4 bg-white border-2 border-neutral-200 rounded-xl text-sm text-neutral-900 placeholder:text-neutral-700 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all duration-200"
+                        required
+                    >
+                    <p id="full-name-error" class="hidden text-xs text-danger mt-1.5 flex items-center gap-1">
+                        <i class="fa-solid fa-circle-exclamation text-xs"></i>
+                        <span>Please enter your full name</span>
+                    </p>
+                </div>
+
+                <div id="dob-field" class="form-group">
+                    <label for="date-of-birth" class="block text-sm font-semibold text-neutral-900 mb-2">
+                        Date of Birth <span class="text-danger">*</span>
+                    </label>
+                    <div class="relative">
+                        <input 
+                            type="date" 
+                            id="date-of-birth" 
+                            name="date-of-birth"
+                            class="w-full h-[52px] px-4 bg-white border-2 border-neutral-200 rounded-xl text-sm text-neutral-900 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all duration-200"
+                            required
+                        >
+                        <i class="fa-solid fa-calendar-days absolute right-4 top-1/2 -translate-y-1/2 text-neutral-700 pointer-events-none"></i>
+                    </div>
+                    <p class="text-xs text-neutral-700 mt-1.5">We use this to personalize your care</p>
+                    <p id="dob-error" class="hidden text-xs text-danger mt-1.5 flex items-center gap-1">
+                        <i class="fa-solid fa-circle-exclamation text-xs"></i>
+                        <span>Please enter your date of birth</span>
+                    </p>
+                </div>
+
+                <div id="blood-type-field" class="form-group">
+                    <label for="blood-type" class="block text-sm font-semibold text-neutral-900 mb-2">
+                        Blood Type <span class="text-danger">*</span>
+                    </label>
+                    <div class="relative">
+                        <select 
+                            id="blood-type" 
+                            name="blood-type"
+                            class="w-full h-[52px] px-4 bg-white border-2 border-neutral-200 rounded-xl text-sm text-neutral-900 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all duration-200 appearance-none"
+                            required
+                        >
+                            <option value="" disabled selected>Select your blood type</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="unknown">I don't know</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-neutral-700 pointer-events-none text-sm"></i>
+                    </div>
+                    <p class="text-xs text-neutral-700 mt-1.5">Critical for emergency care</p>
+                    <p id="blood-type-error" class="hidden text-xs text-danger mt-1.5 flex items-center gap-1">
+                        <i class="fa-solid fa-circle-exclamation text-xs"></i>
+                        <span>Please select your blood type</span>
+                    </p>
+                </div>
+
+                <div id="emergency-contact-section" class="bg-warning/5 rounded-xl p-4 border border-warning/20">
+                    <div class="flex items-start gap-3 mb-4">
+                        <div class="w-10 h-10 bg-warning/10 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-phone text-warning text-lg"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-sm font-semibold text-neutral-900 mb-1">Emergency Contact</h3>
+                            <p class="text-xs text-neutral-700 leading-relaxed">Someone we can reach if you need urgent help</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div id="emergency-name-field" class="form-group">
+                            <label for="emergency-name" class="block text-sm font-semibold text-neutral-900 mb-2">
+                                Contact Name <span class="text-danger">*</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                id="emergency-name" 
+                                name="emergency-name"
+                                placeholder="e.g. Mom, Dad, Spouse"
+                                class="w-full h-[52px] px-4 bg-white border-2 border-neutral-200 rounded-xl text-sm text-neutral-900 placeholder:text-neutral-700 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all duration-200"
+                                required
+                            >
+                            <p id="emergency-name-error" class="hidden text-xs text-danger mt-1.5 flex items-center gap-1">
+                                <i class="fa-solid fa-circle-exclamation text-xs"></i>
+                                <span>Please enter emergency contact name</span>
+                            </p>
+                        </div>
+
+                        <div id="emergency-phone-field" class="form-group">
+                            <label for="emergency-phone" class="block text-sm font-semibold text-neutral-900 mb-2">
+                                Phone Number <span class="text-danger">*</span>
+                            </label>
+                            <input 
+                                type="tel" 
+                                id="emergency-phone" 
+                                name="emergency-phone"
+                                placeholder="+234 800 000 0000"
+                                class="w-full h-[52px] px-4 bg-white border-2 border-neutral-200 rounded-xl text-sm text-neutral-900 placeholder:text-neutral-700 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all duration-200"
+                                required
+                            >
+                            <p id="emergency-phone-error" class="hidden text-xs text-danger mt-1.5 flex items-center gap-1">
+                                <i class="fa-solid fa-circle-exclamation text-xs"></i>
+                                <span>Please enter a valid phone number</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="hospital-field" class="form-group">
+                    <label for="preferred-hospital" class="block text-sm font-semibold text-neutral-900 mb-2">
+                        Preferred Hospital/Clinic <span class="text-neutral-700 text-xs font-normal">(Optional)</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="preferred-hospital" 
+                        name="preferred-hospital"
+                        placeholder="Where do you usually get care?"
+                        class="w-full h-[52px] px-4 bg-white border-2 border-neutral-200 rounded-xl text-sm text-neutral-900 placeholder:text-neutral-700 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all duration-200"
+                    >
+                    <p class="text-xs text-neutral-700 mt-1.5">We can help locate it during emergencies</p>
+                </div>
+
+            </form>
+
+            <div id="info-banner" class="bg-primary/5 rounded-xl p-4 mt-6 border border-primary/20">
+                <div class="flex items-start gap-3">
+                    <i class="fa-solid fa-shield-check text-primary text-lg mt-0.5"></i>
+                    <div class="flex-1">
+                        <p class="text-xs text-neutral-700 leading-relaxed">
+                            <strong class="text-neutral-900">Your data is secure.</strong> All information is encrypted and stored locally on your device first.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <footer id="footer" class="px-5 py-4 bg-white border-t border-neutral-200">
+            <button id="next-btn" class="w-full h-[52px] bg-neutral-300 text-neutral-500 text-base font-semibold rounded-xl flex items-center justify-center gap-2 cursor-not-allowed" disabled>
+                Next
+                <i class="fa-solid fa-arrow-right text-sm"></i>
+            </button>
+        </footer>
+    </div>
+
+    <script>
+        const form = document.getElementById('profile-form');
+        const fullNameInput = document.getElementById('full-name');
+        const dobInput = document.getElementById('date-of-birth');
+        const bloodTypeSelect = document.getElementById('blood-type');
+        const emergencyNameInput = document.getElementById('emergency-name');
+        const emergencyPhoneInput = document.getElementById('emergency-phone');
+        const nextBtn = document.getElementById('next-btn');
+        const photoInput = document.getElementById('photo-input');
+        const photoPlaceholder = document.getElementById('photo-placeholder');
+
+        function validateForm() {
+            const isFullNameValid = fullNameInput.value.trim().length > 0;
+            const isDobValid = dobInput.value.trim().length > 0;
+            const isBloodTypeValid = bloodTypeSelect.value !== '';
+            const isEmergencyNameValid = emergencyNameInput.value.trim().length > 0;
+            const isEmergencyPhoneValid = emergencyPhoneInput.value.trim().length > 0;
+
+            const allValid = isFullNameValid && isDobValid && isBloodTypeValid && isEmergencyNameValid && isEmergencyPhoneValid;
+
+            if (allValid) {
+                nextBtn.disabled = false;
+                nextBtn.classList.remove('bg-neutral-300', 'text-neutral-500', 'cursor-not-allowed');
+                nextBtn.classList.add('bg-primary', 'text-white', 'hover:bg-blue-700', 'active:scale-[0.98]', 'transition-transform', 'duration-200', 'shadow-lg');
+            } else {
+                nextBtn.disabled = true;
+                nextBtn.classList.add('bg-neutral-300', 'text-neutral-500', 'cursor-not-allowed');
+                nextBtn.classList.remove('bg-primary', 'text-white', 'hover:bg-blue-700', 'active:scale-[0.98]', 'transition-transform', 'duration-200', 'shadow-lg');
+            }
+        }
+
+        fullNameInput.addEventListener('input', validateForm);
+        dobInput.addEventListener('change', validateForm);
+        bloodTypeSelect.addEventListener('change', validateForm);
+        emergencyNameInput.addEventListener('input', validateForm);
+        emergencyPhoneInput.addEventListener('input', validateForm);
+
+        photoInput.addEventListener('change', function(e) {
+            if (e.target.files && e.target.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    photoPlaceholder.style.backgroundImage = `url(${event.target.result})`;
+                    photoPlaceholder.style.backgroundSize = 'cover';
+                    photoPlaceholder.style.backgroundPosition = 'center';
+                    photoPlaceholder.innerHTML = '';
+                    photoPlaceholder.classList.remove('border-dashed');
+                    photoPlaceholder.classList.add('border-solid', 'border-primary');
+                };
+                reader.readAsDataURL(e.target.files[0]);
+            }
+        });
+
+        document.getElementById('add-photo-btn').addEventListener('click', function() {
+            photoInput.click();
+        });
+
+        document.getElementById('back-btn').addEventListener('click', function() {
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+                window.location.href = 'verify-email.html';
+            }, 100);
+        });
+
+        nextBtn.addEventListener('click', function() {
+            if (!this.disabled) {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                    window.location.href = 'profile-setup-2.html';
+                }, 100);
+            }
+        });
+
+        const inputs = [fullNameInput, dobInput, emergencyNameInput, emergencyPhoneInput];
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.querySelector('label').classList.add('text-primary');
+            });
+            input.addEventListener('blur', function() {
+                this.parentElement.querySelector('label').classList.remove('text-primary');
+            });
+        });
+
+        bloodTypeSelect.addEventListener('focus', function() {
+            this.parentElement.previousElementSibling.classList.add('text-primary');
+        });
+        bloodTypeSelect.addEventListener('blur', function() {
+            this.parentElement.previousElementSibling.classList.remove('text-primary');
+        });
+    </script>
+</body>
+</html>

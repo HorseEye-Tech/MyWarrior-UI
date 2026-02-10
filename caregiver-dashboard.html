@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>::-webkit-scrollbar { display: none;}
+body { animation: pageEnter 0.3s ease-out; }
+@keyframes pageEnter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }</style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563EB',
+                        success: '#10B981',
+                        warning: '#F59E0B',
+                        danger: '#DC2626',
+                        neutral: {
+                            50: '#FFFFFF',
+                            100: '#F9FAFB',
+                            200: '#E5E7EB',
+                            700: '#6B7280',
+                            900: '#111827'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-neutral-100 font-sans antialiased">
+    <div id="caregiver-dashboard" class="w-full min-h-[840px] flex flex-col bg-neutral-100">
+        
+        <header id="header" class="bg-white px-5 py-4 shadow-sm sticky top-0 z-50">
+            <div class="flex items-center justify-between mb-4">
+                <button id="menu-btn" class="w-11 h-11 flex items-center justify-center text-neutral-900 active:bg-neutral-100 rounded-xl transition-all">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+                <div class="flex items-center gap-3">
+                    <button id="notifications-btn" class="w-11 h-11 flex items-center justify-center text-neutral-900 active:bg-neutral-100 rounded-xl transition-all relative">
+                        <i class="fa-solid fa-bell text-lg"></i>
+                        <span class="absolute top-2 right-2 w-2 h-2 bg-danger rounded-full"></span>
+                    </button>
+                    <button id="settings-btn" class="w-11 h-11 flex items-center justify-center text-neutral-900 active:bg-neutral-100 rounded-xl transition-all">
+                        <i class="fa-solid fa-gear text-lg"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div id="profile-section" class="flex items-center gap-3">
+                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" alt="Profile" class="w-14 h-14 rounded-full object-cover border-2 border-success">
+                <div class="flex-1">
+                    <h2 class="text-lg font-bold text-neutral-900">Sarah Johnson</h2>
+                    <div class="flex items-center gap-2">
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-success/10 text-success text-xs font-semibold rounded-lg">
+                            <i class="fa-solid fa-hands-holding-circle text-[10px]"></i>
+                            Caregiver
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main id="main-content" class="flex-1 overflow-y-auto pb-20">
+            
+            <section id="warriors-section" class="px-5 py-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-neutral-900">Warriors Under Care</h3>
+                        <p class="text-sm text-neutral-700 mt-0.5">2 of 3 warriors added</p>
+                    </div>
+                    <button id="add-warrior-btn" class="w-11 h-11 bg-success text-white rounded-xl flex items-center justify-center shadow-lg shadow-success/20 active:scale-95 transition-all">
+                        <i class="fa-solid fa-plus text-lg"></i>
+                    </button>
+                </div>
+
+                <div class="space-y-3 mb-4">
+                    
+                    <div id="warrior-card-1" class="bg-white rounded-xl p-4 shadow-sm">
+                        <div class="flex items-start gap-3 mb-3">
+                            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-8.jpg" alt="Warrior" class="w-12 h-12 rounded-full object-cover border-2 border-primary">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h4 class="text-base font-bold text-neutral-900">Michael Chen</h4>
+                                    <span class="text-xs text-neutral-700 bg-neutral-100 px-2 py-0.5 rounded-full">24 yrs</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <div class="flex items-center gap-1">
+                                        <div class="w-2 h-2 bg-success rounded-full"></div>
+                                        <span class="text-xs text-neutral-700">Active today</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-3 gap-2 mb-3 p-3 bg-neutral-100 rounded-lg">
+                            <div class="text-center">
+                                <div class="flex items-center justify-center mb-1">
+                                    <i class="fa-solid fa-droplet text-primary text-sm"></i>
+                                </div>
+                                <p class="text-xs text-neutral-700">Water</p>
+                                <p class="text-sm font-bold text-neutral-900">6/8</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="flex items-center justify-center mb-1">
+                                    <i class="fa-solid fa-pills text-warning text-sm"></i>
+                                </div>
+                                <p class="text-xs text-neutral-700">Meds</p>
+                                <p class="text-sm font-bold text-neutral-900">2/2</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="flex items-center justify-center mb-1">
+                                    <i class="fa-solid fa-face-smile text-success text-sm"></i>
+                                </div>
+                                <p class="text-xs text-neutral-700">Mood</p>
+                                <p class="text-sm font-bold text-neutral-900">Good</p>
+                            </div>
+                        </div>
+                        
+                        <button class="w-full h-11 bg-primary text-white text-sm font-semibold rounded-lg active:scale-[0.98] transition-all">
+                            View Full Profile
+                        </button>
+                    </div>
+
+                    <div id="warrior-card-2" class="bg-white rounded-xl p-4 shadow-sm">
+                        <div class="flex items-start gap-3 mb-3">
+                            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-6.jpg" alt="Warrior" class="w-12 h-12 rounded-full object-cover border-2 border-warning">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h4 class="text-base font-bold text-neutral-900">Emma Williams</h4>
+                                    <span class="text-xs text-neutral-700 bg-neutral-100 px-2 py-0.5 rounded-full">18 yrs</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <div class="flex items-center gap-1">
+                                        <div class="w-2 h-2 bg-warning rounded-full"></div>
+                                        <span class="text-xs text-neutral-700">Last active 3h ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-3 gap-2 mb-3 p-3 bg-neutral-100 rounded-lg">
+                            <div class="text-center">
+                                <div class="flex items-center justify-center mb-1">
+                                    <i class="fa-solid fa-droplet text-primary text-sm"></i>
+                                </div>
+                                <p class="text-xs text-neutral-700">Water</p>
+                                <p class="text-sm font-bold text-neutral-900">4/8</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="flex items-center justify-center mb-1">
+                                    <i class="fa-solid fa-pills text-warning text-sm"></i>
+                                </div>
+                                <p class="text-xs text-neutral-700">Meds</p>
+                                <p class="text-sm font-bold text-neutral-900">1/2</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="flex items-center justify-center mb-1">
+                                    <i class="fa-solid fa-face-meh text-warning text-sm"></i>
+                                </div>
+                                <p class="text-xs text-neutral-700">Mood</p>
+                                <p class="text-sm font-bold text-neutral-900">Fair</p>
+                            </div>
+                        </div>
+                        
+                        <button class="w-full h-11 bg-primary text-white text-sm font-semibold rounded-lg active:scale-[0.98] transition-all">
+                            View Full Profile
+                        </button>
+                    </div>
+                </div>
+
+                <div id="upgrade-banner" class="bg-gradient-to-r from-primary to-blue-600 rounded-xl p-4 text-white">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-crown text-xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-base font-bold">Add More Warriors</h4>
+                            <p class="text-xs opacity-90">Upgrade to Premium for unlimited care</p>
+                        </div>
+                    </div>
+                    <button class="w-full h-11 bg-white text-primary text-sm font-semibold rounded-lg active:scale-[0.98] transition-all">
+                        Upgrade to Premium
+                    </button>
+                </div>
+            </section>
+
+            <section id="quick-actions-section" class="px-5 py-6 bg-white">
+                <h3 class="text-xl font-bold text-neutral-900 mb-4">Quick Actions</h3>
+                
+                <div class="grid grid-cols-2 gap-3">
+                    
+                    <button id="community-btn" class="bg-neutral-100 rounded-xl p-4 text-left active:scale-[0.98] transition-all">
+                        <div class="w-11 h-11 bg-success/10 text-success rounded-xl flex items-center justify-center mb-3">
+                            <i class="fa-solid fa-users text-xl"></i>
+                        </div>
+                        <h4 class="text-sm font-bold text-neutral-900 mb-1">Community</h4>
+                        <p class="text-xs text-neutral-700">Connect & Share</p>
+                    </button>
+
+                    <button id="messages-btn" class="bg-neutral-100 rounded-xl p-4 text-left active:scale-[0.98] transition-all relative">
+                        <div class="w-11 h-11 bg-primary/10 text-primary rounded-xl flex items-center justify-center mb-3">
+                            <i class="fa-solid fa-message text-xl"></i>
+                        </div>
+                        <h4 class="text-sm font-bold text-neutral-900 mb-1">Messages</h4>
+                        <p class="text-xs text-neutral-700">3 Unread</p>
+                        <span class="absolute top-3 right-3 w-2 h-2 bg-danger rounded-full"></span>
+                    </button>
+
+                    <button id="reports-btn" class="bg-neutral-100 rounded-xl p-4 text-left active:scale-[0.98] transition-all">
+                        <div class="w-11 h-11 bg-warning/10 text-warning rounded-xl flex items-center justify-center mb-3">
+                            <i class="fa-solid fa-chart-line text-xl"></i>
+                        </div>
+                        <h4 class="text-sm font-bold text-neutral-900 mb-1">Reports</h4>
+                        <p class="text-xs text-neutral-700">View Analytics</p>
+                    </button>
+
+                    <button id="pairing-btn" class="bg-neutral-100 rounded-xl p-4 text-left active:scale-[0.98] transition-all relative">
+                        <div class="w-11 h-11 bg-danger/10 text-danger rounded-xl flex items-center justify-center mb-3">
+                            <i class="fa-solid fa-user-plus text-xl"></i>
+                        </div>
+                        <h4 class="text-sm font-bold text-neutral-900 mb-1">Requests</h4>
+                        <p class="text-xs text-neutral-700">2 Pending</p>
+                        <span class="absolute top-3 right-3 px-1.5 py-0.5 bg-danger text-white text-[10px] font-bold rounded-full">2</span>
+                    </button>
+                </div>
+            </section>
+
+            <section id="resources-section" class="px-5 py-6">
+                <h3 class="text-xl font-bold text-neutral-900 mb-4">Resources & Support</h3>
+                
+                <div class="space-y-3">
+                    
+                    <button class="w-full bg-white rounded-xl p-4 flex items-center gap-3 shadow-sm active:scale-[0.98] transition-all">
+                        <div class="w-11 h-11 bg-primary/10 text-primary rounded-xl flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-book-medical text-lg"></i>
+                        </div>
+                        <div class="flex-1 text-left">
+                            <h4 class="text-sm font-bold text-neutral-900">Caregiver Guide</h4>
+                            <p class="text-xs text-neutral-700">Tips & best practices</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-neutral-700 text-sm"></i>
+                    </button>
+
+                    <button class="w-full bg-white rounded-xl p-4 flex items-center gap-3 shadow-sm active:scale-[0.98] transition-all">
+                        <div class="w-11 h-11 bg-success/10 text-success rounded-xl flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-phone text-lg"></i>
+                        </div>
+                        <div class="flex-1 text-left">
+                            <h4 class="text-sm font-bold text-neutral-900">Emergency Contacts</h4>
+                            <p class="text-xs text-neutral-700">Quick access hotlines</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-neutral-700 text-sm"></i>
+                    </button>
+
+                    <button class="w-full bg-white rounded-xl p-4 flex items-center gap-3 shadow-sm active:scale-[0.98] transition-all">
+                        <div class="w-11 h-11 bg-warning/10 text-warning rounded-xl flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-circle-question text-lg"></i>
+                        </div>
+                        <div class="flex-1 text-left">
+                            <h4 class="text-sm font-bold text-neutral-900">Help & Support</h4>
+                            <p class="text-xs text-neutral-700">FAQs & contact us</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-neutral-700 text-sm"></i>
+                    </button>
+                </div>
+            </section>
+
+            <section id="activity-feed-section" class="px-5 py-6 bg-white">
+                <h3 class="text-xl font-bold text-neutral-900 mb-4">Recent Activity</h3>
+                
+                <div class="space-y-3">
+                    
+                    <div class="flex items-start gap-3 pb-3 border-b border-neutral-200">
+                        <div class="w-8 h-8 bg-success/10 text-success rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-check text-xs"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-neutral-900"><span class="font-semibold">Michael</span> completed all medications</p>
+                            <p class="text-xs text-neutral-700 mt-1">2 hours ago</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3 pb-3 border-b border-neutral-200">
+                        <div class="w-8 h-8 bg-primary/10 text-primary rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-droplet text-xs"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-neutral-900"><span class="font-semibold">Emma</span> logged water intake</p>
+                            <p class="text-xs text-neutral-700 mt-1">4 hours ago</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3 pb-3 border-b border-neutral-200">
+                        <div class="w-8 h-8 bg-warning/10 text-warning rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-face-smile text-xs"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-neutral-900"><span class="font-semibold">Michael</span> updated mood to "Good"</p>
+                            <p class="text-xs text-neutral-700 mt-1">6 hours ago</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3">
+                        <div class="w-8 h-8 bg-danger/10 text-danger rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-exclamation text-xs"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-neutral-900"><span class="font-semibold">Emma</span> reported mild pain (Level 3)</p>
+                            <p class="text-xs text-neutral-700 mt-1">Yesterday</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <nav id="bottom-nav" class="fixed bottom-0 left-0 right-0 bg-white border-t border-neutral-200 px-5 py-3 z-50">
+            <div class="flex items-center justify-around">
+                
+                <button class="nav-item flex flex-col items-center gap-1 active:scale-95 transition-all text-primary">
+                    <i class="fa-solid fa-house text-xl"></i>
+                    <span class="text-[10px] font-semibold">Dashboard</span>
+                </button>
+
+                <button class="nav-item flex flex-col items-center gap-1 active:scale-95 transition-all text-neutral-700">
+                    <i class="fa-solid fa-shield-heart text-xl"></i>
+                    <span class="text-[10px] font-semibold">Warriors</span>
+                </button>
+
+                <button class="nav-item flex flex-col items-center gap-1 active:scale-95 transition-all text-neutral-700">
+                    <i class="fa-solid fa-users text-xl"></i>
+                    <span class="text-[10px] font-semibold">Community</span>
+                </button>
+
+                <button class="nav-item flex flex-col items-center gap-1 active:scale-95 transition-all text-neutral-700">
+                    <i class="fa-solid fa-book text-xl"></i>
+                    <span class="text-[10px] font-semibold">Resources</span>
+                </button>
+
+                <button class="nav-item flex flex-col items-center gap-1 active:scale-95 transition-all text-neutral-700">
+                    <i class="fa-solid fa-user text-xl"></i>
+                    <span class="text-[10px] font-semibold">Profile</span>
+                </button>
+            </div>
+        </nav>
+
+        <div id="side-menu" class="fixed inset-0 z-[100] hidden">
+            <div class="absolute inset-0 bg-neutral-900/50" id="menu-overlay"></div>
+            <div class="absolute top-0 left-0 bottom-0 w-[280px] bg-white transform -translate-x-full transition-transform duration-300" id="menu-drawer">
+                
+                <div class="p-5 border-b border-neutral-200">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-bold text-neutral-900">Menu</h3>
+                        <button id="close-menu-btn" class="w-9 h-9 flex items-center justify-center text-neutral-900 active:bg-neutral-100 rounded-lg transition-all">
+                            <i class="fa-solid fa-times text-lg"></i>
+                        </button>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" alt="Profile" class="w-12 h-12 rounded-full object-cover">
+                        <div>
+                            <h4 class="text-sm font-bold text-neutral-900">Sarah Johnson</h4>
+                            <p class="text-xs text-neutral-700">Caregiver</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-5 space-y-2">
+                    <button class="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-primary/10 text-primary transition-all">
+                        <i class="fa-solid fa-house text-lg w-5"></i>
+                        <span class="text-sm font-semibold">Dashboard</span>
+                    </button>
+
+                    <button class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-neutral-100 text-neutral-900 transition-all">
+                        <i class="fa-solid fa-shield-heart text-lg w-5"></i>
+                        <span class="text-sm font-semibold">My Warriors</span>
+                    </button>
+
+                    <button class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-neutral-100 text-neutral-900 transition-all">
+                        <i class="fa-solid fa-users text-lg w-5"></i>
+                        <span class="text-sm font-semibold">Community</span>
+                    </button>
+
+                    <button class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-neutral-100 text-neutral-900 transition-all">
+                        <i class="fa-solid fa-book text-lg w-5"></i>
+                        <span class="text-sm font-semibold">Resources</span>
+                    </button>
+
+                    <button class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-neutral-100 text-neutral-900 transition-all">
+                        <i class="fa-solid fa-gear text-lg w-5"></i>
+                        <span class="text-sm font-semibold">Settings</span>
+                    </button>
+
+                    <button class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-neutral-100 text-neutral-900 transition-all">
+                        <i class="fa-solid fa-circle-question text-lg w-5"></i>
+                        <span class="text-sm font-semibold">Help & Support</span>
+                    </button>
+                </div>
+
+                <div class="absolute bottom-0 left-0 right-0 p-5 border-t border-neutral-200">
+                    <button class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-danger/10 text-danger transition-all">
+                        <i class="fa-solid fa-right-from-bracket text-lg w-5"></i>
+                        <span class="text-sm font-semibold">Log Out</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const menuBtn = document.getElementById('menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const sideMenu = document.getElementById('side-menu');
+        const menuDrawer = document.getElementById('menu-drawer');
+        const menuOverlay = document.getElementById('menu-overlay');
+
+        function openMenu() {
+            sideMenu.classList.remove('hidden');
+            setTimeout(() => {
+                menuDrawer.classList.remove('-translate-x-full');
+            }, 10);
+        }
+
+        function closeMenu() {
+            menuDrawer.classList.add('-translate-x-full');
+            setTimeout(() => {
+                sideMenu.classList.add('hidden');
+            }, 300);
+        }
+
+        menuBtn.addEventListener('click', openMenu);
+        closeMenuBtn.addEventListener('click', closeMenu);
+        menuOverlay.addEventListener('click', closeMenu);
+
+        const navItems = document.querySelectorAll('.nav-item');
+        const navTargets = ['caregiver-dashboard.html', 'caregiver-reg-5.html', 'community.html', 'health-log.html', 'profile.html'];
+        navItems.forEach((item, index) => {
+            item.addEventListener('click', function() {
+                navItems.forEach(nav => {
+                    nav.classList.remove('text-primary');
+                    nav.classList.add('text-neutral-700');
+                });
+                this.classList.remove('text-neutral-700');
+                this.classList.add('text-primary');
+                if (navTargets[index] && navTargets[index] !== 'caregiver-dashboard.html') {
+                    window.location.href = navTargets[index];
+                }
+            });
+        });
+
+        // Settings button
+        document.getElementById('settings-btn').addEventListener('click', function() {
+            window.location.href = 'settings.html';
+        });
+
+        // Add warrior button
+        document.getElementById('add-warrior-btn').addEventListener('click', function() {
+            window.location.href = 'caregiver-reg-5.html';
+        });
+
+        // View Full Profile buttons on warrior cards
+        document.querySelectorAll('#warrior-card-1 button, #warrior-card-2 button').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                window.location.href = 'dashboard.html';
+            });
+        });
+
+        // Quick action buttons
+        document.getElementById('community-btn').addEventListener('click', function() {
+            window.location.href = 'community.html';
+        });
+        document.getElementById('messages-btn').addEventListener('click', function() {
+            window.location.href = 'community.html';
+        });
+        document.getElementById('reports-btn').addEventListener('click', function() {
+            window.location.href = 'health-log.html';
+        });
+        document.getElementById('pairing-btn').addEventListener('click', function() {
+            window.location.href = 'caregiver-reg-6.html';
+        });
+
+        // Side menu navigation
+        const menuItems = document.querySelectorAll('#menu-drawer .p-5.space-y-2 button');
+        const menuTargets = ['caregiver-dashboard.html', 'caregiver-reg-5.html', 'community.html', 'health-log.html', 'settings.html', 'settings.html'];
+        menuItems.forEach(function(item, index) {
+            item.addEventListener('click', function() {
+                if (menuTargets[index]) {
+                    window.location.href = menuTargets[index];
+                }
+            });
+        });
+
+        // Log out button in side menu
+        document.querySelector('#menu-drawer .border-t button').addEventListener('click', function() {
+            window.location.href = 'login.html';
+        });
+    </script>
+</body>
+</html>

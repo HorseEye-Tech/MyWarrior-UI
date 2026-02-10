@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Your Role</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        ::-webkit-scrollbar { display: none; }
+        body { animation: pageEnter 0.3s ease-out; }
+        @keyframes pageEnter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563EB',
+                        success: '#10B981',
+                        warning: '#F59E0B',
+                        danger: '#DC2626',
+                        neutral: {
+                            50: '#FFFFFF',
+                            100: '#F9FAFB',
+                            200: '#E5E7EB',
+                            700: '#6B7280',
+                            900: '#111827'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-neutral-100 font-sans antialiased">
+    <div id="role-selection-screen" class="w-full min-h-[840px] flex flex-col bg-neutral-50">
+        
+        <header id="header" class="bg-white px-5 py-4 shadow-sm">
+            <div class="flex items-center justify-between">
+                <button id="back-btn" class="w-11 h-11 flex items-center justify-center text-neutral-900 active:bg-neutral-100 rounded-xl transition-all">
+                    <i class="fa-solid fa-arrow-left text-lg"></i>
+                </button>
+                <div class="flex-1 flex justify-center">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 bg-gradient-to-br from-primary to-blue-700 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-shield-heart text-white text-sm"></i>
+                        </div>
+                        <span class="text-base font-bold text-neutral-900">MyWarrior</span>
+                    </div>
+                </div>
+                <div class="w-11"></div>
+            </div>
+        </header>
+
+        <main id="main-content" class="flex-1 flex flex-col px-5 py-8">
+            
+            <div id="header-section" class="mb-8">
+                <h1 class="text-[28px] leading-[36px] font-bold text-neutral-900 mb-2">Who are you?</h1>
+                <p class="text-base text-neutral-700 leading-relaxed">Select your role to get started</p>
+            </div>
+
+            <div id="role-cards-section" class="flex-1 flex flex-col gap-4">
+                
+                <div id="warrior-card" class="role-card bg-white rounded-2xl p-6 border-2 border-neutral-200 active:scale-[0.98] transition-all duration-200 cursor-pointer" data-role="warrior">
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0">
+                            <div class="w-16 h-16 bg-gradient-to-br from-primary to-blue-700 rounded-2xl flex items-center justify-center shadow-lg shadow-primary/20">
+                                <i class="fa-solid fa-shield-heart text-white text-2xl"></i>
+                            </div>
+                        </div>
+                        <div class="flex-1 pt-1">
+                            <h3 class="text-xl font-bold text-neutral-900 mb-2">Warrior</h3>
+                            <p class="text-sm text-neutral-700 leading-relaxed mb-4">I'm tracking my own health journey</p>
+                            <div class="flex items-center gap-2 text-xs text-neutral-700">
+                                <i class="fa-solid fa-check-circle text-success"></i>
+                                <span>Personal health tracking</span>
+                            </div>
+                        </div>
+                        <div class="flex-shrink-0 pt-2">
+                            <div class="radio-indicator w-6 h-6 rounded-full border-2 border-neutral-200 flex items-center justify-center">
+                                <div class="radio-dot w-3 h-3 rounded-full bg-primary opacity-0 scale-0 transition-all duration-200"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="caregiver-card" class="role-card bg-white rounded-2xl p-6 border-2 border-neutral-200 active:scale-[0.98] transition-all duration-200 cursor-pointer" data-role="caregiver">
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0">
+                            <div class="w-16 h-16 bg-gradient-to-br from-success to-green-700 rounded-2xl flex items-center justify-center shadow-lg shadow-success/20">
+                                <i class="fa-solid fa-hands-holding-circle text-white text-2xl"></i>
+                            </div>
+                        </div>
+                        <div class="flex-1 pt-1">
+                            <h3 class="text-xl font-bold text-neutral-900 mb-2">Caregiver</h3>
+                            <p class="text-sm text-neutral-700 leading-relaxed mb-4">I'm supporting warriors in their journey</p>
+                            <div class="flex items-center gap-2 text-xs text-neutral-700">
+                                <i class="fa-solid fa-heart text-danger"></i>
+                                <span>Support & monitor loved ones</span>
+                            </div>
+                        </div>
+                        <div class="flex-shrink-0 pt-2">
+                            <div class="radio-indicator w-6 h-6 rounded-full border-2 border-neutral-200 flex items-center justify-center">
+                                <div class="radio-dot w-3 h-3 rounded-full bg-primary opacity-0 scale-0 transition-all duration-200"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="provider-card" class="role-card bg-white rounded-2xl p-6 border-2 border-neutral-200 active:scale-[0.98] transition-all duration-200 cursor-pointer" data-role="provider">
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0">
+                            <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-700 rounded-2xl flex items-center justify-center shadow-lg shadow-purple-500/20">
+                                <i class="fa-solid fa-hospital-user text-white text-2xl"></i>
+                            </div>
+                        </div>
+                        <div class="flex-1 pt-1">
+                            <h3 class="text-xl font-bold text-neutral-900 mb-2">Provider</h3>
+                            <p class="text-sm text-neutral-700 leading-relaxed mb-4">Healthcare provider, NGO, or pharmacy</p>
+                            <div class="flex items-center gap-2 text-xs text-neutral-700">
+                                <i class="fa-solid fa-building-columns text-purple-500"></i>
+                                <span>Onboarded by our team</span>
+                            </div>
+                        </div>
+                        <div class="flex-shrink-0 pt-2">
+                            <div class="radio-indicator w-6 h-6 rounded-full border-2 border-neutral-200 flex items-center justify-center">
+                                <div class="radio-dot w-3 h-3 rounded-full bg-primary opacity-0 scale-0 transition-all duration-200"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="info-badge" class="bg-primary/5 rounded-xl p-4 mt-4 border border-primary/10">
+                    <div class="flex items-start gap-3">
+                        <i class="fa-solid fa-info-circle text-primary text-lg mt-0.5"></i>
+                        <p class="text-sm text-neutral-900 leading-relaxed">
+                            <span class="font-semibold">Don't worry!</span> You can change your role anytime in settings.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <footer id="footer" class="px-5 pb-8 pt-4">
+            <button id="continue-btn" class="w-full h-[52px] bg-neutral-200 text-neutral-700 text-base font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 opacity-50 cursor-not-allowed" disabled>
+                Continue
+                <i class="fa-solid fa-arrow-right text-sm"></i>
+            </button>
+            <div class="flex items-center justify-center mt-4">
+                <button id="back-link" class="text-sm text-neutral-700 hover:text-primary transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-chevron-left text-xs"></i>
+                    Back to Welcome
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        let selectedRole = null;
+        const continueBtn = document.getElementById('continue-btn');
+        const roleCards = document.querySelectorAll('.role-card');
+
+        roleCards.forEach(card => {
+            card.addEventListener('click', function() {
+                const role = this.getAttribute('data-role');
+                selectedRole = role;
+
+                roleCards.forEach(c => {
+                    c.classList.remove('border-primary', 'bg-primary/5', 'shadow-lg', 'shadow-primary/10');
+                    c.classList.add('border-neutral-200');
+                    const dot = c.querySelector('.radio-dot');
+                    const indicator = c.querySelector('.radio-indicator');
+                    dot.classList.remove('opacity-100', 'scale-100');
+                    dot.classList.add('opacity-0', 'scale-0');
+                    indicator.classList.remove('border-primary');
+                    indicator.classList.add('border-neutral-200');
+                });
+
+                this.classList.remove('border-neutral-200');
+                this.classList.add('border-primary', 'bg-primary/5', 'shadow-lg', 'shadow-primary/10');
+                const dot = this.querySelector('.radio-dot');
+                const indicator = this.querySelector('.radio-indicator');
+                dot.classList.remove('opacity-0', 'scale-0');
+                dot.classList.add('opacity-100', 'scale-100');
+                indicator.classList.remove('border-neutral-200');
+                indicator.classList.add('border-primary');
+
+                continueBtn.disabled = false;
+                continueBtn.classList.remove('bg-neutral-200', 'text-neutral-700', 'opacity-50', 'cursor-not-allowed');
+                continueBtn.classList.add('bg-primary', 'text-white', 'shadow-lg', 'shadow-primary/20', 'active:scale-[0.98]');
+            });
+        });
+
+        continueBtn.addEventListener('click', function() {
+            if (!this.disabled) {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                    if (selectedRole === 'warrior') {
+                        window.location.href = 'signup.html';
+                    } else if (selectedRole === 'caregiver') {
+                        window.location.href = 'caregiver-reg-1.html';
+                    } else if (selectedRole === 'provider') {
+                        window.location.href = 'provider-inquiry.html';
+                    }
+                }, 100);
+            }
+        });
+
+        document.getElementById('back-btn').addEventListener('click', function() {
+            window.location.href = 'index.html';
+        });
+
+        document.getElementById('back-link').addEventListener('click', function() {
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>

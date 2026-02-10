@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect Warrior</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>::-webkit-scrollbar { display: none;}
+body { animation: pageEnter 0.3s ease-out; }
+@keyframes pageEnter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }</style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563EB',
+                        success: '#10B981',
+                        warning: '#F59E0B',
+                        danger: '#DC2626',
+                        neutral: {
+                            50: '#FFFFFF',
+                            100: '#F9FAFB',
+                            200: '#E5E7EB',
+                            700: '#6B7280',
+                            900: '#111827'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-neutral-100 font-sans antialiased">
+    <div id="connect-warrior-screen" class="w-full min-h-[840px] flex flex-col bg-neutral-50">
+        
+        <header id="header" class="bg-white px-5 py-4 shadow-sm">
+            <div class="flex items-center justify-between">
+                <button id="back-btn" class="w-11 h-11 flex items-center justify-center text-neutral-900 active:bg-neutral-100 rounded-xl transition-all">
+                    <i class="fa-solid fa-arrow-left text-lg"></i>
+                </button>
+                <div class="flex-1 flex justify-center">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 bg-gradient-to-br from-primary to-blue-700 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-link text-white text-sm"></i>
+                        </div>
+                        <span class="text-base font-bold text-neutral-900">Connect</span>
+                    </div>
+                </div>
+                <div class="w-11"></div>
+            </div>
+        </header>
+
+        <main id="main-content" class="flex-1 overflow-y-auto px-5 py-6">
+            
+            <div id="initial-state" class="space-y-6">
+                <div id="header-section" class="text-center mb-8">
+                    <div class="w-20 h-20 bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <i class="fa-solid fa-shield-heart text-primary text-3xl"></i>
+                    </div>
+                    <h1 class="text-[24px] leading-[32px] font-bold text-neutral-900 mb-2">Connect to Warrior Account</h1>
+                    <p class="text-sm text-neutral-700 leading-relaxed">Enter the connection code provided by the warrior</p>
+                </div>
+
+                <div id="code-entry-section" class="bg-white rounded-2xl p-6 shadow-sm">
+                    <label class="block text-sm font-semibold text-neutral-900 mb-3">Connection Code</label>
+                    <div id="code-inputs" class="flex gap-2 justify-center mb-4">
+                        <input type="text" maxlength="1" class="code-input w-12 h-14 text-center text-2xl font-bold border-2 border-neutral-200 rounded-xl focus:outline-none focus:border-primary transition-all" />
+                        <input type="text" maxlength="1" class="code-input w-12 h-14 text-center text-2xl font-bold border-2 border-neutral-200 rounded-xl focus:outline-none focus:border-primary transition-all" />
+                        <input type="text" maxlength="1" class="code-input w-12 h-14 text-center text-2xl font-bold border-2 border-neutral-200 rounded-xl focus:outline-none focus:border-primary transition-all" />
+                        <span class="flex items-center text-neutral-700 text-2xl font-bold">-</span>
+                        <input type="text" maxlength="1" class="code-input w-12 h-14 text-center text-2xl font-bold border-2 border-neutral-200 rounded-xl focus:outline-none focus:border-primary transition-all" />
+                        <input type="text" maxlength="1" class="code-input w-12 h-14 text-center text-2xl font-bold border-2 border-neutral-200 rounded-xl focus:outline-none focus:border-primary transition-all" />
+                        <input type="text" maxlength="1" class="code-input w-12 h-14 text-center text-2xl font-bold border-2 border-neutral-200 rounded-xl focus:outline-none focus:border-primary transition-all" />
+                    </div>
+                    <p id="code-error" class="text-xs text-danger text-center hidden mb-4">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        Invalid code. Please check and try again.
+                    </p>
+                    <button id="verify-btn" class="w-full h-[52px] bg-neutral-200 text-neutral-700 text-base font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 opacity-50 cursor-not-allowed mb-4" disabled>
+                        Verify Code
+                        <i class="fa-solid fa-check text-sm"></i>
+                    </button>
+                    <p class="text-xs text-neutral-700 text-center">Code is case-sensitive and expires in 24 hours</p>
+                </div>
+
+                <div class="relative flex items-center justify-center py-4">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-neutral-200"></div>
+                    </div>
+                    <div class="relative bg-neutral-50 px-4">
+                        <span class="text-sm text-neutral-700 font-medium">OR</span>
+                    </div>
+                </div>
+
+                <button id="scan-qr-btn" class="w-full h-[52px] bg-white border-2 border-neutral-200 text-neutral-900 text-base font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 active:scale-[0.98] shadow-sm">
+                    <i class="fa-solid fa-qrcode text-lg"></i>
+                    Scan QR Code
+                </button>
+
+                <div class="bg-primary/5 border border-primary/20 rounded-xl p-4">
+                    <div class="flex gap-3">
+                        <div class="flex-shrink-0">
+                            <i class="fa-solid fa-circle-info text-primary text-lg"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-neutral-900 font-semibold mb-1">How to get a connection code?</p>
+                            <p class="text-xs text-neutral-700 leading-relaxed">Ask the warrior to share their connection code from their account settings. They can find it under "Share My Code".</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="success-state" class="space-y-6 hidden">
+                <div class="text-center mb-6">
+                    <div class="w-20 h-20 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa-solid fa-check-circle text-success text-4xl"></i>
+                    </div>
+                    <h2 class="text-[22px] leading-[30px] font-bold text-neutral-900 mb-2">Warrior Found!</h2>
+                    <p class="text-sm text-neutral-700">Connection verified successfully</p>
+                </div>
+
+                <div id="warrior-card" class="bg-white rounded-2xl p-6 shadow-sm">
+                    <div class="flex items-center gap-4 mb-6">
+                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg" alt="Warrior" class="w-20 h-20 rounded-2xl object-cover border-2 border-neutral-200" />
+                        <div class="flex-1">
+                            <h3 class="text-lg font-bold text-neutral-900 mb-1">Sarah Johnson</h3>
+                            <p class="text-sm text-neutral-700 mb-2">@sarahwarrior</p>
+                            <div class="flex items-center gap-2">
+                                <div class="w-2 h-2 bg-success rounded-full"></div>
+                                <span class="text-xs text-success font-semibold">Verified Account</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center justify-between py-3 border-t border-neutral-200">
+                            <span class="text-sm text-neutral-700">Account Type</span>
+                            <span class="text-sm font-semibold text-neutral-900">Warrior</span>
+                        </div>
+                        <div class="flex items-center justify-between py-3 border-t border-neutral-200">
+                            <span class="text-sm text-neutral-700">Member Since</span>
+                            <span class="text-sm font-semibold text-neutral-900">January 2024</span>
+                        </div>
+                        <div class="flex items-center justify-between py-3 border-t border-neutral-200">
+                            <span class="text-sm text-neutral-700">Connection Status</span>
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-warning/10 text-warning text-xs font-semibold rounded-full">
+                                <i class="fa-solid fa-clock text-[10px]"></i>
+                                Pending Approval
+                            </span>
+                        </div>
+                    </div>
+
+                    <button id="request-access-btn" class="w-full h-[52px] bg-primary text-white text-base font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 active:scale-[0.98] shadow-lg shadow-primary/20">
+                        Request Access
+                        <i class="fa-solid fa-paper-plane text-sm"></i>
+                    </button>
+                </div>
+
+                <div class="bg-warning/5 border border-warning/20 rounded-xl p-4">
+                    <div class="flex gap-3">
+                        <div class="flex-shrink-0">
+                            <i class="fa-solid fa-shield-halved text-warning text-lg"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-neutral-900 font-semibold mb-1">Privacy & Security</p>
+                            <p class="text-xs text-neutral-700 leading-relaxed">The warrior will receive a notification and must approve your access request before you can view their health data.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="pending-state" class="space-y-6 hidden">
+                <div class="text-center mb-6">
+                    <div class="w-20 h-20 bg-warning/10 rounded-full flex items-center justify-center mx-auto mb-4 relative">
+                        <i class="fa-solid fa-hourglass-half text-warning text-3xl animate-pulse"></i>
+                    </div>
+                    <h2 class="text-[22px] leading-[30px] font-bold text-neutral-900 mb-2">Request Sent!</h2>
+                    <p class="text-sm text-neutral-700">Waiting for warrior to approve connection</p>
+                </div>
+
+                <div id="pending-card" class="bg-white rounded-2xl p-6 shadow-sm">
+                    <div class="flex items-center gap-4 mb-6 pb-6 border-b border-neutral-200">
+                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-1.jpg" alt="Warrior" class="w-16 h-16 rounded-xl object-cover border-2 border-neutral-200" />
+                        <div class="flex-1">
+                            <h3 class="text-base font-bold text-neutral-900 mb-1">Sarah Johnson</h3>
+                            <p class="text-sm text-neutral-700">@sarahwarrior</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 mb-6">
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 bg-success/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-paper-plane text-success text-sm"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-semibold text-neutral-900 mb-1">Request Sent</p>
+                                <p class="text-xs text-neutral-700">2 minutes ago</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 bg-neutral-200 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-bell text-neutral-700 text-sm"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-semibold text-neutral-900 mb-1">Notification Delivered</p>
+                                <p class="text-xs text-neutral-700">Warrior will be notified via app and email</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3 opacity-50">
+                            <div class="w-8 h-8 bg-neutral-200 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-check-circle text-neutral-700 text-sm"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-semibold text-neutral-900 mb-1">Awaiting Approval</p>
+                                <p class="text-xs text-neutral-700">You'll be notified once approved</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-neutral-100 rounded-xl p-4 mb-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm font-semibold text-neutral-900">Estimated Wait Time</span>
+                            <span class="text-sm font-bold text-primary">~2 hours</span>
+                        </div>
+                        <p class="text-xs text-neutral-700">Most warriors respond within 2-4 hours</p>
+                    </div>
+
+                    <button id="cancel-request-btn" class="w-full h-[48px] bg-white border-2 border-neutral-200 text-neutral-900 text-base font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 active:scale-[0.98]">
+                        Cancel Request
+                        <i class="fa-solid fa-xmark text-sm"></i>
+                    </button>
+                </div>
+
+                <div class="bg-primary/5 border border-primary/20 rounded-xl p-4">
+                    <div class="flex gap-3">
+                        <div class="flex-shrink-0">
+                            <i class="fa-solid fa-lightbulb text-primary text-lg"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-neutral-900 font-semibold mb-1">While You Wait</p>
+                            <p class="text-xs text-neutral-700 leading-relaxed mb-3">You can complete your caregiver profile and explore the app features. We'll notify you immediately when the warrior approves your request.</p>
+                            <button onclick="window.location.href='caregiver-dashboard.html'" class="text-xs text-primary font-semibold flex items-center gap-1">
+                                Complete Profile
+                                <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-neutral-100 rounded-xl p-4">
+                    <div class="flex items-center gap-3 mb-3">
+                        <i class="fa-solid fa-bell text-neutral-900 text-lg"></i>
+                        <span class="text-sm font-semibold text-neutral-900">Notification Settings</span>
+                    </div>
+                    <label class="flex items-center justify-between cursor-pointer">
+                        <span class="text-sm text-neutral-700">Notify me when approved</span>
+                        <input type="checkbox" checked class="w-11 h-6 appearance-none bg-success rounded-full relative cursor-pointer transition-colors checked:bg-success before:content-[''] before:absolute before:w-5 before:h-5 before:rounded-full before:bg-white before:top-0.5 before:left-0.5 before:transition-transform checked:before:translate-x-5" />
+                    </label>
+                </div>
+            </div>
+
+        </main>
+
+        <footer id="footer" class="px-5 pb-6 pt-4 bg-white border-t border-neutral-200">
+            <div class="flex items-center justify-center">
+                <p class="text-sm text-neutral-700">
+                    Need help? 
+                    <a href="#" class="text-primary font-semibold ml-1">Contact Support</a>
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const codeInputs = document.querySelectorAll('.code-input');
+        const verifyBtn = document.getElementById('verify-btn');
+        const codeError = document.getElementById('code-error');
+        const initialState = document.getElementById('initial-state');
+        const successState = document.getElementById('success-state');
+        const pendingState = document.getElementById('pending-state');
+        const requestAccessBtn = document.getElementById('request-access-btn');
+        const cancelRequestBtn = document.getElementById('cancel-request-btn');
+
+        codeInputs.forEach((input, index) => {
+            input.addEventListener('input', function(e) {
+                const value = e.target.value.toUpperCase();
+                e.target.value = value;
+
+                if (value.length === 1 && index < codeInputs.length - 1) {
+                    codeInputs[index + 1].focus();
+                }
+
+                validateCode();
+            });
+
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                    codeInputs[index - 1].focus();
+                }
+            });
+
+            input.addEventListener('paste', function(e) {
+                e.preventDefault();
+                const pastedData = e.clipboardData.getData('text').toUpperCase().replace(/[^A-Z0-9]/g, '');
+                const chars = pastedData.split('');
+                
+                chars.forEach((char, i) => {
+                    if (index + i < codeInputs.length) {
+                        codeInputs[index + i].value = char;
+                    }
+                });
+
+                const nextIndex = Math.min(index + chars.length, codeInputs.length - 1);
+                codeInputs[nextIndex].focus();
+                validateCode();
+            });
+        });
+
+        function validateCode() {
+            const code = Array.from(codeInputs).map(input => input.value).join('');
+            
+            if (code.length === 6) {
+                verifyBtn.disabled = false;
+                verifyBtn.classList.remove('bg-neutral-200', 'text-neutral-700', 'opacity-50', 'cursor-not-allowed');
+                verifyBtn.classList.add('bg-primary', 'text-white', 'shadow-lg', 'shadow-primary/20', 'active:scale-[0.98]');
+            } else {
+                verifyBtn.disabled = true;
+                verifyBtn.classList.add('bg-neutral-200', 'text-neutral-700', 'opacity-50', 'cursor-not-allowed');
+                verifyBtn.classList.remove('bg-primary', 'text-white', 'shadow-lg', 'shadow-primary/20', 'active:scale-[0.98]');
+            }
+        }
+
+        verifyBtn.addEventListener('click', function() {
+            if (!this.disabled) {
+                const code = Array.from(codeInputs).map(input => input.value).join('');
+                
+                verifyBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Verifying...';
+                verifyBtn.disabled = true;
+
+                setTimeout(() => {
+                    const isValid = Math.random() > 0.3;
+                    
+                    if (isValid) {
+                        initialState.classList.add('hidden');
+                        successState.classList.remove('hidden');
+                    } else {
+                        codeError.classList.remove('hidden');
+                        codeInputs.forEach(input => {
+                            input.classList.add('border-danger');
+                            input.value = '';
+                        });
+                        codeInputs[0].focus();
+                        verifyBtn.innerHTML = 'Verify Code <i class="fa-solid fa-check text-sm"></i>';
+                        validateCode();
+                        
+                        setTimeout(() => {
+                            codeError.classList.add('hidden');
+                            codeInputs.forEach(input => input.classList.remove('border-danger'));
+                        }, 3000);
+                    }
+                }, 1500);
+            }
+        });
+
+        requestAccessBtn.addEventListener('click', function() {
+            this.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending Request...';
+            this.disabled = true;
+
+            setTimeout(() => {
+                successState.classList.add('hidden');
+                pendingState.classList.remove('hidden');
+            }, 1500);
+        });
+
+        cancelRequestBtn.addEventListener('click', function() {
+            if (confirm('Are you sure you want to cancel this connection request?')) {
+                pendingState.classList.add('hidden');
+                initialState.classList.remove('hidden');
+                codeInputs.forEach(input => input.value = '');
+                validateCode();
+            }
+        });
+
+        document.getElementById('scan-qr-btn').addEventListener('click', function() {
+            alert('QR Code scanner will be implemented in the native app version.');
+        });
+
+        document.getElementById('back-btn').addEventListener('click', function() {
+            if (!pendingState.classList.contains('hidden')) {
+                if (confirm('You have a pending connection request. Are you sure you want to go back?')) {
+                    window.location.href = 'caregiver-reg-5.html';
+                }
+            } else {
+                window.location.href = 'caregiver-reg-5.html';
+            }
+        });
+    </script>
+</body>
+</html>

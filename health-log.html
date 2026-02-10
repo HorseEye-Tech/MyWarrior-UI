@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health History</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.plot.ly/plotly-3.1.1.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        ::-webkit-scrollbar { display: none;}
+        body { animation: pageEnter 0.3s ease-out; }
+        @keyframes pageEnter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563EB',
+                        success: '#10B981',
+                        warning: '#F59E0B',
+                        danger: '#DC2626',
+                        neutral: {
+                            50: '#FFFFFF',
+                            100: '#F9FAFB',
+                            200: '#E5E7EB',
+                            700: '#6B7280',
+                            900: '#111827'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-neutral-100 font-sans antialiased">
+    <div id="health-history-screen" class="w-full min-h-[840px] flex flex-col">
+        
+        <header id="header" class="bg-white border-b border-neutral-200 px-5 py-4 sticky top-0 z-50">
+            <div class="flex items-center justify-between">
+                <button id="back-btn" class="w-10 h-10 flex items-center justify-center rounded-lg active:bg-neutral-100 transition-colors duration-200">
+                    <i class="fa-solid fa-arrow-left text-neutral-900 text-lg"></i>
+                </button>
+                <h1 class="text-lg font-bold text-neutral-900">Health History</h1>
+                <button id="filter-btn" class="w-10 h-10 flex items-center justify-center rounded-lg active:bg-neutral-100 transition-colors duration-200">
+                    <i class="fa-solid fa-sliders text-neutral-900 text-base"></i>
+                </button>
+            </div>
+        </header>
+
+        <main id="main-content" class="flex-1 overflow-y-auto pb-24">
+            
+            <div id="offline-indicator-section" class="bg-success/10 border-b border-success/20 px-5 py-3">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-circle-check text-success text-sm"></i>
+                    <p class="text-xs font-medium text-success">Data synced and available offline</p>
+                </div>
+            </div>
+
+            <div id="date-range-section" class="px-5 pt-5 pb-4">
+                <div class="flex gap-2 overflow-x-auto pb-2">
+                    <button class="date-range-btn h-[40px] px-4 bg-primary text-white text-sm font-semibold rounded-xl whitespace-nowrap flex-shrink-0 active:scale-[0.95] transition-all duration-200">
+                        Week
+                    </button>
+                    <button class="date-range-btn h-[40px] px-4 bg-white border border-neutral-200 text-neutral-900 text-sm font-semibold rounded-xl whitespace-nowrap flex-shrink-0 active:scale-[0.95] transition-all duration-200">
+                        Month
+                    </button>
+                    <button class="date-range-btn h-[40px] px-4 bg-white border border-neutral-200 text-neutral-900 text-sm font-semibold rounded-xl whitespace-nowrap flex-shrink-0 active:scale-[0.95] transition-all duration-200">
+                        3 Months
+                    </button>
+                    <button class="date-range-btn h-[40px] px-4 bg-white border border-neutral-200 text-neutral-900 text-sm font-semibold rounded-xl whitespace-nowrap flex-shrink-0 active:scale-[0.95] transition-all duration-200">
+                        Year
+                    </button>
+                </div>
+            </div>
+
+            <div id="active-filters-section" class="px-5 pb-4">
+                <div class="flex items-center gap-2 flex-wrap">
+                    <span class="text-xs font-medium text-neutral-700">Active Filters:</span>
+                    <div class="filter-tag h-[28px] px-3 bg-danger/10 border border-danger/20 rounded-full flex items-center gap-2">
+                        <span class="text-xs font-medium text-danger">Pain Levels</span>
+                        <button class="remove-filter w-4 h-4 flex items-center justify-center">
+                            <i class="fa-solid fa-xmark text-danger text-xs"></i>
+                        </button>
+                    </div>
+                    <div class="filter-tag h-[28px] px-3 bg-primary/10 border border-primary/20 rounded-full flex items-center gap-2">
+                        <span class="text-xs font-medium text-primary">Hydration</span>
+                        <button class="remove-filter w-4 h-4 flex items-center justify-center">
+                            <i class="fa-solid fa-xmark text-primary text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="pain-trends-section" class="px-5 pb-6">
+                <div class="bg-white rounded-2xl border border-neutral-200 p-5">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-base font-bold text-neutral-900 flex items-center gap-2">
+                            <i class="fa-solid fa-chart-line text-danger text-lg"></i>
+                            Pain Trends
+                        </h2>
+                        <button class="w-8 h-8 flex items-center justify-center rounded-lg active:bg-neutral-100 transition-colors duration-200">
+                            <i class="fa-solid fa-ellipsis-vertical text-neutral-700 text-base"></i>
+                        </button>
+                    </div>
+                    <div id="pain-chart" style="height: 240px"></div>
+                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-neutral-200">
+                        <div class="text-center">
+                            <p class="text-xs text-neutral-700 mb-1">Average</p>
+                            <p class="text-lg font-bold text-neutral-900">4.2</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-xs text-neutral-700 mb-1">Peak</p>
+                            <p class="text-lg font-bold text-danger">8.0</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-xs text-neutral-700 mb-1">Low</p>
+                            <p class="text-lg font-bold text-success">2.0</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="hydration-trends-section" class="px-5 pb-6">
+                <div class="bg-white rounded-2xl border border-neutral-200 p-5">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-base font-bold text-neutral-900 flex items-center gap-2">
+                            <i class="fa-solid fa-glass-water text-primary text-lg"></i>
+                            Hydration Tracking
+                        </h2>
+                        <button class="w-8 h-8 flex items-center justify-center rounded-lg active:bg-neutral-100 transition-colors duration-200">
+                            <i class="fa-solid fa-ellipsis-vertical text-neutral-700 text-base"></i>
+                        </button>
+                    </div>
+                    <div id="hydration-chart" style="height: 240px"></div>
+                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-neutral-200">
+                        <div class="text-center">
+                            <p class="text-xs text-neutral-700 mb-1">Daily Goal</p>
+                            <p class="text-lg font-bold text-neutral-900">8 glasses</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-xs text-neutral-700 mb-1">Avg. This Week</p>
+                            <p class="text-lg font-bold text-primary">6.4</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-xs text-neutral-700 mb-1">Best Day</p>
+                            <p class="text-lg font-bold text-success">9</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="check-in-calendar-section" class="px-5 pb-6">
+                <div class="bg-white rounded-2xl border border-neutral-200 p-5">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-base font-bold text-neutral-900 flex items-center gap-2">
+                            <i class="fa-solid fa-calendar-check text-success text-lg"></i>
+                            Check-in Heatmap
+                        </h2>
+                        <button class="w-8 h-8 flex items-center justify-center rounded-lg active:bg-neutral-100 transition-colors duration-200">
+                            <i class="fa-solid fa-ellipsis-vertical text-neutral-700 text-base"></i>
+                        </button>
+                    </div>
+                    <div id="checkin-heatmap" style="height: 200px"></div>
+                    <div class="mt-4 pt-4 border-t border-neutral-200">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 rounded-sm bg-neutral-200"></div>
+                                <span class="text-xs text-neutral-700">No check-in</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 rounded-sm bg-success/30"></div>
+                                <span class="text-xs text-neutral-700">1-2</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 rounded-sm bg-success/60"></div>
+                                <span class="text-xs text-neutral-700">3-4</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 rounded-sm bg-success"></div>
+                                <span class="text-xs text-neutral-700">5+</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="mood-overview-section" class="px-5 pb-6">
+                <div class="bg-white rounded-2xl border border-neutral-200 p-5">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-base font-bold text-neutral-900 flex items-center gap-2">
+                            <i class="fa-solid fa-face-smile text-warning text-lg"></i>
+                            Mood Overview
+                        </h2>
+                    </div>
+                    <div class="grid grid-cols-5 gap-2">
+                        <div class="text-center">
+                            <div class="w-12 h-12 mx-auto mb-2 bg-success/10 rounded-full flex items-center justify-center">
+                                <i class="fa-solid fa-face-grin-beam text-success text-xl"></i>
+                            </div>
+                            <p class="text-xs font-semibold text-neutral-900">12</p>
+                            <p class="text-[10px] text-neutral-700">Great</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-12 h-12 mx-auto mb-2 bg-success/10 rounded-full flex items-center justify-center">
+                                <i class="fa-solid fa-face-smile text-success text-xl"></i>
+                            </div>
+                            <p class="text-xs font-semibold text-neutral-900">8</p>
+                            <p class="text-[10px] text-neutral-700">Good</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-12 h-12 mx-auto mb-2 bg-warning/10 rounded-full flex items-center justify-center">
+                                <i class="fa-solid fa-face-meh text-warning text-xl"></i>
+                            </div>
+                            <p class="text-xs font-semibold text-neutral-900">5</p>
+                            <p class="text-[10px] text-neutral-700">Okay</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-12 h-12 mx-auto mb-2 bg-danger/10 rounded-full flex items-center justify-center">
+                                <i class="fa-solid fa-face-frown text-danger text-xl"></i>
+                            </div>
+                            <p class="text-xs font-semibold text-neutral-900">3</p>
+                            <p class="text-[10px] text-neutral-700">Bad</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-12 h-12 mx-auto mb-2 bg-danger/10 rounded-full flex items-center justify-center">
+                                <i class="fa-solid fa-face-tired text-danger text-xl"></i>
+                            </div>
+                            <p class="text-xs font-semibold text-neutral-900">2</p>
+                            <p class="text-[10px] text-neutral-700">Awful</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="medications-crises-section" class="px-5 pb-6">
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="bg-white rounded-2xl border border-neutral-200 p-4">
+                        <div class="flex items-center gap-2 mb-3">
+                            <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                                <i class="fa-solid fa-pills text-primary text-lg"></i>
+                            </div>
+                            <h3 class="text-sm font-bold text-neutral-900">Medications</h3>
+                        </div>
+                        <p class="text-2xl font-bold text-neutral-900 mb-1">94%</p>
+                        <p class="text-xs text-neutral-700">Adherence rate</p>
+                        <div class="mt-3 pt-3 border-t border-neutral-200">
+                            <p class="text-xs text-success font-medium">+2% from last week</p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-2xl border border-neutral-200 p-4">
+                        <div class="flex items-center gap-2 mb-3">
+                            <div class="w-10 h-10 bg-danger/10 rounded-full flex items-center justify-center">
+                                <i class="fa-solid fa-triangle-exclamation text-danger text-lg"></i>
+                            </div>
+                            <h3 class="text-sm font-bold text-neutral-900">Crises</h3>
+                        </div>
+                        <p class="text-2xl font-bold text-neutral-900 mb-1">2</p>
+                        <p class="text-xs text-neutral-700">This month</p>
+                        <div class="mt-3 pt-3 border-t border-neutral-200">
+                            <p class="text-xs text-success font-medium">-1 from last month</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="insights-section" class="px-5 pb-6">
+                <div class="bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl border border-primary/20 p-5">
+                    <div class="flex items-start gap-3">
+                        <div class="flex-shrink-0 w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-lightbulb text-white text-lg"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-sm font-bold text-neutral-900 mb-2">AI Insights</h3>
+                            <p class="text-xs text-neutral-700 leading-relaxed mb-3">Your pain levels tend to increase on days when hydration drops below 6 glasses. Consider setting more frequent water reminders.</p>
+                            <button onclick="window.location.href='insights.html'" class="h-[36px] px-4 bg-primary text-white text-xs font-semibold rounded-lg active:scale-[0.95] transition-all duration-200">
+                                View Full Analysis
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="action-buttons-section" class="px-5 pb-6">
+                <div class="space-y-3">
+                    <button id="export-data-btn" class="w-full h-[52px] bg-white border-2 border-primary text-primary text-base font-semibold rounded-xl flex items-center justify-center gap-2 active:scale-[0.98] transition-all duration-200">
+                        <i class="fa-solid fa-download text-lg"></i>
+                        Export Data
+                    </button>
+                    <button id="share-provider-btn" class="w-full h-[52px] bg-primary text-white text-base font-semibold rounded-xl flex items-center justify-center gap-2 active:scale-[0.98] transition-all duration-200">
+                        <i class="fa-solid fa-user-doctor text-lg"></i>
+                        Share with Provider
+                    </button>
+                </div>
+            </div>
+
+            <div id="privacy-notice-section" class="px-5 pb-6">
+                <div class="bg-neutral-100 rounded-xl p-4">
+                    <div class="flex items-start gap-3">
+                        <i class="fa-solid fa-shield-halved text-neutral-700 text-base mt-0.5"></i>
+                        <div class="flex-1">
+                            <h4 class="text-sm font-semibold text-neutral-900 mb-1">Data Privacy</h4>
+                            <p class="text-xs text-neutral-700 leading-relaxed">Your health data is encrypted and stored securely on your device. Sharing requires your explicit consent each time.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <div id="filter-modal" class="fixed inset-0 bg-neutral-900/50 z-50 hidden flex items-end">
+            <div class="bg-white w-full rounded-t-3xl overflow-hidden animate-slide-up max-h-[80vh] flex flex-col">
+                <div class="px-6 py-5 border-b border-neutral-200 flex-shrink-0">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-lg font-bold text-neutral-900">Filter Data</h3>
+                        <button id="close-filter-modal-btn" class="w-10 h-10 flex items-center justify-center rounded-lg active:bg-neutral-100 transition-colors duration-200">
+                            <i class="fa-solid fa-xmark text-neutral-900 text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="flex-1 overflow-y-auto p-6">
+                    <div class="space-y-5">
+                        <div>
+                            <h4 class="text-sm font-semibold text-neutral-900 mb-3">Metrics</h4>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 p-3 rounded-xl active:bg-neutral-100 transition-colors duration-200">
+                                    <input type="checkbox" checked class="w-5 h-5 text-primary rounded border-neutral-300 focus:ring-primary">
+                                    <span class="text-sm text-neutral-900">Pain Levels</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 rounded-xl active:bg-neutral-100 transition-colors duration-200">
+                                    <input type="checkbox" class="w-5 h-5 text-primary rounded border-neutral-300 focus:ring-primary">
+                                    <span class="text-sm text-neutral-900">Mood</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 rounded-xl active:bg-neutral-100 transition-colors duration-200">
+                                    <input type="checkbox" checked class="w-5 h-5 text-primary rounded border-neutral-300 focus:ring-primary">
+                                    <span class="text-sm text-neutral-900">Hydration</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 rounded-xl active:bg-neutral-100 transition-colors duration-200">
+                                    <input type="checkbox" class="w-5 h-5 text-primary rounded border-neutral-300 focus:ring-primary">
+                                    <span class="text-sm text-neutral-900">Medications</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 rounded-xl active:bg-neutral-100 transition-colors duration-200">
+                                    <input type="checkbox" class="w-5 h-5 text-primary rounded border-neutral-300 focus:ring-primary">
+                                    <span class="text-sm text-neutral-900">Crises</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-semibold text-neutral-900 mb-3">Pain Level Range</h4>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 p-3 rounded-xl active:bg-neutral-100 transition-colors duration-200">
+                                    <input type="checkbox" class="w-5 h-5 text-primary rounded border-neutral-300 focus:ring-primary">
+                                    <span class="text-sm text-neutral-900">Low (0-3)</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 rounded-xl active:bg-neutral-100 transition-colors duration-200">
+                                    <input type="checkbox" class="w-5 h-5 text-primary rounded border-neutral-300 focus:ring-primary">
+                                    <span class="text-sm text-neutral-900">Moderate (4-6)</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 rounded-xl active:bg-neutral-100 transition-colors duration-200">
+                                    <input type="checkbox" class="w-5 h-5 text-primary rounded border-neutral-300 focus:ring-primary">
+                                    <span class="text-sm text-neutral-900">High (7-10)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-6 py-4 border-t border-neutral-200 flex-shrink-0">
+                    <div class="flex gap-3">
+                        <button id="clear-filters-btn" class="flex-1 h-[48px] bg-neutral-100 text-neutral-900 text-sm font-semibold rounded-xl active:scale-[0.98] transition-all duration-200">
+                            Clear All
+                        </button>
+                        <button id="apply-filters-btn" class="flex-1 h-[48px] bg-primary text-white text-sm font-semibold rounded-xl active:scale-[0.98] transition-all duration-200">
+                            Apply Filters
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="export-modal" class="fixed inset-0 bg-neutral-900/50 z-50 hidden flex items-center justify-end flex-col px-5 pb-5">
+            <div class="bg-white w-full rounded-3xl overflow-hidden animate-slide-up">
+                <div class="px-6 py-5 border-b border-neutral-200">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-lg font-bold text-neutral-900">Export Data</h3>
+                        <button id="close-export-modal-btn" class="w-10 h-10 flex items-center justify-center rounded-lg active:bg-neutral-100 transition-colors duration-200">
+                            <i class="fa-solid fa-xmark text-neutral-900 text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="space-y-3 mb-4">
+                        <button class="export-option w-full h-[56px] bg-white border border-neutral-200 rounded-xl px-4 flex items-center justify-between active:border-primary active:bg-primary/5 transition-all duration-200">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-danger/10 rounded-full flex items-center justify-center">
+                                    <i class="fa-solid fa-file-pdf text-danger text-lg"></i>
+                                </div>
+                                <span class="text-sm font-semibold text-neutral-900">PDF Report</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-neutral-700 text-sm"></i>
+                        </button>
+                        <button class="export-option w-full h-[56px] bg-white border border-neutral-200 rounded-xl px-4 flex items-center justify-between active:border-primary active:bg-primary/5 transition-all duration-200">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-success/10 rounded-full flex items-center justify-center">
+                                    <i class="fa-solid fa-file-csv text-success text-lg"></i>
+                                </div>
+                                <span class="text-sm font-semibold text-neutral-900">CSV File</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-neutral-700 text-sm"></i>
+                        </button>
+                        <button class="export-option w-full h-[56px] bg-white border border-neutral-200 rounded-xl px-4 flex items-center justify-between active:border-primary active:bg-primary/5 transition-all duration-200">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                                    <i class="fa-solid fa-file-lines text-primary text-lg"></i>
+                                </div>
+                                <span class="text-sm font-semibold text-neutral-900">Text Summary</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-neutral-700 text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="consent-modal" class="fixed inset-0 bg-neutral-900/50 z-50 hidden flex items-center justify-center px-5">
+            <div class="bg-white w-full max-w-[340px] rounded-3xl overflow-hidden animate-scale-up">
+                <div class="p-6">
+                    <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa-solid fa-user-doctor text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-neutral-900 text-center mb-2">Share with Provider?</h3>
+                    <p class="text-sm text-neutral-700 text-center mb-6">You're about to share your health data with your healthcare provider. This includes all tracked metrics from the selected time period.</p>
+                    <div class="space-y-3">
+                        <button id="confirm-share-btn" class="w-full h-[48px] bg-primary text-white text-sm font-semibold rounded-xl active:scale-[0.98] transition-all duration-200">
+                            Share Data
+                        </button>
+                        <button id="cancel-share-btn" class="w-full h-[48px] bg-neutral-100 text-neutral-900 text-sm font-semibold rounded-xl active:scale-[0.98] transition-all duration-200">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="success-toast" class="fixed top-20 left-5 right-5 bg-success text-white px-5 py-4 rounded-xl shadow-lg z-50 hidden flex items-center gap-3">
+            <i class="fa-solid fa-check-circle text-xl"></i>
+            <span class="text-sm font-semibold">Data shared successfully!</span>
+        </div>
+
+    </div>
+
+    <script>
+        window.addEventListener('load', function() {
+            try {
+                const painData = {
+                    x: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    y: [3, 4, 6, 5, 3, 8, 4],
+                    type: 'scatter',
+                    mode: 'lines',
+                    line: { color: '#DC2626', width: 3 },
+                    fill: 'tozeroy',
+                    fillcolor: 'rgba(220, 38, 38, 0.1)'
+                };
+
+                const painLayout = {
+                    margin: { t: 10, r: 10, b: 40, l: 40 },
+                    plot_bgcolor: '#FFFFFF',
+                    paper_bgcolor: '#FFFFFF',
+                    xaxis: { 
+                        showgrid: false,
+                        zeroline: false
+                    },
+                    yaxis: { 
+                        title: 'Pain Level',
+                        range: [0, 10],
+                        showgrid: true,
+                        gridcolor: '#E5E7EB',
+                        zeroline: false
+                    },
+                    showlegend: false
+                };
+
+                Plotly.newPlot('pain-chart', [painData], painLayout, {responsive: true, displayModeBar: false, displaylogo: false});
+
+                const hydrationData = {
+                    x: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    y: [6, 7, 5, 8, 6, 9, 7],
+                    type: 'bar',
+                    marker: { color: '#2563EB' }
+                };
+
+                const hydrationLayout = {
+                    margin: { t: 10, r: 10, b: 40, l: 40 },
+                    plot_bgcolor: '#FFFFFF',
+                    paper_bgcolor: '#FFFFFF',
+                    xaxis: { 
+                        showgrid: false,
+                        zeroline: false
+                    },
+                    yaxis: { 
+                        title: 'Glasses',
+                        range: [0, 10],
+                        showgrid: true,
+                        gridcolor: '#E5E7EB',
+                        zeroline: false
+                    },
+                    showlegend: false
+                };
+
+                Plotly.newPlot('hydration-chart', [hydrationData], hydrationLayout, {responsive: true, displayModeBar: false, displaylogo: false});
+
+                const heatmapData = {
+                    z: [[0, 2, 3, 1, 4, 2, 0], [3, 4, 2, 5, 3, 1, 2], [2, 1, 4, 3, 2, 4, 3], [1, 3, 2, 4, 5, 3, 1]],
+                    x: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    y: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                    type: 'heatmap',
+                    colorscale: [
+                        [0, '#E5E7EB'],
+                        [0.33, 'rgba(16, 185, 129, 0.3)'],
+                        [0.66, 'rgba(16, 185, 129, 0.6)'],
+                        [1, '#10B981']
+                    ],
+                    showscale: false
+                };
+
+                const heatmapLayout = {
+                    margin: { t: 10, r: 10, b: 40, l: 60 },
+                    plot_bgcolor: '#FFFFFF',
+                    paper_bgcolor: '#FFFFFF',
+                    xaxis: { 
+                        showgrid: false,
+                        zeroline: false,
+                        side: 'bottom'
+                    },
+                    yaxis: { 
+                        showgrid: false,
+                        zeroline: false
+                    }
+                };
+
+                Plotly.newPlot('checkin-heatmap', [heatmapData], heatmapLayout, {responsive: true, displayModeBar: false, displaylogo: false});
+
+            } catch(e) {
+                console.error('Chart rendering error:', e);
+            }
+
+            const backBtn = document.getElementById('back-btn');
+            const filterBtn = document.getElementById('filter-btn');
+            const exportDataBtn = document.getElementById('export-data-btn');
+            const shareProviderBtn = document.getElementById('share-provider-btn');
+            const filterModal = document.getElementById('filter-modal');
+            const closeFilterModalBtn = document.getElementById('close-filter-modal-btn');
+            const applyFiltersBtn = document.getElementById('apply-filters-btn');
+            const clearFiltersBtn = document.getElementById('clear-filters-btn');
+            const exportModal = document.getElementById('export-modal');
+            const closeExportModalBtn = document.getElementById('close-export-modal-btn');
+            const consentModal = document.getElementById('consent-modal');
+            const confirmShareBtn = document.getElementById('confirm-share-btn');
+            const cancelShareBtn = document.getElementById('cancel-share-btn');
+            const successToast = document.getElementById('success-toast');
+            const dateRangeBtns = document.querySelectorAll('.date-range-btn');
+
+            backBtn.addEventListener('click', function() {
+                window.location.href = 'dashboard.html';
+            });
+
+            filterBtn.addEventListener('click', function() {
+                filterModal.classList.remove('hidden');
+                filterModal.classList.add('flex');
+            });
+
+            closeFilterModalBtn.addEventListener('click', function() {
+                filterModal.classList.add('hidden');
+                filterModal.classList.remove('flex');
+            });
+
+            applyFiltersBtn.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                    filterModal.classList.add('hidden');
+                    filterModal.classList.remove('flex');
+                }, 150);
+            });
+
+            clearFiltersBtn.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                    const checkboxes = filterModal.querySelectorAll('input[type="checkbox"]');
+                    checkboxes.forEach(cb => cb.checked = false);
+                }, 150);
+            });
+
+            exportDataBtn.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                    exportModal.classList.remove('hidden');
+                    exportModal.classList.add('flex');
+                }, 150);
+            });
+
+            closeExportModalBtn.addEventListener('click', function() {
+                exportModal.classList.add('hidden');
+                exportModal.classList.remove('flex');
+            });
+
+            shareProviderBtn.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                    consentModal.classList.remove('hidden');
+                    consentModal.classList.add('flex');
+                }, 150);
+            });
+
+            confirmShareBtn.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                    consentModal.classList.add('hidden');
+                    consentModal.classList.remove('flex');
+                    
+                    successToast.classList.remove('hidden');
+                    successToast.classList.add('flex');
+                    
+                    setTimeout(() => {
+                        successToast.classList.add('hidden');
+                        successToast.classList.remove('flex');
+                    }, 3000);
+                }, 150);
+            });
+
+            cancelShareBtn.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                    consentModal.classList.add('hidden');
+                    consentModal.classList.remove('flex');
+                }, 150);
+            });
+
+            dateRangeBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    dateRangeBtns.forEach(b => {
+                        b.classList.remove('bg-primary', 'text-white');
+                        b.classList.add('bg-white', 'border', 'border-neutral-200', 'text-neutral-900');
+                    });
+                    this.classList.remove('bg-white', 'border', 'border-neutral-200', 'text-neutral-900');
+                    this.classList.add('bg-primary', 'text-white');
+                });
+            });
+
+            filterModal.addEventListener('click', function(e) {
+                if (e.target === filterModal) {
+                    filterModal.classList.add('hidden');
+                    filterModal.classList.remove('flex');
+                }
+            });
+
+            exportModal.addEventListener('click', function(e) {
+                if (e.target === exportModal) {
+                    exportModal.classList.add('hidden');
+                    exportModal.classList.remove('flex');
+                }
+            });
+        });
+    </script>
+
+    <style>
+        @keyframes slide-up {
+            from {
+                opacity: 0;
+                transform: translateY(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-slide-up {
+            animation: slide-up 0.3s ease-out;
+        }
+        @keyframes scale-up {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .animate-scale-up {
+            animation: scale-up 0.3s ease-out;
+        }
+    </style>
+</body>
+</html>

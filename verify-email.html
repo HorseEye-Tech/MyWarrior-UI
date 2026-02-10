@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Email</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        ::-webkit-scrollbar { display: none; }
+        body { animation: pageEnter 0.3s ease-out; }
+        @keyframes pageEnter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563EB',
+                        success: '#10B981',
+                        warning: '#F59E0B',
+                        danger: '#DC2626',
+                        neutral: {
+                            50: '#FFFFFF',
+                            100: '#F9FAFB',
+                            200: '#E5E7EB',
+                            700: '#6B7280',
+                            900: '#111827'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-neutral-100 font-sans antialiased">
+    <div id="email-verification-screen" class="w-full min-h-[840px] flex flex-col bg-white">
+        
+        <header id="header" class="px-5 pt-6 pb-4 bg-white sticky top-0 z-10">
+            <button id="back-btn" class="w-11 h-11 flex items-center justify-center rounded-xl hover:bg-neutral-100 active:scale-95 transition-all duration-200">
+                <i class="fa-solid fa-arrow-left text-neutral-900 text-lg"></i>
+            </button>
+        </header>
+
+        <main id="main-content" class="flex-1 px-5 py-6 pb-24 overflow-y-auto flex flex-col">
+            
+            <div id="header-section" class="text-center mb-8">
+                <div class="w-20 h-20 bg-gradient-to-br from-primary to-blue-700 rounded-2xl flex items-center justify-center shadow-lg shadow-primary/20 mb-6 mx-auto">
+                    <i class="fa-solid fa-envelope-circle-check text-white text-3xl"></i>
+                </div>
+                <h1 class="text-[28px] leading-[36px] font-bold text-neutral-900 mb-3">
+                    Verify Your Email
+                </h1>
+                <p class="text-base text-neutral-700 leading-relaxed px-4">
+                    We've sent a 6-digit code to
+                </p>
+                <p class="text-base font-semibold text-neutral-900 mt-1">
+                    warrior@example.com
+                </p>
+            </div>
+
+            <div id="code-input-section" class="mb-8">
+                <label class="block text-sm font-semibold text-neutral-900 mb-3 text-center">
+                    Enter verification code
+                </label>
+                
+                <div id="code-inputs" class="flex justify-center gap-3 mb-4">
+                    <input type="text" maxlength="1" class="code-input w-[48px] h-[56px] text-center text-2xl font-bold bg-white border-2 border-neutral-200 rounded-xl text-neutral-900 focus:outline-none focus:border-primary transition-all duration-200" data-index="0">
+                    <input type="text" maxlength="1" class="code-input w-[48px] h-[56px] text-center text-2xl font-bold bg-white border-2 border-neutral-200 rounded-xl text-neutral-900 focus:outline-none focus:border-primary transition-all duration-200" data-index="1">
+                    <input type="text" maxlength="1" class="code-input w-[48px] h-[56px] text-center text-2xl font-bold bg-white border-2 border-neutral-200 rounded-xl text-neutral-900 focus:outline-none focus:border-primary transition-all duration-200" data-index="2">
+                    <input type="text" maxlength="1" class="code-input w-[48px] h-[56px] text-center text-2xl font-bold bg-white border-2 border-neutral-200 rounded-xl text-neutral-900 focus:outline-none focus:border-primary transition-all duration-200" data-index="3">
+                    <input type="text" maxlength="1" class="code-input w-[48px] h-[56px] text-center text-2xl font-bold bg-white border-2 border-neutral-200 rounded-xl text-neutral-900 focus:outline-none focus:border-primary transition-all duration-200" data-index="4">
+                    <input type="text" maxlength="1" class="code-input w-[48px] h-[56px] text-center text-2xl font-bold bg-white border-2 border-neutral-200 rounded-xl text-neutral-900 focus:outline-none focus:border-primary transition-all duration-200" data-index="5">
+                </div>
+
+                <div id="error-message" class="hidden bg-danger/10 border border-danger/20 rounded-xl p-3 mb-4">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-circle-exclamation text-danger text-sm"></i>
+                        <p class="text-sm text-danger font-medium">
+                            Invalid code. Please try again.
+                        </p>
+                    </div>
+                </div>
+
+                <div id="success-message" class="hidden bg-success/10 border border-success/20 rounded-xl p-3 mb-4">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-circle-check text-success text-sm"></i>
+                        <p class="text-sm text-success font-medium">
+                            Email verified successfully!
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="resend-section" class="text-center mb-8">
+                <p class="text-sm text-neutral-700 mb-3">
+                    Didn't receive the code?
+                </p>
+                <button id="resend-btn" class="text-sm font-semibold text-primary hover:text-blue-700 active:scale-95 transition-all duration-200">
+                    Resend Code
+                </button>
+                <p id="resend-timer" class="text-xs text-neutral-700 mt-2 hidden">
+                    Resend available in <span id="timer-count">60</span>s
+                </p>
+            </div>
+
+            <div id="info-cards" class="space-y-4 mb-8">
+                <div class="bg-primary/5 border border-primary/20 rounded-xl p-4">
+                    <div class="flex gap-3">
+                        <i class="fa-solid fa-clock text-primary text-lg flex-shrink-0 mt-0.5"></i>
+                        <div>
+                            <p class="text-sm text-neutral-900 font-medium mb-1">
+                                Code expires in 10 minutes
+                            </p>
+                            <p class="text-xs text-neutral-700 leading-relaxed">
+                                Request a new code if this one expires
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-neutral-100 border border-neutral-200 rounded-xl p-4">
+                    <div class="flex gap-3">
+                        <i class="fa-solid fa-shield-check text-neutral-900 text-lg flex-shrink-0 mt-0.5"></i>
+                        <div>
+                            <p class="text-sm text-neutral-900 font-medium mb-1">
+                                Why verify?
+                            </p>
+                            <p class="text-xs text-neutral-700 leading-relaxed">
+                                Email verification helps us keep your account secure and allows us to send you important health updates
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="help-section" class="mt-auto pt-6 border-t border-neutral-200">
+                <p class="text-sm text-center text-neutral-700 mb-3">
+                    Having trouble?
+                </p>
+                <div class="flex flex-col gap-2">
+                    <button class="flex items-center justify-center gap-2 h-[48px] bg-neutral-100 text-neutral-900 text-sm font-medium rounded-xl hover:bg-neutral-200 active:scale-[0.98] transition-all duration-200">
+                        <i class="fa-solid fa-envelope text-base"></i>
+                        <span>Change Email Address</span>
+                    </button>
+                    <button class="flex items-center justify-center gap-2 h-[48px] bg-neutral-100 text-neutral-900 text-sm font-medium rounded-xl hover:bg-neutral-200 active:scale-[0.98] transition-all duration-200">
+                        <i class="fa-solid fa-circle-question text-base"></i>
+                        <span>Contact Support</span>
+                    </button>
+                </div>
+            </div>
+
+        </main>
+
+        <footer id="footer" class="fixed bottom-0 left-0 right-0 px-5 py-4 bg-white border-t border-neutral-200">
+            <button id="verify-btn" class="w-full h-[52px] bg-neutral-200 text-neutral-700 text-base font-semibold rounded-xl shadow-sm transition-all duration-200 flex items-center justify-center gap-2 cursor-not-allowed mb-3" disabled>
+                <span id="verify-text">Verify Email</span>
+                <i id="verify-icon" class="fa-solid fa-arrow-right text-sm"></i>
+                <i id="verify-spinner" class="fa-solid fa-spinner fa-spin text-sm hidden"></i>
+            </button>
+
+            <div class="flex items-center justify-center gap-2">
+                <div class="flex gap-1">
+                    <div class="w-2 h-2 rounded-full bg-neutral-200"></div>
+                    <div class="w-2 h-2 rounded-full bg-neutral-200"></div>
+                    <div class="w-2 h-2 rounded-full bg-neutral-200"></div>
+                    <div class="w-2 h-2 rounded-full bg-primary"></div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const codeInputs = document.querySelectorAll('.code-input');
+        const verifyBtn = document.getElementById('verify-btn');
+        const verifyText = document.getElementById('verify-text');
+        const verifyIcon = document.getElementById('verify-icon');
+        const verifySpinner = document.getElementById('verify-spinner');
+        const resendBtn = document.getElementById('resend-btn');
+        const resendTimer = document.getElementById('resend-timer');
+        const timerCount = document.getElementById('timer-count');
+        const errorMessage = document.getElementById('error-message');
+        const successMessage = document.getElementById('success-message');
+        const backBtn = document.getElementById('back-btn');
+
+        let code = ['', '', '', '', '', ''];
+        let resendTimeout = null;
+
+        codeInputs.forEach((input, index) => {
+            input.addEventListener('input', function(e) {
+                const value = e.target.value;
+                
+                if (value.match(/[0-9]/)) {
+                    code[index] = value;
+                    e.target.value = value;
+                    
+                    if (index < 5) {
+                        codeInputs[index + 1].focus();
+                    }
+                } else {
+                    e.target.value = '';
+                    code[index] = '';
+                }
+
+                errorMessage.classList.add('hidden');
+                successMessage.classList.add('hidden');
+                
+                codeInputs.forEach(inp => {
+                    inp.classList.remove('border-danger', 'border-success');
+                    inp.classList.add('border-neutral-200');
+                });
+
+                validateCode();
+            });
+
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Backspace') {
+                    if (e.target.value === '' && index > 0) {
+                        codeInputs[index - 1].focus();
+                        codeInputs[index - 1].value = '';
+                        code[index - 1] = '';
+                        validateCode();
+                    } else {
+                        e.target.value = '';
+                        code[index] = '';
+                        validateCode();
+                    }
+                }
+
+                if (e.key === 'ArrowLeft' && index > 0) {
+                    codeInputs[index - 1].focus();
+                }
+
+                if (e.key === 'ArrowRight' && index < 5) {
+                    codeInputs[index + 1].focus();
+                }
+            });
+
+            input.addEventListener('paste', function(e) {
+                e.preventDefault();
+                const pastedData = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
+                
+                pastedData.split('').forEach((char, idx) => {
+                    if (idx < 6) {
+                        codeInputs[idx].value = char;
+                        code[idx] = char;
+                    }
+                });
+
+                if (pastedData.length === 6) {
+                    codeInputs[5].focus();
+                } else if (pastedData.length > 0) {
+                    codeInputs[Math.min(pastedData.length, 5)].focus();
+                }
+
+                validateCode();
+            });
+        });
+
+        function validateCode() {
+            const isComplete = code.every(digit => digit !== '');
+            
+            if (isComplete) {
+                verifyBtn.disabled = false;
+                verifyBtn.classList.remove('bg-neutral-200', 'text-neutral-700', 'cursor-not-allowed');
+                verifyBtn.classList.add('bg-primary', 'text-white', 'hover:bg-blue-700', 'active:scale-[0.98]', 'shadow-lg', 'shadow-primary/20');
+            } else {
+                verifyBtn.disabled = true;
+                verifyBtn.classList.add('bg-neutral-200', 'text-neutral-700', 'cursor-not-allowed');
+                verifyBtn.classList.remove('bg-primary', 'text-white', 'hover:bg-blue-700', 'active:scale-[0.98]', 'shadow-lg', 'shadow-primary/20');
+            }
+        }
+
+        verifyBtn.addEventListener('click', function() {
+            if (!this.disabled) {
+                verifyIcon.classList.add('hidden');
+                verifySpinner.classList.remove('hidden');
+                verifyText.textContent = 'Verifying...';
+                this.disabled = true;
+
+                setTimeout(() => {
+                    const enteredCode = code.join('');
+                    
+                    if (Math.random() > 0.3) {
+                        successMessage.classList.remove('hidden');
+                        errorMessage.classList.add('hidden');
+                        
+                        codeInputs.forEach(input => {
+                            input.classList.remove('border-neutral-200', 'border-danger');
+                            input.classList.add('border-success');
+                            input.disabled = true;
+                        });
+
+                        verifyText.textContent = 'Verified!';
+                        verifyIcon.classList.remove('fa-arrow-right');
+                        verifyIcon.classList.add('fa-circle-check');
+                        verifyIcon.classList.remove('hidden');
+                        verifySpinner.classList.add('hidden');
+                        this.classList.remove('bg-primary');
+                        this.classList.add('bg-success');
+
+                        setTimeout(() => {
+                            window.location.href = 'profile-setup-1.html';
+                        }, 1500);
+                    } else {
+                        errorMessage.classList.remove('hidden');
+                        successMessage.classList.add('hidden');
+                        
+                        codeInputs.forEach(input => {
+                            input.classList.remove('border-neutral-200', 'border-success');
+                            input.classList.add('border-danger');
+                            input.value = '';
+                        });
+
+                        code = ['', '', '', '', '', ''];
+                        codeInputs[0].focus();
+
+                        verifyText.textContent = 'Verify Email';
+                        verifyIcon.classList.remove('hidden');
+                        verifySpinner.classList.add('hidden');
+                        this.disabled = true;
+                        this.classList.add('bg-neutral-200', 'text-neutral-700', 'cursor-not-allowed');
+                        this.classList.remove('bg-primary', 'text-white', 'hover:bg-blue-700', 'shadow-lg', 'shadow-primary/20');
+                    }
+                }, 1500);
+            }
+        });
+
+        resendBtn.addEventListener('click', function() {
+            if (!this.disabled) {
+                this.disabled = true;
+                this.classList.add('opacity-50', 'cursor-not-allowed');
+                resendTimer.classList.remove('hidden');
+
+                let timeLeft = 60;
+                timerCount.textContent = timeLeft;
+
+                resendTimeout = setInterval(() => {
+                    timeLeft--;
+                    timerCount.textContent = timeLeft;
+
+                    if (timeLeft <= 0) {
+                        clearInterval(resendTimeout);
+                        resendBtn.disabled = false;
+                        resendBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                        resendTimer.classList.add('hidden');
+                    }
+                }, 1000);
+
+                errorMessage.classList.add('hidden');
+                successMessage.classList.add('hidden');
+                
+                codeInputs.forEach(input => {
+                    input.value = '';
+                    input.classList.remove('border-danger', 'border-success');
+                    input.classList.add('border-neutral-200');
+                    input.disabled = false;
+                });
+                
+                code = ['', '', '', '', '', ''];
+                codeInputs[0].focus();
+                validateCode();
+
+                console.log('Resending verification code...');
+            }
+        });
+
+        backBtn.addEventListener('click', function() {
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+                window.location.href = 'signup.html';
+            }, 100);
+        });
+
+        codeInputs[0].focus();
+    </script>
+</body>
+</html>

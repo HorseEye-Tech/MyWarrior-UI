@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        ::-webkit-scrollbar { display: none;}
+        body { animation: pageEnter 0.3s ease-out; }
+        @keyframes pageEnter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563EB',
+                        success: '#10B981',
+                        warning: '#F59E0B',
+                        danger: '#DC2626',
+                        neutral: {
+                            50: '#FFFFFF',
+                            100: '#F9FAFB',
+                            200: '#E5E7EB',
+                            700: '#6B7280',
+                            900: '#111827'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-neutral-100 font-sans antialiased">
+    <div id="settings-screen" class="w-full min-h-[840px] flex flex-col">
+        
+        <header id="header" class="bg-white border-b border-neutral-200 px-5 py-4 sticky top-0 z-50">
+            <div class="flex items-center justify-between">
+                <button id="back-btn" class="w-10 h-10 flex items-center justify-center rounded-lg active:bg-neutral-100 transition-colors duration-200">
+                    <i class="fa-solid fa-chevron-left text-neutral-900 text-base"></i>
+                </button>
+                <h1 class="text-lg font-bold text-neutral-900">Settings</h1>
+                <div class="w-10"></div>
+            </div>
+        </header>
+
+        <main id="main-content" class="flex-1 overflow-y-auto pb-24">
+            
+            <div id="account-section" class="px-5 pt-5 mb-6">
+                <h2 class="text-sm font-bold text-neutral-900 mb-3 px-1">Account</h2>
+                <div class="bg-white rounded-2xl border border-neutral-200 overflow-hidden">
+                    <button id="email-verification-btn" class="w-full px-4 py-4 flex items-center justify-between border-b border-neutral-200 active:bg-neutral-50 transition-colors duration-200">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-success/10 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-envelope-circle-check text-success text-base"></i>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-sm font-semibold text-neutral-900">Email Verification</p>
+                                <p class="text-xs text-success">Verified</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-neutral-700 text-sm"></i>
+                    </button>
+
+                    <button id="phone-verification-btn" class="w-full px-4 py-4 flex items-center justify-between border-b border-neutral-200 active:bg-neutral-50 transition-colors duration-200">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-warning/10 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-mobile-screen text-warning text-base"></i>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-sm font-semibold text-neutral-900">Phone Verification</p>
+                                <p class="text-xs text-warning">Not verified</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-neutral-700 text-sm"></i>
+                    </button>
+
+                    <button id="change-password-btn" class="w-full px-4 py-4 flex items-center justify-between border-b border-neutral-200 active:bg-neutral-50 transition-colors duration-200">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-key text-primary text-base"></i>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-sm font-semibold text-neutral-900">Change Password</p>
+                                <p class="text-xs text-neutral-700">Update your password</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-neutral-700 text-sm"></i>
+                    </button>
+
+                    <button id="delete-account-btn" class="w-full px-4 py-4 flex items-center justify-between active:bg-neutral-50 transition-colors duration-200">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-danger/10 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-trash-can text-danger text-base"></i>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-sm font-semibold text-danger">Delete Account</p>
+                                <p class="text-xs text-neutral-700">Permanently remove data</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-neutral-700 text-sm"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="notifications-section" class="px-5 mb-6">
+                <h2 class="text-sm font-bold text-neutral-900 mb-3 px-1">Notifications</h2>
+                <div class="bg-white rounded-2xl border border-neutral-200 overflow-hidden">
+                    <div class="px-4 py-4 border-b border-neutral-200">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center gap-3 flex-1">
+                                <div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
+                                    <i class="fa-solid fa-calendar-check text-primary text-base"></i>
+                                </div>
+                                <div class="text-left">
+                                    <p class="text-sm font-semibold text-neutral-900">Daily Check-in</p>
+                                    <p class="text-xs text-neutral-700">Remind me to log daily</p>
+                                </div>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" class="sr-only peer" id="checkin-toggle" checked>
+                                <div class="w-11 h-6 bg-neutral-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                            </label>
+                        </div>
+                        <button id="checkin-time-btn" class="w-full h-12 bg-neutral-100 rounded-xl px-4 flex items-center justify-between active:bg-neutral-200 transition-colors duration-200">
+                            <span class="text-sm text-neutral-700">Reminder time</span>
+                            <span class="text-sm font-semibold text-neutral-900">9:00 AM</span>
+                        </button>
+                    </div>
+
+                    <div class="px-4 py-4 border-b border-neutral-200 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-success/10 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-pills text-success text-base"></i>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-sm font-semibold text-neutral-900">Medication Reminders</p>
+                                <p class="text-xs text-neutral-700">Alert me to take meds</p>
+                            </div>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer" id="medication-toggle" checked>
+                            <div class="w-11 h-6 bg-neutral-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                        </label>
+                    </div>
+
+                    <div class="px-4 py-4 border-b border-neutral-200 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-droplet text-primary text-base"></i>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-sm font-semibold text-neutral-900">Hydration Reminders</p>
+                                <p class="text-xs text-neutral-700">Stay hydrated alerts</p>
+                            </div>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer" id="hydration-toggle" checked>
+                            <div class="w-11 h-6 bg-neutral-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                        </label>
+                    </div>
+
+                    <div class="px-4 py-4 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-danger/10 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-bell text-danger text-base"></i>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-sm font-semibold text-neutral-900">Crisis Alerts</p>
+                                <p class="text-xs text-neutral-700">Emergency notifications</p>
+                            </div>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer" id="crisis-toggle" checked>
+                            <div class="w-11 h-6 bg-neutral-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="privacy-data-section" class="px-5 mb-6">
+                <h2 class="text-sm font-bold text-neutral-900 mb-3 px-1">Privacy & Data</h2>
+                <div class="bg-white rounded-2xl border border-neutral-200 overflow-hidden">
+                    <button id="data-sharing-btn" onclick="window.location.href='data-sharing.html'" class="w-full px-4 py-4 flex items-center justify-between border-b border-neutral-200 active:bg-neutral-50 transition-colors duration-200">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-neutral-700/10 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-shield-halved text-neutral-700 text-base"></i>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-sm font-semibold text-neutral-900">Data Sharing</p>
+                                <p class="text-xs text-neutral-700">Control who sees your data</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-neutral-700 text-sm"></i>
+                    </button>
+
+                    <button id="caregiver-access-btn" onclick="window.location.href='share-access.html'" class="w-full px-4 py-4 flex items-center justify-between border-b border-neutral-200 active:bg-neutral-50 transition-colors duration-200">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-warning/10 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-user-group text-warning text-base"></i>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-sm font-semibold text-neutral-900">Caregiver Access</p>
+                                <p class="text-xs text-neutral-700">2 caregivers connected</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-neutral-700 text-sm"></i>
+                    </button>
+
+                    <button id="provider-access-btn" class="w-full px-4 py-4 flex items-center justify-between border-b border-neutral-200 active:bg-neutral-50 transition-colors duration-200">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-user-doctor text-primary text-base"></i>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-sm font-semibold text-neutral-900">Provider Access</p>
+                                <p class="text-xs text-neutral-700">1 provider connected</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-neutral-700 text-sm"></i>
+                    </button>
+
+                    <button id="export-data-btn" class="w-full px-4 py-4 flex items-center justify-between active:bg-neutral-50 transition-colors duration-200">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-success/10 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-download text-success text-base"></i>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-sm font-semibold text-neutral-900">Export My Data</p>
+                                <p class="text-xs text-neutral-700">Download your records</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-neutral-700 text-sm"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="app-preferences-section" class="px-5 mb-6">
+                <h2 class="text-sm font-bold text-neutral-900 mb-3 px-1">App Preferences</h2>
+                <div class="bg-white rounded-2xl border border-neutral-200 overflow-hidden">
+                    <button id="language-btn" class="w-full px-4 py-4 flex items-center justify-between border-b border-neutral-200 active:bg-neutral-50 transition-colors duration-200">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-language text-primary text-base"></i>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-sm font-semibold text-neutral-900">Language</p>
+                                <p class="text-xs text-neutral-700">English</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-neutral-700 text-sm"></i>
+                    </button>
+
+                    <div class="px-4 py-4 border-b border-neutral-200 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-neutral-700/10 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-moon text-neutral-700 text-base"></i>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-sm font-semibold text-neutral-900">Dark Theme</p>
+                                <p class="text-xs text-neutral-700">Use dark mode</p>
+                            </div>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer" id="theme-toggle">
+                            <div class="w-11 h-6 bg-neutral-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                        </label>
+                    </div>
+
+                    <button id="units-btn" class="w-full px-4 py-4 flex items-center justify-between active:bg-neutral-50 transition-colors duration-200">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-warning/10 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-ruler text-warning text-base"></i>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-sm font-semibold text-neutral-900">Units</p>
+                                <p class="text-xs text-neutral-700">Metric</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-neutral-700 text-sm"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="about-section" class="px-5 pb-6">
+                <h2 class="text-sm font-bold text-neutral-900 mb-3 px-1">About</h2>
+                <div class="bg-white rounded-2xl border border-neutral-200 overflow-hidden">
+                    <div class="px-4 py-4 border-b border-neutral-200">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-neutral-700/10 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-mobile-screen-button text-neutral-700 text-base"></i>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-sm font-semibold text-neutral-900">App Version</p>
+                                <p class="text-xs text-neutral-700">1.2.0 • Last updated Jan 2025</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="terms-btn" class="w-full px-4 py-4 flex items-center justify-between border-b border-neutral-200 active:bg-neutral-50 transition-colors duration-200">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-file-lines text-primary text-base"></i>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-sm font-semibold text-neutral-900">Terms & Privacy</p>
+                                <p class="text-xs text-neutral-700">Legal information</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-neutral-700 text-sm"></i>
+                    </button>
+
+                    <button id="contact-support-btn" class="w-full px-4 py-4 flex items-center justify-between border-b border-neutral-200 active:bg-neutral-50 transition-colors duration-200">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-success/10 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-life-ring text-success text-base"></i>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-sm font-semibold text-neutral-900">Contact Support</p>
+                                <p class="text-xs text-neutral-700">Get help with issues</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-neutral-700 text-sm"></i>
+                    </button>
+
+                    <button id="rate-app-btn" class="w-full px-4 py-4 flex items-center justify-between active:bg-neutral-50 transition-colors duration-200">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-warning/10 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-star text-warning text-base"></i>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-sm font-semibold text-neutral-900">Rate App</p>
+                                <p class="text-xs text-neutral-700">Share your feedback</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-neutral-700 text-sm"></i>
+                    </button>
+                </div>
+            </div>
+
+        </main>
+
+        <nav id="bottom-navigation" class="fixed bottom-0 left-0 right-0 bg-white border-t border-neutral-200 z-40">
+            <div class="flex items-center justify-around h-16 px-2">
+                <button onclick="window.location.href='dashboard.html'" class="nav-item flex flex-col items-center justify-center w-16 h-12 rounded-lg active:bg-neutral-100 transition-colors duration-200">
+                    <i class="fa-solid fa-house text-neutral-700 text-lg mb-0.5"></i>
+                    <span class="text-[10px] font-medium text-neutral-700">Home</span>
+                </button>
+                <button onclick="window.location.href='health-log.html'" class="nav-item flex flex-col items-center justify-center w-16 h-12 rounded-lg active:bg-neutral-100 transition-colors duration-200">
+                    <i class="fa-solid fa-chart-simple text-neutral-700 text-lg mb-0.5"></i>
+                    <span class="text-[10px] font-medium text-neutral-700">Health Log</span>
+                </button>
+                <button onclick="window.location.href='community.html'" class="nav-item flex flex-col items-center justify-center w-16 h-12 rounded-lg active:bg-neutral-100 transition-colors duration-200">
+                    <i class="fa-solid fa-users text-neutral-700 text-lg mb-0.5"></i>
+                    <span class="text-[10px] font-medium text-neutral-700">Community</span>
+                </button>
+                <button onclick="window.location.href='profile.html'" class="nav-item flex flex-col items-center justify-center w-16 h-12 rounded-lg active:bg-neutral-100 transition-colors duration-200">
+                    <i class="fa-solid fa-user text-neutral-700 text-lg mb-0.5"></i>
+                    <span class="text-[10px] font-medium text-neutral-700">Profile</span>
+                </button>
+            </div>
+        </nav>
+
+        <div id="time-picker-modal" class="fixed inset-0 bg-neutral-900/50 z-50 hidden flex items-end">
+            <div class="bg-white w-full rounded-t-2xl p-5 animate-slide-up">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-bold text-neutral-900">Set Reminder Time</h3>
+                    <button id="close-time-picker" class="w-8 h-8 flex items-center justify-center rounded-lg active:bg-neutral-100 transition-colors duration-200">
+                        <i class="fa-solid fa-xmark text-neutral-900 text-lg"></i>
+                    </button>
+                </div>
+                <div class="flex items-center justify-center gap-4 mb-6">
+                    <select id="hour-select" class="w-20 h-16 text-center text-2xl font-bold text-neutral-900 bg-neutral-100 rounded-xl border-2 border-primary">
+                        <option value="08">08</option>
+                        <option value="09" selected>09</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                    </select>
+                    <span class="text-2xl font-bold text-neutral-900">:</span>
+                    <select id="minute-select" class="w-20 h-16 text-center text-2xl font-bold text-neutral-900 bg-neutral-100 rounded-xl border-2 border-primary">
+                        <option value="00" selected>00</option>
+                        <option value="15">15</option>
+                        <option value="30">30</option>
+                        <option value="45">45</option>
+                    </select>
+                    <select id="period-select" class="w-20 h-16 text-center text-2xl font-bold text-neutral-900 bg-neutral-100 rounded-xl border-2 border-primary">
+                        <option value="AM" selected>AM</option>
+                        <option value="PM">PM</option>
+                    </select>
+                </div>
+                <button id="save-time-btn" class="w-full h-[52px] bg-primary text-white rounded-xl font-semibold text-sm active:scale-[0.98] transition-all duration-200">
+                    Save Time
+                </button>
+            </div>
+        </div>
+
+        <div id="delete-account-modal" class="fixed inset-0 bg-neutral-900/50 z-50 hidden flex items-center justify-center px-5">
+            <div class="bg-white w-full max-w-sm rounded-2xl p-5 animate-scale-up">
+                <div class="flex flex-col items-center text-center mb-5">
+                    <div class="w-16 h-16 bg-danger/10 rounded-full flex items-center justify-center mb-3">
+                        <i class="fa-solid fa-triangle-exclamation text-danger text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-neutral-900 mb-2">Delete Account?</h3>
+                    <p class="text-sm text-neutral-700">This action cannot be undone. All your health data, check-ins, and progress will be permanently deleted.</p>
+                </div>
+                <div class="space-y-2">
+                    <button id="confirm-delete-btn" class="w-full h-[52px] bg-danger text-white rounded-xl font-semibold text-sm active:scale-[0.98] transition-all duration-200">
+                        Yes, Delete Account
+                    </button>
+                    <button id="cancel-delete-btn" class="w-full h-[52px] bg-neutral-100 text-neutral-900 rounded-xl font-semibold text-sm active:scale-[0.98] transition-all duration-200">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="success-toast" class="fixed top-20 left-5 right-5 bg-success text-white px-5 py-4 rounded-xl shadow-lg z-50 hidden flex items-center gap-3">
+            <i class="fa-solid fa-check-circle text-xl"></i>
+            <span class="text-sm font-semibold" id="toast-message">Settings updated!</span>
+        </div>
+
+    </div>
+
+    <script>
+        window.addEventListener('load', function() {
+            const backBtn = document.getElementById('back-btn');
+            const checkinTimeBtn = document.getElementById('checkin-time-btn');
+            const timePickerModal = document.getElementById('time-picker-modal');
+            const closeTimePicker = document.getElementById('close-time-picker');
+            const saveTimeBtn = document.getElementById('save-time-btn');
+            const deleteAccountBtn = document.getElementById('delete-account-btn');
+            const deleteAccountModal = document.getElementById('delete-account-modal');
+            const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
+            const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
+            const successToast = document.getElementById('success-toast');
+            const toastMessage = document.getElementById('toast-message');
+
+            const checkinToggle = document.getElementById('checkin-toggle');
+            const medicationToggle = document.getElementById('medication-toggle');
+            const hydrationToggle = document.getElementById('hydration-toggle');
+            const crisisToggle = document.getElementById('crisis-toggle');
+            const themeToggle = document.getElementById('theme-toggle');
+
+            function showToast(message) {
+                toastMessage.textContent = message;
+                successToast.classList.remove('hidden');
+                successToast.classList.add('flex');
+                setTimeout(() => {
+                    successToast.classList.add('hidden');
+                    successToast.classList.remove('flex');
+                }, 3000);
+            }
+
+            backBtn.addEventListener('click', function() {
+                window.location.href = 'profile.html';
+            });
+
+            checkinTimeBtn.addEventListener('click', function() {
+                timePickerModal.classList.remove('hidden');
+                timePickerModal.classList.add('flex');
+            });
+
+            closeTimePicker.addEventListener('click', function() {
+                timePickerModal.classList.add('hidden');
+                timePickerModal.classList.remove('flex');
+            });
+
+            saveTimeBtn.addEventListener('click', function() {
+                const hour = document.getElementById('hour-select').value;
+                const minute = document.getElementById('minute-select').value;
+                const period = document.getElementById('period-select').value;
+                checkinTimeBtn.querySelector('span:last-child').textContent = hour + ':' + minute + ' ' + period;
+                timePickerModal.classList.add('hidden');
+                timePickerModal.classList.remove('flex');
+                showToast('Reminder time updated!');
+            });
+
+            timePickerModal.addEventListener('click', function(e) {
+                if (e.target === timePickerModal) {
+                    timePickerModal.classList.add('hidden');
+                    timePickerModal.classList.remove('flex');
+                }
+            });
+
+            deleteAccountBtn.addEventListener('click', function() {
+                deleteAccountModal.classList.remove('hidden');
+                deleteAccountModal.classList.add('flex');
+            });
+
+            cancelDeleteBtn.addEventListener('click', function() {
+                deleteAccountModal.classList.add('hidden');
+                deleteAccountModal.classList.remove('flex');
+            });
+
+            confirmDeleteBtn.addEventListener('click', function() {
+                deleteAccountModal.classList.add('hidden');
+                deleteAccountModal.classList.remove('flex');
+                showToast('Account deletion initiated...');
+            });
+
+            deleteAccountModal.addEventListener('click', function(e) {
+                if (e.target === deleteAccountModal) {
+                    deleteAccountModal.classList.add('hidden');
+                    deleteAccountModal.classList.remove('flex');
+                }
+            });
+
+            checkinToggle.addEventListener('change', function() {
+                showToast(this.checked ? 'Daily check-in enabled' : 'Daily check-in disabled');
+            });
+
+            medicationToggle.addEventListener('change', function() {
+                showToast(this.checked ? 'Medication reminders enabled' : 'Medication reminders disabled');
+            });
+
+            hydrationToggle.addEventListener('change', function() {
+                showToast(this.checked ? 'Hydration reminders enabled' : 'Hydration reminders disabled');
+            });
+
+            crisisToggle.addEventListener('change', function() {
+                showToast(this.checked ? 'Crisis alerts enabled' : 'Crisis alerts disabled');
+            });
+
+            themeToggle.addEventListener('change', function() {
+                showToast(this.checked ? 'Dark theme enabled' : 'Light theme enabled');
+            });
+
+            const clickableButtons = [
+                'email-verification-btn', 'phone-verification-btn', 'change-password-btn',
+                'data-sharing-btn', 'caregiver-access-btn', 'provider-access-btn', 'export-data-btn',
+                'language-btn', 'units-btn', 'terms-btn', 'contact-support-btn', 'rate-app-btn'
+            ];
+
+            clickableButtons.forEach(function(btnId) {
+                const btn = document.getElementById(btnId);
+                if (btn) {
+                    btn.addEventListener('click', function() {
+                        const text = this.querySelector('.text-sm.font-semibold').textContent;
+                        showToast('Opening ' + text + '...');
+                    });
+                }
+            });
+        });
+    </script>
+
+    <style>
+        @keyframes scale-up {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .animate-scale-up {
+            animation: scale-up 0.2s ease-out;
+        }
+        @keyframes slide-up {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+        .animate-slide-up {
+            animation: slide-up 0.3s ease-out;
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Medication</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        ::-webkit-scrollbar { display: none;}
+        body { animation: pageEnter 0.3s ease-out; }
+        @keyframes pageEnter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563EB',
+                        success: '#10B981',
+                        warning: '#F59E0B',
+                        danger: '#DC2626',
+                        neutral: {
+                            50: '#FFFFFF',
+                            100: '#F9FAFB',
+                            200: '#E5E7EB',
+                            700: '#6B7280',
+                            900: '#111827'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-neutral-100 font-sans antialiased">
+    <div id="add-medication-screen" class="w-full min-h-[840px] flex flex-col">
+        
+        <header id="header" class="bg-white border-b border-neutral-200 px-5 py-4 sticky top-0 z-50">
+            <div class="flex items-center justify-between">
+                <button id="back-btn" class="w-10 h-10 flex items-center justify-center rounded-lg active:bg-neutral-100 transition-colors duration-200">
+                    <i class="fa-solid fa-arrow-left text-neutral-900 text-lg"></i>
+                </button>
+                <h1 class="text-lg font-bold text-neutral-900">Add Medication</h1>
+                <div class="w-10 h-10"></div>
+            </div>
+        </header>
+
+        <main id="main-content" class="flex-1 overflow-y-auto pb-32">
+            
+            <div id="medication-form-section" class="px-5 pt-6">
+                
+                <div id="medication-name-field" class="mb-5">
+                    <label for="medication-name" class="block text-sm font-semibold text-neutral-900 mb-2">
+                        Medication Name <span class="text-danger">*</span>
+                    </label>
+                    <div class="relative">
+                        <input 
+                            type="text" 
+                            id="medication-name" 
+                            placeholder="Search or type medication name"
+                            class="w-full h-[48px] bg-white border border-neutral-200 rounded-xl px-4 pr-12 text-sm text-neutral-900 placeholder-neutral-700 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200"
+                        />
+                        <i class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-neutral-700 text-base"></i>
+                    </div>
+                    <p class="text-xs text-neutral-700 mt-2">Start typing to search common medications</p>
+                </div>
+
+                <div id="medication-suggestions" class="mb-5 hidden">
+                    <div class="bg-white border border-neutral-200 rounded-xl overflow-hidden">
+                        <button class="suggestion-item w-full h-[48px] px-4 flex items-center justify-between border-b border-neutral-200 last:border-b-0 active:bg-neutral-100 transition-colors duration-200">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-pills text-primary text-sm"></i>
+                                <span class="text-sm font-medium text-neutral-900">Hydroxyurea</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-neutral-700 text-xs"></i>
+                        </button>
+                        <button class="suggestion-item w-full h-[48px] px-4 flex items-center justify-between border-b border-neutral-200 last:border-b-0 active:bg-neutral-100 transition-colors duration-200">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-pills text-primary text-sm"></i>
+                                <span class="text-sm font-medium text-neutral-900">Folic Acid</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-neutral-700 text-xs"></i>
+                        </button>
+                        <button class="suggestion-item w-full h-[48px] px-4 flex items-center justify-between active:bg-neutral-100 transition-colors duration-200">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-pills text-primary text-sm"></i>
+                                <span class="text-sm font-medium text-neutral-900">Penicillin</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-right text-neutral-700 text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="dosage-field" class="mb-5">
+                    <label for="dosage" class="block text-sm font-semibold text-neutral-900 mb-2">
+                        Dosage <span class="text-danger">*</span>
+                    </label>
+                    <div class="flex items-center gap-3">
+                        <input 
+                            type="text" 
+                            id="dosage" 
+                            placeholder="e.g., 500"
+                            class="flex-1 h-[48px] bg-white border border-neutral-200 rounded-xl px-4 text-sm text-neutral-900 placeholder-neutral-700 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200"
+                        />
+                        <select id="dosage-unit" class="h-[48px] bg-white border border-neutral-200 rounded-xl px-4 text-sm text-neutral-900 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200">
+                            <option value="mg">mg</option>
+                            <option value="g">g</option>
+                            <option value="ml">ml</option>
+                            <option value="mcg">mcg</option>
+                        </select>
+                    </div>
+                    <p class="text-xs text-neutral-700 mt-2">Enter the strength per dose</p>
+                </div>
+
+                <div id="frequency-field" class="mb-5">
+                    <label for="frequency" class="block text-sm font-semibold text-neutral-900 mb-2">
+                        Frequency <span class="text-danger">*</span>
+                    </label>
+                    <select id="frequency" class="w-full h-[48px] bg-white border border-neutral-200 rounded-xl px-4 text-sm text-neutral-900 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 appearance-none bg-no-repeat bg-right pr-10" style="background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg width=%2712%27 height=%278%27 viewBox=%270 0 12 8%27 fill=%27none%27 xmlns=%27http://www.w3.org/2000/svg%27%3e%3cpath d=%27M1 1.5L6 6.5L11 1.5%27 stroke=%27%236B7280%27 stroke-width=%272%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3e%3c/svg%3e'); background-position: right 1rem center;">
+                        <option value="">Select frequency</option>
+                        <option value="once-daily">Once daily</option>
+                        <option value="twice-daily">Twice daily (2x/day)</option>
+                        <option value="three-times-daily">Three times daily (3x/day)</option>
+                        <option value="four-times-daily">Four times daily (4x/day)</option>
+                        <option value="every-other-day">Every other day</option>
+                        <option value="weekly">Once weekly</option>
+                        <option value="as-needed">As needed (PRN)</option>
+                    </select>
+                </div>
+
+                <div id="time-picker-section" class="mb-5">
+                    <label class="block text-sm font-semibold text-neutral-900 mb-2">
+                        Time(s) <span class="text-danger">*</span>
+                    </label>
+                    <p class="text-xs text-neutral-700 mb-3">Select the time(s) you need to take this medication</p>
+                    
+                    <div id="time-slots-container" class="space-y-3">
+                        <div class="time-slot flex items-center gap-3">
+                            <input 
+                                type="time" 
+                                class="flex-1 h-[48px] bg-white border border-neutral-200 rounded-xl px-4 text-sm text-neutral-900 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200"
+                                value="08:00"
+                            />
+                            <button class="remove-time-btn hidden w-[48px] h-[48px] bg-danger/10 text-danger rounded-xl flex items-center justify-center active:scale-95 transition-all duration-200">
+                                <i class="fa-solid fa-trash text-base"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <button id="add-time-btn" class="mt-3 w-full h-[48px] bg-neutral-100 text-primary text-sm font-semibold rounded-xl flex items-center justify-center gap-2 active:scale-[0.98] transition-all duration-200">
+                        <i class="fa-solid fa-plus text-base"></i>
+                        Add Another Time
+                    </button>
+                </div>
+
+                <div id="reminder-toggle-field" class="mb-5">
+                    <div class="bg-white border border-neutral-200 rounded-xl p-5">
+                        <div class="flex items-center justify-between">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <i class="fa-solid fa-bell text-primary text-base"></i>
+                                    <h3 class="text-sm font-semibold text-neutral-900">Enable Reminders</h3>
+                                </div>
+                                <p class="text-xs text-neutral-700">Get notified when it's time to take your medication</p>
+                            </div>
+                            <div class="relative inline-block w-14 h-8 flex-shrink-0 ml-3">
+                                <input type="checkbox" id="reminder-toggle" class="sr-only peer" checked>
+                                <label for="reminder-toggle" class="absolute cursor-pointer inset-0 bg-neutral-200 rounded-full peer-checked:bg-primary transition-colors duration-300"></label>
+                                <label for="reminder-toggle" class="absolute cursor-pointer left-1 top-1 w-6 h-6 bg-white rounded-full transition-transform duration-300 peer-checked:translate-x-6"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="notes-field" class="mb-6">
+                    <label for="notes" class="block text-sm font-semibold text-neutral-900 mb-2">
+                        Notes <span class="text-neutral-700 font-normal">(Optional)</span>
+                    </label>
+                    <textarea 
+                        id="notes" 
+                        rows="4"
+                        placeholder="Add any special instructions or notes (e.g., take with food, avoid dairy)"
+                        class="w-full bg-white border border-neutral-200 rounded-xl px-4 py-3 text-sm text-neutral-900 placeholder-neutral-700 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 resize-none"
+                    ></textarea>
+                    <p class="text-xs text-neutral-700 mt-2">These notes will help you remember important details</p>
+                </div>
+
+                <div id="quick-presets-section" class="mb-6">
+                    <h3 class="text-sm font-semibold text-neutral-900 mb-3">Quick Presets</h3>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button class="preset-btn h-[72px] bg-white border border-neutral-200 rounded-xl p-3 flex flex-col items-start active:border-primary active:bg-primary/5 transition-all duration-200">
+                            <i class="fa-solid fa-pills text-primary text-lg mb-1"></i>
+                            <span class="text-xs font-semibold text-neutral-900">Hydroxyurea</span>
+                            <span class="text-xs text-neutral-700">500mg daily</span>
+                        </button>
+                        <button class="preset-btn h-[72px] bg-white border border-neutral-200 rounded-xl p-3 flex flex-col items-start active:border-primary active:bg-primary/5 transition-all duration-200">
+                            <i class="fa-solid fa-pills text-primary text-lg mb-1"></i>
+                            <span class="text-xs font-semibold text-neutral-900">Folic Acid</span>
+                            <span class="text-xs text-neutral-700">5mg daily</span>
+                        </button>
+                        <button class="preset-btn h-[72px] bg-white border border-neutral-200 rounded-xl p-3 flex flex-col items-start active:border-primary active:bg-primary/5 transition-all duration-200">
+                            <i class="fa-solid fa-pills text-primary text-lg mb-1"></i>
+                            <span class="text-xs font-semibold text-neutral-900">Penicillin</span>
+                            <span class="text-xs text-neutral-700">250mg 2x/day</span>
+                        </button>
+                        <button class="preset-btn h-[72px] bg-white border border-neutral-200 rounded-xl p-3 flex flex-col items-start active:border-primary active:bg-primary/5 transition-all duration-200">
+                            <i class="fa-solid fa-hand-holding-medical text-warning text-lg mb-1"></i>
+                            <span class="text-xs font-semibold text-neutral-900">Pain Relief</span>
+                            <span class="text-xs text-neutral-700">As needed</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="info-tip-section" class="mb-6">
+                    <div class="bg-primary/5 border border-primary/20 rounded-2xl p-5">
+                        <div class="flex items-start gap-3">
+                            <div class="flex-shrink-0 w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                                <i class="fa-solid fa-lightbulb text-white text-lg"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-sm font-bold text-neutral-900 mb-2">Medication Tip</h3>
+                                <p class="text-xs text-neutral-700 leading-relaxed">Double-check the medication name and dosage with your prescription. Contact your healthcare provider if you have any questions.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </main>
+
+        <div id="bottom-actions" class="fixed bottom-0 left-0 right-0 bg-white border-t border-neutral-200 px-5 py-4 z-50">
+            <div class="flex items-center gap-3">
+                <button id="cancel-btn" class="flex-1 h-[52px] bg-neutral-100 text-neutral-900 text-base font-semibold rounded-xl active:scale-[0.98] transition-all duration-200">
+                    Cancel
+                </button>
+                <button id="save-btn" class="flex-1 h-[52px] bg-primary text-white text-base font-semibold rounded-xl flex items-center justify-center gap-2 active:scale-[0.98] transition-all duration-200">
+                    <i class="fa-solid fa-check text-lg"></i>
+                    Save Medication
+                </button>
+            </div>
+        </div>
+
+        <div id="success-modal" class="fixed inset-0 bg-neutral-900/50 z-50 hidden flex items-center justify-center px-5">
+            <div class="bg-white w-full max-w-sm rounded-3xl p-6 animate-scale-up">
+                <div class="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fa-solid fa-check text-success text-3xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-neutral-900 text-center mb-2">Medication Added!</h3>
+                <p class="text-sm text-neutral-700 text-center mb-6">Your medication has been successfully added to your schedule. You'll receive reminders at the set times.</p>
+                <button id="close-success-btn" class="w-full h-[48px] bg-primary text-white text-sm font-semibold rounded-xl active:scale-[0.98] transition-all duration-200">
+                    Got it
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        window.addEventListener('load', function() {
+            const medicationNameInput = document.getElementById('medication-name');
+            const suggestionsContainer = document.getElementById('medication-suggestions');
+            const suggestionItems = document.querySelectorAll('.suggestion-item');
+            const addTimeBtn = document.getElementById('add-time-btn');
+            const timeSlotsContainer = document.getElementById('time-slots-container');
+            const frequencySelect = document.getElementById('frequency');
+            const saveBtn = document.getElementById('save-btn');
+            const cancelBtn = document.getElementById('cancel-btn');
+            const successModal = document.getElementById('success-modal');
+            const closeSuccessBtn = document.getElementById('close-success-btn');
+            const presetBtns = document.querySelectorAll('.preset-btn');
+
+            medicationNameInput.addEventListener('input', function() {
+                if (this.value.length > 0) {
+                    suggestionsContainer.classList.remove('hidden');
+                } else {
+                    suggestionsContainer.classList.add('hidden');
+                }
+            });
+
+            suggestionItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const medName = this.querySelector('span').textContent;
+                    medicationNameInput.value = medName;
+                    suggestionsContainer.classList.add('hidden');
+                });
+            });
+
+            let timeSlotCount = 1;
+
+            addTimeBtn.addEventListener('click', function() {
+                timeSlotCount++;
+                const newTimeSlot = document.createElement('div');
+                newTimeSlot.className = 'time-slot flex items-center gap-3';
+                newTimeSlot.innerHTML = `
+                    <input 
+                        type="time" 
+                        class="flex-1 h-[48px] bg-white border border-neutral-200 rounded-xl px-4 text-sm text-neutral-900 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200"
+                    />
+                    <button class="remove-time-btn w-[48px] h-[48px] bg-danger/10 text-danger rounded-xl flex items-center justify-center active:scale-95 transition-all duration-200">
+                        <i class="fa-solid fa-trash text-base"></i>
+                    </button>
+                `;
+                timeSlotsContainer.appendChild(newTimeSlot);
+
+                const removeBtn = newTimeSlot.querySelector('.remove-time-btn');
+                removeBtn.addEventListener('click', function() {
+                    newTimeSlot.remove();
+                    timeSlotCount--;
+                    updateRemoveButtons();
+                });
+
+                updateRemoveButtons();
+            });
+
+            function updateRemoveButtons() {
+                const allTimeSlots = document.querySelectorAll('.time-slot');
+                allTimeSlots.forEach((slot, index) => {
+                    const removeBtn = slot.querySelector('.remove-time-btn');
+                    if (allTimeSlots.length > 1) {
+                        removeBtn.classList.remove('hidden');
+                    } else {
+                        removeBtn.classList.add('hidden');
+                    }
+                });
+            }
+
+            frequencySelect.addEventListener('change', function() {
+                const frequency = this.value;
+                const currentSlots = document.querySelectorAll('.time-slot').length;
+                
+                if (frequency === 'twice-daily' && currentSlots < 2) {
+                    addTimeBtn.click();
+                } else if (frequency === 'three-times-daily' && currentSlots < 3) {
+                    for (let i = currentSlots; i < 3; i++) {
+                        addTimeBtn.click();
+                    }
+                } else if (frequency === 'four-times-daily' && currentSlots < 4) {
+                    for (let i = currentSlots; i < 4; i++) {
+                        addTimeBtn.click();
+                    }
+                }
+            });
+
+            presetBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const medName = this.querySelector('.text-xs.font-semibold').textContent;
+                    const dosageInfo = this.querySelector('.text-neutral-700').textContent;
+                    
+                    medicationNameInput.value = medName;
+                    
+                    if (dosageInfo.includes('500mg')) {
+                        document.getElementById('dosage').value = '500';
+                    } else if (dosageInfo.includes('5mg')) {
+                        document.getElementById('dosage').value = '5';
+                    } else if (dosageInfo.includes('250mg')) {
+                        document.getElementById('dosage').value = '250';
+                    }
+                    
+                    if (dosageInfo.includes('2x/day')) {
+                        frequencySelect.value = 'twice-daily';
+                        frequencySelect.dispatchEvent(new Event('change'));
+                    } else if (dosageInfo.includes('daily')) {
+                        frequencySelect.value = 'once-daily';
+                    } else if (dosageInfo.includes('As needed')) {
+                        frequencySelect.value = 'as-needed';
+                    }
+                    
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 150);
+                    
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            });
+
+            saveBtn.addEventListener('click', function(event) {
+                event.preventDefault();
+                const medName = medicationNameInput.value.trim();
+                const dosage = document.getElementById('dosage').value.trim();
+                const frequency = frequencySelect.value;
+
+                if (!medName || !dosage || !frequency) {
+                    alert('Please fill in all required fields (Medication Name, Dosage, and Frequency)');
+                    return;
+                }
+
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                    successModal.classList.remove('hidden');
+                    successModal.classList.add('flex');
+                }, 150);
+            });
+
+            cancelBtn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to cancel? Your changes will be lost.')) {
+                    window.location.href = 'medications.html';
+                }
+            });
+
+            closeSuccessBtn.addEventListener('click', function() {
+                successModal.classList.add('hidden');
+                successModal.classList.remove('flex');
+                window.location.href = 'medications.html';
+            });
+
+            document.getElementById('back-btn').addEventListener('click', function() {
+                if (confirm('Are you sure you want to go back? Your changes will be lost.')) {
+                    window.location.href = 'medications.html';
+                }
+            });
+        });
+    </script>
+
+    <style>
+        @keyframes scale-up {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .animate-scale-up {
+            animation: scale-up 0.3s ease-out;
+        }
+    </style>
+</body>
+</html>
